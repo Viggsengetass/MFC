@@ -1,4 +1,4 @@
-var words = ["Prenez part au concours !", " Déposez vos jingles", "Découvrez votre classement","Donnez tout pour remporter la victoire !"],
+var words = ["Prenez part au combat!", " Découvrez Mortadon", "Dégustez votre browdwich","Triple monstre"],
     part,
     i = 0,
     offset = 0,
