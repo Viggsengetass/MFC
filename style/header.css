@@ -1,0 +1,28 @@
+/* Animation pour le titre */
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Appliquer l'animation au titre */
+.text-2xl {
+    animation: slideIn 1s ease-in-out;
+}
+
+/* Animation pour les liens de navigation */
+.nav-link {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.nav-link-show {
+    opacity: 1;
+    transform: translateY(0);
+}
