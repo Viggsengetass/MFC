@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="header.css"> <!-- Fichier de surcharge CSS pour l'en-tête -->
 </head>
 <body>
-<?php include 'common.php'; ?>
 <header class="bg-blue-700 text-white py-4">
     <!-- Entête du site, logo, menu de navigation, etc. -->
     <div class="container mx-auto flex justify-between items-center">
