@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - M.F.C MMA Tournament</title>
-    <link rel="stylesheet" href="common.css"> <!-- Inclusion de la feuille de style CSS commune -->
-    <link rel="stylesheet" href="tailwind.min.css"> <!-- Inclusion de Tailwind CSS -->
-    <link rel="stylesheet" href="header.css"> <!-- Fichier de surcharge CSS pour l'en-tête -->
+    <link rel="stylesheet" href="/style/common.css"> <!-- Inclusion de la feuille de style CSS commune -->
+    <link rel="stylesheet" href="/style/header.css"> <!-- Fichier de surcharge CSS pour l'en-tête -->
 </head>
 <body>
 <header class="bg-blue-700 text-white py-4">
