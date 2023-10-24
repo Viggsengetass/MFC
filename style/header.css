@@ -1,28 +1,33 @@
-/* Animation pour le titre */
-@keyframes slideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+/* Styles pour le header */
+#site-header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
-/* Appliquer l'animation au titre */
-.text-2xl {
-    animation: slideIn 1s ease-in-out;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-/* Animation pour les liens de navigation */
+/* Styles pour le logo */
+#site-header .text-2xl {
+    font-size: 2rem;
+}
+
+/* Styles pour les liens de navigation */
 .nav-link {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s, transform 0.5s;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
 }
 
-.nav-link-show {
-    opacity: 1;
-    transform: translateY(0);
+.nav-link:hover {
+    color: #007BFF;
 }

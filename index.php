@@ -9,7 +9,6 @@
     <script src="/js/index.js"></script>
 </head>
 <body>
-<?php include 'header.php'; ?>
 
 <!-- Section des événements à venir -->
 <section class="container mx-auto mt-8">
