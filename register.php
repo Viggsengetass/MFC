@@ -15,31 +15,31 @@ error_reporting(E_ALL);
 <body class="bg-gray-100">
 <div class="container">
     <input type="checkbox" id="signup_toggle">
-    <form class="form" method="post" action="register-process.php" class="space-y-4">
+    <form method="post" action="register-process.php" class="space-y-4">
         <div class="form_front">
             <div class="form_details">Register</div>
-            <input placeholder="Username" class="input" type="text">
-            <input placeholder="Password" class="input" type="text">
-            <input placeholder="Email" class="input" type="text">
+            <input placeholder="Nom d'utilisateur" class="input" type="text" name="username">
+            <input placeholder="Mot de passe" class="input" type="password" name="password">
+            <input placeholder="Email" class="input" type="email" name="email">
 
-            <button class="btn">Register</button>
-            <span class="switch">Don't have an account?
+            <button class="btn" type="submit">Register</button>
+            <span class="switch">Vous n'avez pas de compte?
                 <label class="signup_tog" for="signup_toggle">
-                    Sign Up
+                    S'inscrire
                 </label>
             </span>
         </div>
         <div class="form_back">
             <div class="form_details">SignUp</div>
-            <input placeholder="Firstname" class="input" type="text">
-            <input placeholder="Username" class="input" type="text">
-            <input placeholder="Email" class="input" type="text">
-            <input placeholder="Password" class="input" type="text">
-            <input placeholder="Confirm Password" class="input" type="text">
+            <input placeholder="Prénom" class="input" type="text">
+            <input placeholder="Nom d'utilisateur" class="input" type="text">
+            <input placeholder="Email" class="input" type="email">
+            <input placeholder="Mot de passe" class="input" type="password">
+            <input placeholder="Confirmez le mot de passe" class="input" type="password">
             <button class="btn">Signup</button>
-            <span class="switch">Already have an account?
+            <span class="switch">Vous avez déjà un compte?
                 <label class="signup_tog" for="signup_toggle">
-                    Sign In
+                    Se connecter
                 </label>
             </span>
         </div>
