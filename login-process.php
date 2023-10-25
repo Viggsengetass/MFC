@@ -54,7 +54,7 @@ function loginUser($username, $password) {
     $stmt->store_result();
     $stmt->bind_result($userId, $username, $hashedPassword);
 
-    if ($stmt->num_rows == 1) {
+    if ($stmt->num_rows() == 1) { // Utilisez num_rows() au lieu de num_rows
         // L'utilisateur existe
         $stmt->fetch();
 

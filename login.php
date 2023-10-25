@@ -18,9 +18,9 @@ error_reporting(E_ALL);
     <form class="form" method="post" action="login-process.php" class="space-y-4">
         <div class="form_front">
             <div class="form_details">Login</div>
-            <input placeholder="Username" class="input" type="text">
-            <input placeholder="Password" class="input" type="password">
-            <button class="btn">Login</button>
+            <input placeholder="Username" name="username" class="input" type="text">
+            <input placeholder="Password" name="password" class="input" type="password">
+            <button class="btn" type="submit">Login</button>
             <span class="switch">Don't have an account?
                 <label class="login_tog" for="login_toggle">
                     Sign Up
@@ -30,7 +30,7 @@ error_reporting(E_ALL);
         <div class="form_back">
             <div class="form_details">Sign Up</div>
             <input placeholder="Firstname" class="input" type="text">
-            <input placeholder="Username" class="input" type="text">
+            <input placeholder="Username" class "input" type="text">
             <input placeholder="Email" class="input" type="text">
             <input placeholder="Password" class="input" type="password">
             <input placeholder="Confirm Password" class="input" type="password">
