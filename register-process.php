@@ -22,10 +22,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Fonction pour effectuer l'inscription d'un utilisateur
 function registerUser($username, $password, $email) {
     global $conn;
+
+    // Préparez la requête SQL avec des paramètres
     $query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($query);
+
+    if (!$stmt) {
+        // Vérifiez si la préparation de la requête a échoué
+        return false;
+    }
+
+    // Liez les paramètres
     $stmt->bind_param("sss", $username, $password, $email);
 
-    return $stmt->execute();
+    // Exécutez la requête
+    $result = $stmt->execute();
+
+    if ($result) {
+        return true; // L'inscription a réussi
+    } else {
+        return false; // L'inscription a échoué
+    }
 }
 ?>
