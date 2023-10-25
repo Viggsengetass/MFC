@@ -17,12 +17,12 @@ error_reporting(E_ALL);
     <input type="checkbox" id="signup_toggle">
     <form class="form">
         <div class="form_front">
-            <div class="form_details">Login</div>
+            <div class="form_details">Register</div>
             <input placeholder="Username" class="input" type="text">
             <input placeholder="Password" class="input" type="text">
             <input placeholder="Email" class="input" type="text">
 
-            <button class="btn">Login</button>
+            <button class="btn">Register</button>
             <span class="switch">Don't have an account?
                 <label class="signup_tog" for="signup_toggle">
                     Sign Up
