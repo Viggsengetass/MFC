@@ -1,3 +1,7 @@
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +26,7 @@
                 <input type="password" id="password" name="password" class="form-input" required>
             </div>
             <div>
-                <label for="email" class="block text-gray-600">Email</label>
+                <label for="email" class "block text-gray-600">Email</label>
                 <input type="email" id="email" name="email" class="form-input" required>
             </div>
             <div>
