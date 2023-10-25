@@ -10,7 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
     // Utilisez la fonction de traitement pour effectuer l'inscription
-    if (registerUser($username, $password, $email)) {
+    $success = registerUser($username, $password, $email);
+
+    if ($success) {
         // Rediriger vers la page de connexion après l'inscription réussie
         header('Location: login.php');
     } else {
@@ -28,17 +30,22 @@ function registerUser($username, $password, $email) {
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
-        // Vérifiez si la préparation de la requête a échoué
+        // La préparation de la requête a échoué
         return false;
     }
 
     // Liez les paramètres
-    $stmt->bind_param("sss", $username, $password, $email);
+    $bindResult = $stmt->bind_param("sss", $username, $password, $email);
+
+    if (!$bindResult) {
+        // La liaison des paramètres a échoué
+        return false;
+    }
 
     // Exécutez la requête
-    $result = $stmt->execute();
+    $executeResult = $stmt->execute();
 
-    if ($result) {
+    if ($executeResult) {
         return true; // L'inscription a réussi
     } else {
         return false; // L'inscription a échoué
