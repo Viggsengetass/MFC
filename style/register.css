@@ -1,9 +1,10 @@
-body{
+body {
     background-color: #212121 !important;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .container {
     display: flex;
     justify-content: center;
@@ -29,7 +30,7 @@ body{
     backface-visibility: hidden;
     padding: 65px 45px;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 1),
     inset -1px -1px 5px rgba(255, 255, 255, 0.6);
 }
 
@@ -44,7 +45,7 @@ body{
     transform: rotateY(-180deg);
     padding: 65px 45px;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 1),
     inset -1px -1px 5px rgba(255, 255, 255, 0.6);
 }
 
@@ -65,7 +66,7 @@ body{
     background-color: #212121;
     border-radius: 6px;
     border: 2px solid #212121;
-    box-shadow: 6px 6px 10px rgba(0,0,0,1),
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
     1px 1px 10px rgba(255, 255, 255, 0.6);
 }
 
@@ -80,9 +81,9 @@ body{
 
 .input:focus {
     transform: scale(1.05);
-    box-shadow: 6px 6px 10px rgba(0,0,0,1),
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
     1px 1px 10px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 10px rgba(0,0,0,1),
+    inset 2px 2px 10px rgba(0, 0, 0, 1),
     inset -1px -1px 5px rgba(255, 255, 255, 0.6);
 }
 
@@ -92,7 +93,7 @@ body{
     background-color: #212121;
     border-radius: 6px;
     border: 2px solid #212121;
-    box-shadow: 6px 6px 10px rgba(0,0,0,1),
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
     1px 1px 10px rgba(255, 255, 255, 0.6);
     color: #fff;
     font-size: 15px;
@@ -102,17 +103,17 @@ body{
 
 .btn:hover {
     transform: scale(1.05);
-    box-shadow: 6px 6px 10px rgba(0,0,0,1),
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
     1px 1px 10px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 10px rgba(0,0,0,1),
+    inset 2px 2px 10px rgba(0, 0, 0, 1),
     inset -1px -1px 5px rgba(255, 255, 255, 0.6);
 }
 
 .btn:focus {
     transform: scale(1.05);
-    box-shadow: 6px 6px 10px rgba(0,0,0,1),
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 1),
     1px 1px 10px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 10px rgba(0,0,0,1),
+    inset 2px 2px 10px rgba(0, 0, 0, 1),
     inset -1px -1px 5px rgba(255, 255, 255, 0.6);
 }
 

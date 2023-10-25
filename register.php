@@ -17,29 +17,25 @@ error_reporting(E_ALL);
     <input type="checkbox" id="signup_toggle">
     <form class="form" method="post" action="register-process.php" class="space-y-4">
         <div class="form_front">
-            <div class="form_details">Register</div>
-            <input placeholder="Username" class="input" type="text">
-            <input placeholder="Password" class="input" type="text">
-            <input placeholder="Email" class="input" type="text">
-
-            <button class="btn">Register</button>
-            <span class="switch">Don't have an account?
+            <div class="form_details">Inscription</div>
+            <input placeholder="Nom d'utilisateur" name="username" class="input" type="text">
+            <input placeholder="Mot de passe" name="password" class="input" type="password">
+            <input placeholder="Email" name="email" class="input" type="email">
+            <button class="btn" type="submit">S'inscrire</button>
+            <span class="switch">Vous avez déjà un compte?
                 <label class="signup_tog" for="signup_toggle">
-                    Sign Up
+                    Connexion
                 </label>
             </span>
         </div>
         <div class="form_back">
-            <div class="form_details">SignUp</div>
-            <input placeholder="Firstname" class="input" type="text">
-            <input placeholder="Username" class="input" type="text">
-            <input placeholder="Email" class="input" type="text">
-            <input placeholder="Password" class="input" type="text">
-            <input placeholder="Confirm Password" class="input" type="text">
-            <button class="btn">Signup</button>
-            <span class="switch">Already have an account?
+            <div class="form_details">Connexion</div>
+            <input placeholder="Nom d'utilisateur" class="input" type="text">
+            <input placeholder="Mot de passe" class="input" type="password">
+            <button class="btn">Connexion</button>
+            <span class="switch">Vous n'avez pas de compte?
                 <label class="signup_tog" for="signup_toggle">
-                    Sign In
+                    Inscription
                 </label>
             </span>
         </div>
