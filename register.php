@@ -15,7 +15,7 @@ error_reporting(E_ALL);
 <body class="bg-gray-100">
 <div class="container">
     <input type="checkbox" id="signup_toggle">
-    <form class="form">
+    <form class="form" method="post" action="register-process.php" class="space-y-4">
         <div class="form_front">
             <div class="form_details">Register</div>
             <input placeholder="Username" class="input" type="text">
