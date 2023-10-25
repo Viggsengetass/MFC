@@ -16,8 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: index.php');
         exit; // Assurez-vous de quitter le script après la redirection
     } else {
-        // Rediriger vers la page de connexion avec un message d'erreur
-        header('Location: login.php?error=1');
+        // La connexion a échoué, stockez un message d'erreur dans une variable de session
+        session_start();
+        $_SESSION['login_error'] = "Nom d'utilisateur ou mot de passe incorrect";
+
+        // Rediriger vers la page de connexion
+        header('Location: login.php');
     }
 }
 
@@ -54,7 +58,7 @@ function loginUser($username, $password) {
     $stmt->store_result();
     $stmt->bind_result($userId, $username, $hashedPassword);
 
-    if ($stmt->num_rows() == 1) { // Utilisez num_rows() au lieu de num_rows
+    if ($stmt->num_rows == 1) {
         // L'utilisateur existe
         $stmt->fetch();
 

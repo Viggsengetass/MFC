@@ -2,7 +2,9 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+session_start(); // Démarrez la session
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +20,13 @@ error_reporting(E_ALL);
     <form class="form" method="post" action="login-process.php" class="space-y-4">
         <div class="form_front">
             <div class="form_details">Login</div>
+            <?php
+            // Affichez un message d'erreur s'il y en a un
+            if (isset($_SESSION['login_error'])) {
+                echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
+                unset($_SESSION['login_error']); // Nettoyez la variable de session après l'affichage
+            }
+            ?>
             <input placeholder="Username" name="username" class="input" type="text">
             <input placeholder="Password" name="password" class="input" type="password">
             <button class="btn" type="submit">Login</button>
