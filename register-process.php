@@ -2,6 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 include 'config.php'; // Inclure le fichier de configuration de la base de données
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -29,9 +30,9 @@ function registerUser($username, $password, $email) {
     $query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($query);
 
-    if (!$stmt) {
+    if ($stmt === false) {
         // La préparation de la requête a échoué
-        return false;
+        die('Erreur de préparation de la requête: ' . $conn->error);
     }
 
     // Liez les paramètres
@@ -39,7 +40,7 @@ function registerUser($username, $password, $email) {
 
     if (!$bindResult) {
         // La liaison des paramètres a échoué
-        return false;
+        die('Erreur de liaison des paramètres: ' . $stmt->error);
     }
 
     // Exécutez la requête
@@ -48,7 +49,7 @@ function registerUser($username, $password, $email) {
     if ($executeResult) {
         return true; // L'inscription a réussi
     } else {
-        return false; // L'inscription a échoué
+        die('Erreur lors de l\'exécution de la requête: ' . $stmt->error);
     }
 }
 ?>
