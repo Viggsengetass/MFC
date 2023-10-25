@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-include 'config.php'; // Inclure le fichier de configuration de la base de données
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -25,6 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function registerUser($username, $password, $email) {
     global $conn;
 
+    // Hachez le mot de passe
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     // Préparez la requête SQL avec des paramètres
     $query = "INSERT INTO users (nom, mot_de_passe, email) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($query);
@@ -35,7 +38,7 @@ function registerUser($username, $password, $email) {
     }
 
     // Liez les paramètres
-    $bindResult = $stmt->bind_param("sss", $username, $password, $email);
+    $bindResult = $stmt->bind_param("sss", $username, $hashedPassword, $email);
 
     if (!$bindResult) {
         // La liaison des paramètres a échoué
