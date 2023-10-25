@@ -12,8 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $success = loginUser($username, $password);
 
     if ($success) {
-        // Rediriger vers la page d'accueil après la connexion réussie
+        // Rediriger vers la page d'accueil (index.php) après la connexion réussie
         header('Location: index.php');
+        exit; // Assurez-vous de quitter le script après la redirection
     } else {
         // Rediriger vers la page de connexion avec un message d'erreur
         header('Location: login.php?error=1');
@@ -66,3 +67,4 @@ function loginUser($username, $password) {
 
     return false; // La connexion a échoué
 }
+?>
