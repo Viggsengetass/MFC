@@ -32,6 +32,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
+// Récupérez la liste des combattants depuis la base de données (exemples fictifs)
+$query = "SELECT * FROM combattants";
+$result = $conn->query($query);
+
+$combattants = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $combattants[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -80,13 +91,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <br>
         <input type="submit" name="add_combattant" value="Ajouter le combattant">
     </form>
-    <!-- Liste des combattants existants (affichez les combattants à partir de la base de données) -->
+    <!-- Liste des combattants existants -->
     <h2>Liste des Combattants</h2>
     <ul>
-        <!-- Affichez les combattants ici -->
-        <li>Nom du combattant 1</li>
-        <li>Nom du combattant 2</li>
-        <!-- Répétez pour tous les combattants -->
+        <?php foreach ($combattants as $combattant) : ?>
+            <li><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></li>
+        <?php endforeach; ?>
     </ul>
 </div>
 </body>
