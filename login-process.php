@@ -9,19 +9,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Utilisez la fonction de traitement pour vérifier la connexion
-    $success = loginUser($username, $password);
+    $user = loginUser($username, $password);
 
-    if ($success) {
-        // Rediriger vers la page d'accueil (index.php) après la connexion réussie
-        header('Location: index.php');
-        exit; // Assurez-vous de quitter le script après la redirection
+    if ($user) {
+        if ($user['role'] === 'admin') {
+            // L'utilisateur est un administrateur, redirigez-le vers le tableau de bord administrateur
+            header('Location: admin-dashboard.php');
+            exit; // Assurez-vous de quitter le script après la redirection
+        } else {
+            // L'utilisateur est un utilisateur normal, redirigez-le vers la page d'accueil (index.php) ou toute autre page appropriée
+            header('Location: index.php');
+            exit; // Assurez-vous de quitter le script après la redirection
+        }
     } else {
         // La connexion a échoué, stockez un message d'erreur dans une variable de session
         session_start();
         $_SESSION['login_error'] = "Nom d'utilisateur ou mot de passe incorrect";
 
-        // Rediriger vers la page de connexion
+        // Redirigez vers la page de connexion
         header('Location: login.php');
+        exit; // Assurez-vous de quitter le script après la redirection
     }
 }
 
@@ -30,7 +37,7 @@ function loginUser($username, $password) {
     global $conn;
 
     // Recherchez l'utilisateur par nom d'utilisateur dans la base de données
-    $query = "SELECT id, nom, mot_de_passe FROM users WHERE nom = ?";
+    $query = "SELECT id, nom, mot_de_passe, role FROM users WHERE nom = ?";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
@@ -56,7 +63,7 @@ function loginUser($username, $password) {
 
     // Récupérez le résultat de la requête
     $stmt->store_result();
-    $stmt->bind_result($userId, $username, $hashedPassword);
+    $stmt->bind_result($userId, $username, $hashedPassword, $role);
 
     if ($stmt->num_rows == 1) {
         // L'utilisateur existe
@@ -65,7 +72,11 @@ function loginUser($username, $password) {
         // Vérifiez le mot de passe
         if (password_verify($password, $hashedPassword)) {
             // Le mot de passe est correct
-            return true;
+            return [
+                'id' => $userId,
+                'username' => $username,
+                'role' => $role
+            ];
         }
     }
 

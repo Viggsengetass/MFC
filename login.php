@@ -39,7 +39,7 @@ session_start(); // Démarrez la session
         <div class="form_back">
             <div class="form_details">Sign Up</div>
             <input placeholder="Firstname" class="input" type="text">
-            <input placeholder="Username" class "input" type="text">
+            <input placeholder="Username" class="input" type="text">
             <input placeholder="Email" class="input" type="text">
             <input placeholder="Password" class="input" type="password">
             <input placeholder="Confirm Password" class="input" type="password">
