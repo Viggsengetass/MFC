@@ -12,12 +12,15 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
     // Assurez-vous de valider et d'échapper correctement les données pour prévenir les failles de sécurité
 
     // Exemple :
-    // $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
-    // $stmt = $conn->prepare($query);
-    // $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
-    // $stmt->execute();
+    $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
 
-    // Vous pouvez ajouter plus de logique ici, comme la gestion des erreurs, les messages de réussite, etc.
+    if ($stmt) {
+        $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
+        $stmt->execute();
+        $stmt->close();
+        // Vous pouvez ajouter des messages de réussite ou de gestion d'erreurs ici
+    }
 }
 
 // Fonction pour créer un nouvel événement
@@ -29,12 +32,15 @@ function createEvent($nom, $date, $heure, $lieu, $description, $image, $categori
     // Assurez-vous de valider et d'échapper correctement les données pour prévenir les failles de sécurité
 
     // Exemple :
-    // $query = "INSERT INTO evenements (nom, date, heure, lieu, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    // $stmt = $conn->prepare($query);
-    // $stmt->bind_param("sssssi", $nom, $date, $heure, $lieu, $description, $image, $categorie_id);
-    // $stmt->execute();
+    $query = "INSERT INTO evenements (nom, date, heure, lieu, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
 
-    // Vous pouvez ajouter plus de logique ici, comme la gestion des erreurs, les messages de réussite, etc.
+    if ($stmt) {
+        $stmt->bind_param("sssssi", $nom, $date, $heure, $lieu, $description, $image, $categorie_id);
+        $stmt->execute();
+        $stmt->close();
+        // Vous pouvez ajouter des messages de réussite ou de gestion d'erreurs ici
+    }
 }
 
 // Ajoutez d'autres fonctions pour gérer les opérations administratives spécifiques

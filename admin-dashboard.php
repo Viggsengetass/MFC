@@ -19,6 +19,7 @@
 <div id="content">
     <h1>Tableau de bord administrateur</h1>
     <!-- Ajoutez ici les différentes fonctionnalités pour gérer les combattants, les catégories, les événements, etc. -->
+    <p>Vous pouvez ajouter ici les fonctionnalités pour gérer les combattants, les catégories, les événements, etc.</p>
 </div>
 
 <!-- Pied de page -->
