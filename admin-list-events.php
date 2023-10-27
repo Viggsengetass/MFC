@@ -49,6 +49,7 @@ if ($result->num_rows > 0) {
             <th>Description</th>
             <th>Image</th>
             <th>Catégorie</th>
+            <th>Actions</th>
         </tr>
         <?php foreach ($events as $event) : ?>
             <tr>
@@ -59,6 +60,10 @@ if ($result->num_rows > 0) {
                 <td><?= $event['description'] ?></td>
                 <td><img src="<?= $event['image'] ?>" alt="Image de l'événement"></td>
                 <td><?= $event['categorie_id'] ?></td>
+                <td>
+                    <a href="edit-event.php?id=<?= $event['id'] ?>">Éditer</a> |
+                    <a href="delete-event.php?id=<?= $event['id'] ?>">Supprimer</a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </table>
