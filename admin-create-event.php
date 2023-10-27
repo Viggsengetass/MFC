@@ -1,36 +1,33 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header('Location: login.php'); // Redirige si l'utilisateur n'est pas connecté en tant qu'administrateur
+    header('Location: login.php');
     exit();
 }
 
-include 'common.php';
 include 'config.php';
 
 // Traitement pour ajouter un nouvel événement
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['add_event'])) {
-        $nom = $_POST['nom'];
-        $date = $_POST['date'];
-        $heure = $_POST['heure'];
-        $lieu = $_POST['lieu'];
-        $description = $_POST['description'];
-        $image = $_POST['image'];
-        $categorie_id = $_POST['categorie_id'];
+    $nom = $_POST['nom'];
+    $date = $_POST['date'];
+    $heure = $_POST['heure'];
+    $lieu = $_POST['lieu'];
+    $description = $_POST['description'];
+    $image = $_POST['image'];
+    $categorie_id = $_POST['categorie_id'];
 
-        // Validez et insérez l'événement dans la base de données
-        // Assurez-vous de vérifier les données et d'ajouter des mesures de sécurité.
+    // Validez et insérez l'événement dans la base de données
+    // Assurez-vous de vérifier les données et d'ajouter des mesures de sécurité.
 
-        // Exemple de requête pour ajouter un événement (veuillez l'adapter à votre base de données)
-        $query = "INSERT INTO evenements (nom, date, heure, lieu, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
+    // Exemple de requête pour ajouter un événement (veuillez l'adapter à votre base de données)
+    $query = "INSERT INTO evenements (nom, date, heure, lieu, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
 
-        if ($stmt) {
-            $stmt->bind_param("ssssssi", $nom, $date, $heure, $lieu, $description, $image, $categorie_id);
-            $stmt->execute();
-            $stmt->close();
-        }
+    if ($stmt) {
+        $stmt->bind_param("ssssssi", $nom, $date, $heure, $lieu, $description, $image, $categorie_id);
+        $stmt->execute();
+        $stmt->close();
     }
 }
 ?>
