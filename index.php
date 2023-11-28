@@ -17,7 +17,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         <!-- Événement 1 -->
         <div class="bg-white p-4 rounded-lg shadow">
-            <img src="/img/image-offre-comptabilite.png" alt="Événement 1" class="w-full h-40 object-cover rounded">
+            <img src="event1.jpg" alt="Événement 1" class="w-full h-40 object-cover rounded">
             <h3 class="text-xl font-semibold mt-2">Événement 1</h3>
             <p class="text-gray-500">Date : XX/XX/XXXX</p>
             <p class="mt-2">Description de l'événement.</p>
