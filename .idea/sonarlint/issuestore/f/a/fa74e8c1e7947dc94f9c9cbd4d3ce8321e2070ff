@@ -1,0 +1,7 @@
+
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(Ç¿¼×şÿÿÿÿ
+7	php:S1780"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ
+ophp:S117"VRename this parameter "$event_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Ç¿¼×şÿÿÿÿ
+d	php:S1779"WReplace all non line feed end of line characters in this file "delete-event.php" by LF.
+:	php:S2003"&Replace "include" with "include_once".(ûÂàr
+`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(ûÂàr

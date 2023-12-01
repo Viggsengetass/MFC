@@ -1,0 +1,32 @@
+
+_php:S103"KSplit this 121 characters long line (which is greater than 120 authorized).(òîâ²
+dphp:S103"KSplit this 126 characters long line (which is greater than 120 authorized).(¸Çþ…üÿÿÿÿ
+_php:S103I"KSplit this 129 characters long line (which is greater than 120 authorized).(Ä‚¡
+^php:S103Q"KSplit this 135 characters long line (which is greater than 120 authorized).(ôç‹D
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(‘ö×Êúÿÿÿÿ
+R	php:S1808"=Move this open curly brace to the beginning of the next line.(¾Ø×‡
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(—ü¶ùÿÿÿÿ
+R	php:S1808&"=Move this open curly brace to the beginning of the next line.(¬ë»ô
+W	php:S18084"=Move this open curly brace to the beginning of the next line.(ÈÊ–üÿÿÿÿ
+W	php:S1808>"=Move this open curly brace to the beginning of the next line.(×Ôþ³üÿÿÿÿ
+R	php:S1808H"=Move this open curly brace to the beginning of the next line.(¥ýïû
+R	php:S1808P"=Move this open curly brace to the beginning of the next line.(íú’ï
+W	php:S1808X"=Move this open curly brace to the beginning of the next line.(Šßò¨ûÿÿÿÿ
+W	php:S1808`"=Move this open curly brace to the beginning of the next line.(Ç¿¼×þÿÿÿÿ
+[php:S107"GThis function has 8 parameters, which is greater than the 7 authorized.(¾Ø×‡
+[php:S107H"GThis function has 8 parameters, which is greater than the 7 authorized.(¥ýïû
+[php:S107P"GThis function has 9 parameters, which is greater than the 7 authorized.(íú’ï
+7	php:S1780i"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ
+sphp:S117"ZRename this parameter "$categorie_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(‘ö×Êúÿÿÿÿ
+nphp:S117"ZRename this parameter "$categorie_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¾Ø×‡
+tphp:S1174"[Rename this parameter "$combattant_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ÈÊ–üÿÿÿÿ
+ophp:S117>"VRename this parameter "$event_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(×Ôþ³üÿÿÿÿ
+ophp:S117H"[Rename this parameter "$combattant_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¥ýïû
+nphp:S117H"ZRename this parameter "$categorie_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¥ýïû
+jphp:S117P"VRename this parameter "$event_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(íú’ï
+nphp:S117P"ZRename this parameter "$categorie_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(íú’ï
+tphp:S117X"[Rename this parameter "$combattant_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Šßò¨ûÿÿÿÿ
+ophp:S117`"VRename this parameter "$event_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Ç¿¼×þÿÿÿÿ
+g	php:S1779"ZReplace all non line feed end of line characters in this file "admin-functions.php" by LF.
+:	php:S2003"&Replace "include" with "include_once".(ûÂàr
+`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(ûÂàr

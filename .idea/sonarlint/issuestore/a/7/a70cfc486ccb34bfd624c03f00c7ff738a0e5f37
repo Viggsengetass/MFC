@@ -1,0 +1,8 @@
+
+dphp:S103"KSplit this 134 characters long line (which is greater than 120 authorized).(ñÛèûÿÿÿÿ
+R	php:S1808$"=Move this open curly brace to the beginning of the next line.(ÅÉáª
+7	php:S1780U"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ
+S	php:S1142$">This function has 5 returns, which is more than the 3 allowed.(ÅÉáª
+e	php:S1779"XReplace all non line feed end of line characters in this file "login-process.php" by LF.
+:	php:S2003"&Replace "include" with "include_once".(ûÂàr
+`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(ûÂàr

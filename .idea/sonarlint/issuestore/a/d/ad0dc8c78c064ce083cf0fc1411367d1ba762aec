@@ -1,0 +1,11 @@
+
+^php:S103"KSplit this 135 characters long line (which is greater than 120 authorized).(ôç‹D
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(×Ôþ³üÿÿÿÿ
+R	php:S1808"=Move this open curly brace to the beginning of the next line.(íú’ï
+[php:S107"GThis function has 9 parameters, which is greater than the 7 authorized.(íú’ï
+ophp:S117"VRename this parameter "$event_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(×Ôþ³üÿÿÿÿ
+jphp:S117"VRename this parameter "$event_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(íú’ï
+nphp:S117"ZRename this parameter "$categorie_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(íú’ï
+b	php:S1779"UReplace all non line feed end of line characters in this file "edit-event.php" by LF.
+:	php:S2003"&Replace "include" with "include_once".(ûÂàr
+`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(ûÂàr

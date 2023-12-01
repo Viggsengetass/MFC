@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - M.F.C MMA Tournament</title>
     <?php include 'common.php'; ?>
-    <link rel="stylesheet" href="/style/anim.css">
+    <link rel="stylesheet" href="/style/index.css">
     <script src="/js/index.js"></script>
 </head>
 <body>
@@ -46,6 +46,5 @@
 
 <!-- Ajoutez d'autres sections et fonctionnalités ici selon vos besoins -->
 
-<?php include 'footer.php'; ?>
 </body>
 </html>

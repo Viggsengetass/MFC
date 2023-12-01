@@ -1,0 +1,3 @@
+
+_php:S103	"KSplit this 121 characters long line (which is greater than 120 authorized).(¦ëî
+^	php:S1779"QReplace all non line feed end of line characters in this file "footer.php" by LF.

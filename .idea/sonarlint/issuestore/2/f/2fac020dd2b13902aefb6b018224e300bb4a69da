@@ -1,0 +1,7 @@
+
+R	php:S1808"=Move this open curly brace to the beginning of the next line.(Ë«‘ö
+S	php:S1142">This function has 4 returns, which is more than the 3 allowed.(Ë«‘ö
+h	php:S1779"[Replace all non line feed end of line characters in this file "register-process.php" by LF.
+_	php:S11263"EReplace this "if-then-else" statement by a single "return" statement.(êÆ§êøÿÿÿÿ
+:	php:S2003"&Replace "include" with "include_once".(ûÂàr
+`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(ûÂàr
