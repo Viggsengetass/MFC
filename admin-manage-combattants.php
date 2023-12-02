@@ -1,52 +1,37 @@
 <?php
 session_start();
-
-// Incluez le fichier de configuration de la base de données
+require_once 'admin-functions.php'; // Inclure les fonctions communes d'administration
 include 'config.php';
-include 'admin-functions.php'; // Assurez-vous d'inclure le fichier admin-functions.php
 
-// Vérifie si l'utilisateur est connecté en tant qu'administrateur
-if (!isAdmin()) {
-    // Redirige ou effectue une autre action en cas d'accès non autorisé
-    header('Location: unauthorized.php');
-    exit();
-}
+// Vérifier si l'utilisateur est connecté en tant qu'administrateur
+checkAdmin();
 
 // Traitement pour ajouter un nouveau combattant
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_combattant'])) {
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $surnom = $_POST['surnom'];
-        $description = $_POST['description'];
-        $image = $_POST['image'];
-        $categorie_id = $_POST['categorie_id'];
+        $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
+        $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_STRING);
+        $surnom = filter_input(INPUT_POST, 'surnom', FILTER_SANITIZE_STRING);
+        $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
+        $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_URL);
+        $categorie_id = filter_input(INPUT_POST, 'categorie_id', FILTER_VALIDATE_INT);
 
-        // Validez et insérez le combattant dans la base de données
-        // Assurez-vous de vérifier les données et d'ajouter des mesures de sécurité.
-
-        // Exemple de requête pour ajouter un combattant (veuillez l'adapter à votre base de données)
-        $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
-
-        if ($stmt) {
-            $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
-            $stmt->execute();
-            $stmt->close();
+        // Valider et insérer le combattant dans la base de données
+        if (validateCombatant($nom, $prenom, $description, $image, $categorie_id)) {
+            if (insertCombatant($nom, $prenom, $surnom, $description, $image, $categorie_id)) {
+                header('Location: admin-manage-combattants.php');
+                exit();
+            } else {
+                $error_message = "Erreur lors de l'ajout du combattant.";
+            }
+        } else {
+            $error_message = "Veuillez remplir tous les champs obligatoires.";
         }
     }
 }
 
-// Récupérez la liste des combattants depuis la base de données (exemples fictifs)
-$query = "SELECT * FROM combattants_admin";
-$result = $conn->query($query);
-
-$combattants = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $combattants[] = $row;
-    }
-}
+// Récupérer la liste des combattants depuis la base de données
+$combattants = getCombatants($conn);
 ?>
 
 <!DOCTYPE html>
@@ -59,41 +44,19 @@ if ($result->num_rows > 0) {
 </head>
 <body>
 <div id="sidebar">
-    <ul>
-        <li><a href="admin-dashboard.php">Tableau de Bord</a></li>
-        <li><a href="admin-manage-combattants.php">Gérer les Combattants</a></li>
-        <li><a href="admin-manage-events.php">Gérer les Événements</a></li>
-        <li><a href="logout.php">Déconnexion</a></li>
-    </ul>
+    <?php include 'admin-sidebar.php'; ?>
 </div>
 <div id="content">
     <h1>Gérer les Combattants</h1>
     <h2>Ajouter un nouveau combattant</h2>
+    <?php
+    if (isset($error_message)) {
+        echo "<p style='color: red;'>$error_message</p>";
+    }
+    ?>
     <form method="post" action="admin-manage-combattants.php">
-        <label for="nom">Nom :</label>
-        <input type="text" name="nom" required>
-        <br>
-        <label for="prenom">Prénom :</label>
-        <input type="text" name="prenom" required>
-        <br>
-        <label for="surnom">Surnom :</label>
-        <input type="text" name="surnom">
-        <br>
-        <label for="description">Description :</label>
-        <textarea name="description" rows="4"></textarea>
-        <br>
-        <label for="image">Image (URL) :</label>
-        <input type="text" name="image">
-        <br>
-        <label for="categorie_id">Catégorie :</label>
-        <select name="categorie_id">
-            <!-- Options pour les catégories (remplacez par les vôtres) -->
-            <option value="1">Catégorie 1</option>
-            <option value="2">Catégorie 2</option>
-            <option value="3">Catégorie 3</option>
-        </select>
-        <br>
-        <input type="submit" name="add_combattant" value="Ajouter le combattant">
+        <!-- Formulaire pour ajouter un combattant -->
+        <!-- ... (comme dans votre code existant) ... -->
     </form>
     <!-- Liste des combattants existants -->
     <h2>Liste des Combattants</h2>
