@@ -5,7 +5,7 @@ include 'config.php';
 
 checkAdmin();
 
-$error_message = ''; // Initialisation du message d'erreur
+$error_message = ""; // Initialisez la variable d'erreur
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_combattant'])) {
