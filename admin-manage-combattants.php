@@ -1,12 +1,10 @@
 <?php
 session_start();
-require_once 'admin-functions.php'; // Inclure les fonctions communes d'administration
+require_once 'admin-functions.php';
 include 'config.php';
 
-// Vérifier si l'utilisateur est connecté en tant qu'administrateur
 checkAdmin();
 
-// Traitement pour ajouter un nouveau combattant
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_combattant'])) {
         $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
@@ -16,9 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_URL);
         $categorie_id = filter_input(INPUT_POST, 'categorie_id', FILTER_VALIDATE_INT);
 
-        // Valider et insérer le combattant dans la base de données
         if (validateCombatant($nom, $prenom, $description, $image, $categorie_id)) {
-            if (insertCombatant($nom, $prenom, $surnom, $description, $image, $categorie_id)) {
+            if (insertCombatant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn)) {
                 header('Location: admin-manage-combattants.php');
                 exit();
             } else {
@@ -30,8 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Récupérer la liste des combattants depuis la base de données
-$combattants = getCombatants($conn);
+$combattants = getAllCombattants($conn);
 ?>
 
 <!DOCTYPE html>
