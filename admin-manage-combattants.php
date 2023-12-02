@@ -5,6 +5,8 @@ include 'config.php';
 
 checkAdmin();
 
+$error_message = ''; // Initialisation du message d'erreur
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_combattant'])) {
         $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
@@ -46,7 +48,7 @@ $combattants = getAllCombattants($conn);
     <h1>Gérer les Combattants</h1>
     <h2>Ajouter un nouveau combattant</h2>
     <?php
-    if (isset($error_message)) {
+    if (!empty($error_message)) {
         echo "<p style='color: red;'>$error_message</p>";
     }
     ?>

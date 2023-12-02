@@ -14,8 +14,18 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
 
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
-    return $stmt->execute();
+
+    if ($stmt) {
+        $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
 
 function getAllCombattants($conn) {
