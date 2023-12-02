@@ -20,15 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $heure = $_POST['heure'];
         $lieu = $_POST['lieu'];
         $description = $_POST['description'];
+        $image = $_POST['image'];
         $categorie_id = $_POST['categorie_id'];
-
-        // Gérez le téléchargement de l'image de l'événement s'il est nécessaire
-        $image = null; // Initialisez à null par défaut
-
-        if (!empty($_FILES['image']['name'])) {
-            $image = "uploads/" . $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'], $image);
-        }
 
         // Validez et insérez l'événement dans la base de données
         // Assurez-vous de vérifier les données et d'ajouter des mesures de sécurité.
@@ -44,6 +37,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
+// Récupérez la liste des événements depuis la base de données (exemples fictifs)
+$query = "SELECT * FROM evenements_admin";
+$result = $conn->query($query);
+
+$events = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $events[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un Événement - Tableau de Bord Administratif</title>
+    <title>Gérer les Événements - Tableau de Bord Administratif</title>
     <link rel="stylesheet" href="admin-dashboard.css">
 </head>
 <body>
@@ -65,8 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </ul>
 </div>
 <div id="content">
-    <h1>Créer un Événement</h1>
-    <form method="post" action="admin-create-event.php" enctype="multipart/form-data">
+    <h1>Gérer les Événements</h1>
+    <h2>Ajouter un nouvel événement</h2>
+    <form method="post" action="admin-manage-events.php">
         <label for="nom">Nom :</label>
         <input type="text" name="nom" required>
         <br>
@@ -83,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <textarea name="description" rows="4"></textarea>
         <br>
         <label for="image">Image (URL) :</label>
-        <input type="file" name="image">
+        <input type="text" name="image">
         <br>
         <label for="categorie_id">Catégorie :</label>
         <select name="categorie_id">
@@ -95,6 +100,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <br>
         <input type="submit" name="add_event" value="Ajouter l'événement">
     </form>
+    <!-- Liste des événements existants -->
+    <h2>Liste des Événements</h2>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Lieu</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Catégorie</th>
+            <th>Actions</th>
+        </tr>
+        <?php foreach ($events as $event) : ?>
+            <tr>
+                <td><?= $event['nom'] ?></td>
+                <td><?= $event['date'] ?></td>
+                <td><?= $event['heure'] ?></td>
+                <td><?= $event['lieu'] ?></td>
+                <td><?= $event['description'] ?></td>
+                <td><img src="<?= $event['image'] ?>" alt="Image de l'événement"></td>
+                <td><?= $event['categorie_id'] ?></td>
+                <td>
+                    <a href="edit-event.php?id=<?= $event['id'] ?>">Éditer</a> |
+                    <a href="delete-event.php?id=<?= $event['id'] ?>">Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 </div>
 </body>
 </html>

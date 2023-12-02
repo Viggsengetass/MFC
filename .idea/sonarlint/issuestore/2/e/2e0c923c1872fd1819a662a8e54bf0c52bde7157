@@ -1,8 +1,0 @@
-
-_php:S103"KSplit this 125 characters long line (which is greater than 120 authorized).(òîâ²
-p	php:S1779"cReplace all non line feed end of line characters in this file "admin-manage-combattants.php" by LF.
-I	php:S1066"/Merge this if statement with the enclosing one.(ç€†¨ıÿÿÿÿ
-;	php:S2003"&Replace "include" with "include_once".(šèàÃ
-:	php:S2003	"&Replace "include" with "include_once".(ûÂàr
-a	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(šèàÃ
-`	php:S4833	"LReplace "include" with namespace import mechanism through the "use" keyword.(ûÂàr

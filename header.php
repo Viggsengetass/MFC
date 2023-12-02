@@ -18,14 +18,14 @@
 <nav>
     <div class="menu">
         <input type="checkbox" id="check">
-        <div class="logo"><a href="#"><img src="/img/MFC_logo.png" alt="MFC Logo" class="logo-img"></a></div>
+        <div class="logo"><a href="#"><img src="/img/logo.png" alt="MFC Logo" class="logo-img"></a></div>
         <ul>
             <label class="btn cancel" for="check"><i class="fas fa-times"></i></label>
             <li><a href="index.php">Accueil</a></li>
             <li><a href="combattants.php">Combattants</a></li>
             <li><a href="evenements.php">Événements</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li><a href="connexion.php">Se Connecter</a></li>
+            <li><a href="login.php">Se Connecter</a></li>
         </ul>
         <label for="check" class="btn bars"><i class="fas fa-bars"></i></label>
     </div>

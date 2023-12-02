@@ -2,10 +2,23 @@
 // Incluez le fichier de configuration de la base de données
 include 'config.php';
 
+// Vérifie si l'utilisateur est connecté en tant qu'administrateur
+function isAdmin() {
+    session_start();
+    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';
+}
+
 // Fonction pour créer un nouveau combattant
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
+    // Vérifie le rôle de l'utilisateur
+    if (!isAdmin()) {
+        // Redirige ou effectue une autre action en cas d'accès non autorisé
+        header('Location: unauthorized.php');
+        exit();
+    }
+
     // Effectuez des opérations pour insérer un nouveau combattant dans la base de données
-    $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
     return $stmt->execute();
@@ -13,8 +26,15 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
 
 // Fonction pour créer un nouvel événement
 function createEvent($nom, $date, $heure, $lieu, $description, $image, $categorie_id, $conn) {
+    // Vérifie le rôle de l'utilisateur
+    if (!isAdmin()) {
+        // Redirige ou effectue une autre action en cas d'accès non autorisé
+        header('Location: unauthorized.php');
+        exit();
+    }
+
     // Effectuez des opérations pour insérer un nouvel événement dans la base de données
-    $query = "INSERT INTO evenements (nom, date, heure, lieu, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("sssssi", $nom, $date, $heure, $lieu, $description, $image, $categorie_id);
     return $stmt->execute();
@@ -22,7 +42,14 @@ function createEvent($nom, $date, $heure, $lieu, $description, $image, $categori
 
 // Fonction pour obtenir tous les combattants
 function getAllCombattants($conn) {
-    $query = "SELECT * FROM combattants";
+    // Vérifie le rôle de l'utilisateur
+    if (!isAdmin()) {
+        // Redirige ou effectue une autre action en cas d'accès non autorisé
+        header('Location: unauthorized.php');
+        exit();
+    }
+
+    $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
     $combattants = [];
 
@@ -36,7 +63,14 @@ function getAllCombattants($conn) {
 
 // Fonction pour obtenir tous les événements
 function getAllEvents($conn) {
-    $query = "SELECT * FROM evenements";
+    // Vérifie le rôle de l'utilisateur
+    if (!isAdmin()) {
+        // Redirige ou effectue une autre action en cas d'accès non autorisé
+        header('Location: unauthorized.php');
+        exit();
+    }
+
+    $query = "SELECT * FROM evenements_admin";
     $result = $conn->query($query);
     $events = [];
 
@@ -46,58 +80,6 @@ function getAllEvents($conn) {
         }
     }
     return $events;
-}
-
-// Fonction pour obtenir les détails d'un combattant par son ID
-function getCombattantDetails($combattant_id, $conn) {
-    $query = "SELECT * FROM combattants WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $combattant_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
-}
-
-// Fonction pour obtenir les détails d'un événement par son ID
-function getEventDetails($event_id, $conn) {
-    $query = "SELECT * FROM evenements WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $event_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
-}
-
-// Fonction pour mettre à jour les détails d'un combattant
-function updateCombattant($combattant_id, $nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
-    $query = "UPDATE combattants SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id, $combattant_id);
-    return $stmt->execute();
-}
-
-// Fonction pour mettre à jour les détails d'un événement
-function updateEvent($event_id, $nom, $date, $heure, $lieu, $description, $image, $categorie_id, $conn) {
-    $query = "UPDATE evenements SET nom = ?, date = ?, heure = ?, lieu = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssssi", $nom, $date, $heure, $lieu, $description, $image, $categorie_id, $event_id);
-    return $stmt->execute();
-}
-
-// Fonction pour supprimer un combattant
-function deleteCombattant($combattant_id, $conn) {
-    $query = "DELETE FROM combattants WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $combattant_id);
-    return $stmt->execute();
-}
-
-// Fonction pour supprimer un événement
-function deleteEvent($event_id, $conn) {
-    $query = "DELETE FROM evenements WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $event_id);
-    return $stmt->execute();
 }
 
 // Ajoutez d'autres fonctions pour gérer les opérations administratives spécifiques

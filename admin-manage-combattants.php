@@ -1,12 +1,16 @@
 <?php
 session_start();
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header('Location: login.php'); // Redirige si l'utilisateur n'est pas connecté en tant qu'administrateur
+
+// Incluez le fichier de configuration de la base de données
+include 'config.php';
+include 'admin-functions.php'; // Assurez-vous d'inclure le fichier admin-functions.php
+
+// Vérifie si l'utilisateur est connecté en tant qu'administrateur
+if (!isAdmin()) {
+    // Redirige ou effectue une autre action en cas d'accès non autorisé
+    header('Location: unauthorized.php');
     exit();
 }
-
-include 'common.php';
-include 'config.php';
 
 // Traitement pour ajouter un nouveau combattant
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Assurez-vous de vérifier les données et d'ajouter des mesures de sécurité.
 
         // Exemple de requête pour ajouter un combattant (veuillez l'adapter à votre base de données)
-        $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
 
         if ($stmt) {
@@ -34,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Récupérez la liste des combattants depuis la base de données (exemples fictifs)
-$query = "SELECT * FROM combattants";
+$query = "SELECT * FROM combattants_admin";
 $result = $conn->query($query);
 
 $combattants = [];

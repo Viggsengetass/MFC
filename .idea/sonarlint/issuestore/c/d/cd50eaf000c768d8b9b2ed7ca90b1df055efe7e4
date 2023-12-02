@@ -1,11 +1,0 @@
-
-dphp:S103"KSplit this 121 characters long line (which is greater than 120 authorized).(ÇŠÆÊúÿÿÿÿ
-g	php:S1779"ZReplace all non line feed end of line characters in this file "admin-dashboard.php" by LF.
-;	php:S2003"&Replace "include" with "include_once".(Ô·¹í
-:	php:S2003"&Replace "include" with "include_once".(‹ï›
-@	php:S2003"&Replace "include" with "include_once".(™˜õàùÿÿÿÿ
-:	php:S2003"&Replace "include" with "include_once".(ÊĞJ
-a	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(Ô·¹í
-`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(‹ï›
-f	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(™˜õàùÿÿÿÿ
-`	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(ÊĞJ

@@ -1,48 +1,115 @@
-/* Styles pour le tableau de bord administratif */
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#sidebar {
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: black !important; /* Fond sombre pour mieux voir l'effet de neumorphisme */
+    color: #fff;
+}
+
+/* Header styles */
+header {
     background-color: #333;
     color: #fff;
-    width: 250px;
-    padding: 20px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+/* Sidebar styles */
+#sidebar {
+    background: #333033;
+    border-radius: 50px;
+    box-shadow: 20px 20px 60px #2b292b, -20px -20px 60px #3b373b;
+    color: #ecf0f1;
+    width: 200px;
+    height: calc(100vh - 10%);
     position: fixed;
-    height: 100%;
-    overflow-y: auto;
+    top: 10%;
+    left: 0;
+    padding-top: 60px;
+    z-index: 1;
 }
 
 #sidebar ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
 }
 
 #sidebar ul li {
-    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #4b494b;
 }
 
 #sidebar ul li a {
-    color: #fff;
+    color: #ecf0f1;
     text-decoration: none;
+    display: block;
+    padding: 8px;
+    transition: background-color 0.3s;
 }
 
 #sidebar ul li a:hover {
-    text-decoration: underline;
+    background-color: #4b494b;
 }
 
+/* Sidebar button styles */
+#sidebar ul li button {
+    color: #fff;
+    padding: 0.7em 1.7em;
+    font-size: 18px;
+    border-radius: 0.5em;
+    background: #212121;
+    border: 1px solid #212121;
+    transition: all 0.3s;
+    box-shadow: 6px 6px 12px #000, -6px -6px 12px #2f2f2f;
+}
+
+#sidebar ul li button:active {
+    color: #666;
+    box-shadow: inset 4px 4px 12px #000, inset -4px -4px 12px #1f1f1f;
+}
+
+/* Content styles */
 #content {
-    margin-left: 280px;
+    margin-left: 200px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #333033;
+    border-radius: 50px;
+    box-shadow: 20px 20px 60px #2b292b, -20px -20px 60px #3b373b;
+    color: #ecf0f1;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 99999;
 }

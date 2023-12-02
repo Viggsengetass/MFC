@@ -1,15 +1,19 @@
 <?php
 session_start();
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header('Location: login.php'); // Redirige si l'utilisateur n'est pas connecté en tant qu'administrateur
+
+// Incluez le fichier de configuration de la base de données
+include 'config.php';
+include 'admin-functions.php'; // Assurez-vous d'inclure le fichier admin-functions.php
+
+// Vérifie si l'utilisateur est connecté en tant qu'administrateur
+if (!isAdmin()) {
+    // Redirige ou effectue une autre action en cas d'accès non autorisé
+    header('Location: unauthorized.php');
     exit();
 }
 
-include 'common.php';
-include 'config.php';
-
-// Sélectionnez tous les événements depuis la base de données (veuillez adapter la requête à votre base de données)
-$query = "SELECT * FROM evenements";
+// Sélectionnez tous les événements depuis la base de données
+$query = "SELECT * FROM evenements_admin";
 $result = $conn->query($query);
 
 $events = [];

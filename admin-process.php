@@ -1,18 +1,23 @@
 <?php
 session_start();
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header('Location: login.php'); // Redirige si l'utilisateur n'est pas connecté en tant qu'administrateur
+
+// Incluez le fichier de configuration de la base de données
+include 'config.php';
+include 'admin-functions.php'; // Assurez-vous d'inclure le fichier admin-functions.php
+
+// Vérifie si l'utilisateur est connecté en tant qu'administrateur
+if (!isAdmin()) {
+    // Redirige ou effectue une autre action en cas d'accès non autorisé
+    header('Location: unauthorized.php');
     exit();
 }
 
-include 'config.php';
-
-function createCombattant($conn, $nom, $prenom, $surnom, $description, $image) {
-    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image) VALUES (?, ?, ?, ?, ?)";
+function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if ($stmt) {
-        $stmt->bind_param("ssssb", $nom, $prenom, $surnom, $description, $image);
+        $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
         if ($stmt->execute()) {
             return true; // Création réussie
         }
@@ -53,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image = null; // Si aucune image n'est téléchargée
         }
 
-        if (createCombattant($conn, $nom, $prenom, $surnom, $description, $image)) {
+        if (createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
             header('Location: admin-manage-combattants.php');
         } else {
             // Gestion des erreurs
