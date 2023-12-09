@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['password'];
 
         // Utilisez la fonction de traitement pour effectuer la connexion
-        $success = loginUser($username, $password);
+        $result = loginUser($username, $password);
 
-        if ($success) {
+        if ($result['success']) {
             // Rediriger vers la page d'accueil après la connexion réussie
             header('Location: index.php');
         } else {
@@ -30,14 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirm_password = $_POST['confirm_password'];
 
         // Utilisez la fonction de traitement pour effectuer l'inscription
-        $success = registerUser($register_username, $register_password, $register_email);
+        $result = registerUser($register_username, $register_password, $register_email);
 
-        if ($success) {
+        if ($result['success']) {
             // Rediriger vers la page d'accueil après l'inscription réussie
-            header('Location: index.php');
+            $_SESSION['registration_success'] = "Inscription réussie. Connectez-vous maintenant.";
+            header('Location: login.php');
         } else {
             // Rediriger vers la page d'inscription avec un message d'erreur
-            header('Location: login.php?error=1');
+            $_SESSION['registration_error'] = "Erreur lors de l'inscription. Veuillez réessayer.";
+            header('Location: login.php');
         }
     }
 }
@@ -45,25 +47,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Fonction pour effectuer la connexion d'un utilisateur
 function loginUser($username, $password) {
     global $conn;
+    $result = array();
 
     // Requête SQL pour récupérer l'utilisateur en fonction du nom d'utilisateur
     $query = "SELECT * FROM users WHERE nom = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $username);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $user_result = $stmt->get_result();
 
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
+    if ($user_result->num_rows == 1) {
+        $user = $user_result->fetch_assoc();
 
         // Vérifiez si le mot de passe est correct
         if (password_verify($password, $user['mot_de_passe'])) {
             // Enregistrez l'utilisateur dans la session
             $_SESSION['user'] = $user;
-            return true; // La connexion a réussi
+            $result['success'] = true;
+            $result['username'] = $user['nom'];
+            return $result; // La connexion a réussi
         }
     }
 
-    return false; // La connexion a échoué
+    $result['success'] = false;
+    return $result; // La connexion a échoué
 }
 ?>
