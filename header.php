@@ -25,7 +25,15 @@
             <li><a href="combattants.php">Combattants</a></li>
             <li><a href="evenements.php">Événements</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li><a href="login.php">Se Connecter</a></li>
+            <?php
+            // Vérifiez si l'utilisateur est connecté
+            if (isset($_SESSION['user'])) {
+                echo '<li><a href="#">Bienvenue, ' . $_SESSION['user']['username'] . '!</a></li>';
+                echo '<li><a href="logout.php">Déconnexion</a></li>';
+            } else {
+                echo '<li><a href="login.php">Se Connecter</a></li>';
+            }
+            ?>
         </ul>
         <label for="check" class="btn bars"><i class="fas fa-bars"></i></label>
     </div>
