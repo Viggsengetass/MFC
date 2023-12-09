@@ -5,78 +5,62 @@ error_reporting(E_ALL);
 include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Si le formulaire de connexion est soumis
+    if (isset($_POST['username']) && isset($_POST['password'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    // Utilisez la fonction de traitement pour vérifier la connexion
-    $user = loginUser($username, $password);
+        // Utilisez la fonction de traitement pour effectuer la connexion
+        $success = loginUser($username, $password);
 
-    if ($user) {
-        if ($user['role'] === 'admin') {
-            // L'utilisateur est un administrateur, redirigez-le vers le tableau de bord administrateur
-            header('Location: admin-dashboard.php');
-            exit; // Assurez-vous de quitter le script après la redirection
-        } else {
-            // L'utilisateur est un utilisateur normal, redirigez-le vers la page d'accueil (index.php) ou toute autre page appropriée
+        if ($success) {
+            // Rediriger vers la page d'accueil après la connexion réussie
             header('Location: index.php');
-            exit; // Assurez-vous de quitter le script après la redirection
+        } else {
+            // Rediriger vers la page de connexion avec un message d'erreur
+            $_SESSION['login_error'] = "Nom d'utilisateur ou mot de passe incorrect.";
+            header('Location: login.php');
         }
-    } else {
-        // La connexion a échoué, stockez un message d'erreur dans une variable de session
-        session_start();
-        $_SESSION['login_error'] = "Nom d'utilisateur ou mot de passe incorrect";
+    } elseif (isset($_POST['register_username']) && isset($_POST['register_password']) && isset($_POST['register_email'])) {
+        // Si le formulaire d'inscription est soumis
+        $firstname = $_POST['firstname'];
+        $register_username = $_POST['register_username'];
+        $register_password = $_POST['register_password'];
+        $register_email = $_POST['register_email'];
+        $confirm_password = $_POST['confirm_password'];
 
-        // Redirigez vers la page de connexion
-        header('Location: login.php');
-        exit; // Assurez-vous de quitter le script après la redirection
+        // Utilisez la fonction de traitement pour effectuer l'inscription
+        $success = registerUser($register_username, $register_password, $register_email);
+
+        if ($success) {
+            // Rediriger vers la page d'accueil après l'inscription réussie
+            header('Location: index.php');
+        } else {
+            // Rediriger vers la page d'inscription avec un message d'erreur
+            header('Location: login.php?error=1');
+        }
     }
 }
 
-// Fonction pour vérifier la connexion d'un utilisateur
+// Fonction pour effectuer la connexion d'un utilisateur
 function loginUser($username, $password) {
     global $conn;
 
-    // Recherchez l'utilisateur par nom d'utilisateur dans la base de données
-    $query = "SELECT id, nom, mot_de_passe, role FROM users WHERE nom = ?";
+    // Requête SQL pour récupérer l'utilisateur en fonction du nom d'utilisateur
+    $query = "SELECT * FROM users WHERE nom = ?";
     $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if (!$stmt) {
-        // La préparation de la requête a échoué
-        return false;
-    }
+    if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
 
-    // Liez le paramètre
-    $bindResult = $stmt->bind_param("s", $username);
-
-    if (!$bindResult) {
-        // La liaison des paramètres a échoué
-        return false;
-    }
-
-    // Exécutez la requête
-    $executeResult = $stmt->execute();
-
-    if (!$executeResult) {
-        // L'exécution de la requête a échoué
-        return false;
-    }
-
-    // Récupérez le résultat de la requête
-    $stmt->store_result();
-    $stmt->bind_result($userId, $username, $hashedPassword, $role);
-
-    if ($stmt->num_rows == 1) {
-        // L'utilisateur existe
-        $stmt->fetch();
-
-        // Vérifiez le mot de passe
-        if (password_verify($password, $hashedPassword)) {
-            // Le mot de passe est correct
-            return [
-                'id' => $userId,
-                'username' => $username,
-                'role' => $role
-            ];
+        // Vérifiez si le mot de passe est correct
+        if (password_verify($password, $user['mot_de_passe'])) {
+            // Enregistrez l'utilisateur dans la session
+            $_SESSION['user'] = $user;
+            return true; // La connexion a réussi
         }
     }
 

@@ -47,11 +47,11 @@ session_start(); // Démarrez la session
             </div>
             <div class="form_back">
                 <div class="form_details">Sign Up</div>
-                <input placeholder="Firstname" class="input" type="text">
-                <input placeholder="Username" class="input" type="text">
-                <input placeholder="Email" class="input" type="text">
-                <input placeholder="Password" class="input" type="password">
-                <input placeholder="Confirm Password" class="input" type="password">
+                <input placeholder="Firstname" name="firstname" class="input" type="text">
+                <input placeholder="Username" name="register_username" class="input" type="text">
+                <input placeholder="Email" name="register_email" class="input" type="email">
+                <input placeholder="Password" name="register_password" class="input" type="password">
+                <input placeholder="Confirm Password" name="confirm_password" class="input" type="password">
                 <button class="btn">Signup</button>
                 <span class="switch">Already have an account?
                     <label class="login_tog" for="login_toggle">
