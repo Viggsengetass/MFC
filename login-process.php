@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+session_start();
 include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -71,5 +69,44 @@ function loginUser($username, $password) {
 
     $result['success'] = false;
     return $result; // La connexion a échoué
+}
+
+// Fonction pour effectuer l'inscription d'un utilisateur
+function registerUser($username, $password, $email) {
+    global $conn;
+    $result = array();
+
+    // Hachez le mot de passe
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Préparez la requête SQL avec des paramètres
+    $query = "INSERT INTO users (nom, mot_de_passe, email) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($query);
+
+    if (!$stmt) {
+        // La préparation de la requête a échoué
+        $result['success'] = false;
+        return $result;
+    }
+
+    // Liez les paramètres
+    $bindResult = $stmt->bind_param("sss", $username, $hashedPassword, $email);
+
+    if (!$bindResult) {
+        // La liaison des paramètres a échoué
+        $result['success'] = false;
+        return $result;
+    }
+
+    // Exécutez la requête
+    $executeResult = $stmt->execute();
+
+    if ($executeResult) {
+        $result['success'] = true; // L'inscription a réussi
+        return $result;
+    } else {
+        $result['success'] = false; // L'inscription a échoué
+        return $result;
+    }
 }
 ?>
