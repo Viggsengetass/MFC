@@ -45,7 +45,7 @@ function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
 }
 
 function getCategoryName($id, $conn) {
-    $query = "SELECT name FROM categories WHERE id = ?";
+    $query = "SELECT nom FROM categories WHERE id = ?";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
@@ -84,7 +84,26 @@ function createEvenement($nom, $date, $lieu, $description, $conn) {
 }
 
 function getAllEvenements($conn) {
-    $query = "SELECT * FROM evenements_admin";
+    $query = "SELECT
+        ea.id,
+        ea.nom,
+        ea.date,
+        ea.heure,
+        ea.lieu,
+        ea.description,
+        ea.image,
+        ea.categorie_id,
+        ea.combattant_id,
+        ea.combattant2_id,
+        c1.nom AS combattant1_nom,
+        c2.nom AS combattant2_nom,
+        c1.image AS image1,
+        c2.image AS image2
+    FROM
+        evenements_admin ea
+        JOIN combattants_admin c1 ON ea.combattant_id = c1.id
+        JOIN combattants_admin c2 ON ea.combattant2_id = c2.id";
+
     $result = $conn->query($query);
 
     if (!$result) {
