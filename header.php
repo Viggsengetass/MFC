@@ -1,7 +1,7 @@
+<!-- header.php -->
+
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <?php
             if (isset($_SESSION['user'])) {
-                echo '<li>Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
+                echo '<li class="welcome">Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
                 echo '<li><a href="logout.php">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php">Se Connecter</a></li>';
