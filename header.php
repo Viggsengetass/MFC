@@ -1,5 +1,5 @@
 <?php
-session_start();
+// Ne démarrez pas la session ici
 ?>
 
 <!DOCTYPE html>
