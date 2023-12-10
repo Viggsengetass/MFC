@@ -11,6 +11,7 @@ include 'admin-functions.php';
 
 // Récupère tous les événements
 $evenements = getAllEvenements($conn);
+
 ?>
 
 <!DOCTYPE html>
@@ -22,28 +23,49 @@ $evenements = getAllEvenements($conn);
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
     <style>
         .carte-evenement {
-            width: 200px; /* Réduire la largeur des cartes */
-            margin: 8px; /* Ajouter de l'espace entre les cartes */
+            width: 400px;
+            margin: 16px;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Créer une grille pour afficher 3 cartes par ligne */
-        #content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+        .carte-evenement img {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .carte-evenement h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .carte-evenement p {
+            margin-bottom: 8px;
+        }
+
+        .carte-evenement .details {
+            font-size: 0.9rem;
+            color: #555;
         }
     </style>
 </head>
 <body>
-<div id="content" class="container mx-auto mt-8">
+<div class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Événements</h1>
 
     <?php foreach ($evenements as $evenement) : ?>
-        <div class="carte-evenement p-4 rounded-md mb-4">
-            <h2 class="text-xl font-bold"><?= $evenement['nom'] ?></h2>
-            <p class="mt-2"><strong>Date:</strong> <?= $evenement['date'] ?></p>
-            <p class="mt-2"><strong>Lieu:</strong> <?= $evenement['lieu'] ?></p>
-            <p class="mt-2"><strong>Description:</strong> <?= $evenement['description'] ?></p>
+        <div class="carte-evenement">
+            <img src="<?= $evenement['image'] ?>" alt="<?= $evenement['nom'] ?>">
+            <h2><?= $evenement['nom'] ?></h2>
+            <p><?= $evenement['description'] ?></p>
+            <div class="details">
+                <p><strong>Date:</strong> <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
+                <p><strong>Heure:</strong> <?= date('H:i', strtotime($evenement['heure'])) ?></p>
+                <p><strong>Lieu:</strong> <?= $evenement['lieu'] ?></p>
+                <p><strong>Catégorie:</strong> <?= isset($categories[$evenement['categorie_id']]) ? $categories[$evenement['categorie_id']] : 'Inconnue' ?></p>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>
