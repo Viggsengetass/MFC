@@ -1,11 +1,10 @@
+<!-- login.php -->
+
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -21,30 +20,33 @@ if (session_status() === PHP_SESSION_NONE) {
 <body class="bg-gray-100">
 <div class="container">
     <?php
+    // Vérifiez si l'utilisateur est connecté
     if (isset($_SESSION['user'])) {
         echo '<p>Bienvenue, ' . $_SESSION['user']['username'] . '!</p>';
         echo '<p>Vous êtes connecté en tant que ' . $_SESSION['user']['role'] . '.</p>';
         echo '<p><a href="logout.php">Déconnexion</a></p>';
     } else {
+        // L'utilisateur n'est pas connecté, affichez le formulaire de connexion
         ?>
         <input type="checkbox" id="login_toggle">
         <form class="form" method="post" action="login-process.php" class="space-y-4">
+            <?php
+            // Affichez un message d'erreur s'il y en a un
+            if (isset($_SESSION['login_error'])) {
+                echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
+                unset($_SESSION['login_error']); // Nettoyez la variable de session après l'affichage
+            }
+            ?>
             <div class="form_front">
                 <div class="form_details">Login</div>
-                <?php
-                if (isset($_SESSION['login_error'])) {
-                    echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
-                    unset($_SESSION['login_error']);
-                }
-                ?>
                 <input placeholder="Username" name="username" class="input" type="text">
                 <input placeholder="Password" name="password" class="input" type="password">
                 <button class="btn" type="submit">Login</button>
                 <span class="switch">Don't have an account?
-                    <label class="login_tog" for="login_toggle">
-                        Sign Up
-                    </label>
-                </span>
+                        <label class="login_tog" for="login_toggle">
+                            Sign Up
+                        </label>
+                    </span>
             </div>
             <div class="form_back">
                 <div class="form_details">Sign Up</div>
@@ -55,10 +57,10 @@ if (session_status() === PHP_SESSION_NONE) {
                 <input placeholder="Confirm Password" class="input" type="password">
                 <button class="btn">Signup</button>
                 <span class="switch">Already have an account?
-                    <label class="login_tog" for="login_toggle">
-                        Sign In
-                    </label>
-                </span>
+                        <label class="login_tog" for="login_toggle">
+                            Sign In
+                        </label>
+                    </span>
             </div>
         </form>
         <?php

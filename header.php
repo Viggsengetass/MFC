@@ -32,7 +32,7 @@ session_start();
 
             <?php
             if (isset($_SESSION['user'])) {
-                echo '<li class="welcome">Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
+                echo '<li>Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
                 echo '<li><a href="logout.php">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php">Se Connecter</a></li>';
