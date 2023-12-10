@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Inclut les fichiers nécessaires
-include 'common.php';  // Assurez-vous que common.php est bien inclus ici
+include 'common.php';
 include 'admin-functions.php';
 
 // Récupère tous les combattants
