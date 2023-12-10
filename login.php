@@ -1,5 +1,3 @@
-<!-- login.php -->
-
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,6 +7,7 @@ session_start();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,21 +19,18 @@ session_start();
 <body class="bg-gray-100">
 <div class="container">
     <?php
-    // Vérifiez si l'utilisateur est connecté
     if (isset($_SESSION['user'])) {
         echo '<p>Bienvenue, ' . $_SESSION['user']['username'] . '!</p>';
         echo '<p>Vous êtes connecté en tant que ' . $_SESSION['user']['role'] . '.</p>';
         echo '<p><a href="logout.php">Déconnexion</a></p>';
     } else {
-        // L'utilisateur n'est pas connecté, affichez le formulaire de connexion
         ?>
         <input type="checkbox" id="login_toggle">
         <form class="form" method="post" action="login-process.php" class="space-y-4">
             <?php
-            // Affichez un message d'erreur s'il y en a un
             if (isset($_SESSION['login_error'])) {
                 echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
-                unset($_SESSION['login_error']); // Nettoyez la variable de session après l'affichage
+                unset($_SESSION['login_error']);
             }
             ?>
             <div class="form_front">
@@ -68,4 +64,5 @@ session_start();
     ?>
 </div>
 </body>
+
 </html>
