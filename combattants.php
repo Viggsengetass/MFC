@@ -34,15 +34,21 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
-    <link rel="stylesheet" href="/style/dark-neumorphic.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .carte-combattant {
+            width: 100%; /* Prend toute la largeur */
+            margin-bottom: 20px; /* Ajoute de l'espace entre les cartes */
+        }
+    </style>
 </head>
-<body>
-<div id="content" class="container mx-auto mt-8">
-    <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
+<body class="bg-gray-900 text-white">
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4">Liste des Combattants</h1>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <?php foreach ($combattantsPageActuelle as $combattant) : ?>
-            <div class="carte-combattant p-4 rounded-md">
+            <div class="carte-combattant p-4 rounded-md bg-gray-800">
                 <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
                 <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
                 <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
