@@ -1,6 +1,6 @@
-<!-- combattants.php -->
-
 <?php
+// combattants.php
+
 // Active l'affichage des erreurs pendant le développement
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -12,11 +12,14 @@ include 'admin-functions.php';
 // Définir le nombre de cartes par page
 $cartesParPage = 4;
 
-// Récupère le numéro de la page actuelle
-$pageActuelle = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+// Déterminer la page actuelle
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-// Récupère tous les combattants pour la page actuelle
-$combattants = getCombattantsParPage($conn, $pageActuelle, $cartesParPage);
+// Récupérer les combattants pour la page actuelle
+$combattants = getCombattantsParPage($conn, $page, $cartesParPage);
+
+// Récupérer le nombre total de pages
+$totalPages = getTotalPages($conn, $cartesParPage);
 ?>
 
 <!DOCTYPE html>
@@ -41,13 +44,10 @@ $combattants = getCombattantsParPage($conn, $pageActuelle, $cartesParPage);
         </div>
     <?php endforeach; ?>
 
-    <!-- Pagination -->
+    <!-- Ajouter la pagination en bas de la page -->
     <div class="pagination">
-        <?php
-        $totalPages = getTotalPages($conn, $cartesParPage);
-        for ($i = 1; $i <= $totalPages; $i++) :
-            ?>
-            <a href="?page=<?= $i ?>" class="<?= ($i == $pageActuelle) ? 'active' : '' ?>"><?= $i ?></a>
+        <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+            <a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
         <?php endfor; ?>
     </div>
 </div>
