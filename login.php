@@ -20,8 +20,8 @@ session_start();
 <div class="container">
     <?php
     if (isset($_SESSION['user'])) {
-        echo '<p>Bienvenue, ' . (isset($_SESSION['user']['username']) ? $_SESSION['user']['username'] : 'Utilisateur') . '!</p>';
-        echo '<p>Vous êtes connecté en tant que ' . (isset($_SESSION['user']['role']) ? $_SESSION['user']['role'] : 'utilisateur') . '.</p>';
+        echo '<p>Bienvenue, ' . $_SESSION['user']['username'] . '!</p>';
+        echo '<p>Vous êtes connecté en tant que ' . $_SESSION['user']['role'] . '.</p>';
         echo '<p><a href="logout.php">Déconnexion</a></p>';
     } else {
         ?>
