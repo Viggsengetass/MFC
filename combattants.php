@@ -59,7 +59,7 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
             <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
             <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
             <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
-            <p class="mt-2"><strong>Catégorie:</strong> <?= getCategoryName($combattant['categorie_id'], $conn) ?></p>
+            <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
         </div>
     <?php endforeach; ?>
 
