@@ -1,6 +1,4 @@
 <?php
-include 'config.php';
-
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
