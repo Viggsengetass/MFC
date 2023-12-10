@@ -1,4 +1,5 @@
 <?php
+
 include 'config.php';
 
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
@@ -57,9 +58,15 @@ function getCategoryName($categorie_id, $conn) {
     }
 
     $stmt->bind_result($name);
-    $stmt->fetch();
+
+    // Si la requête ne retourne pas de résultat, retourner une valeur par défaut
+    if (!$stmt->fetch()) {
+        $name = 'Inconnue';
+    }
+
     $stmt->close();
 
     return $name;
 }
+
 ?>
