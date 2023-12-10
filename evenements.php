@@ -75,9 +75,9 @@ $evenements = getAllEvenements($conn);
     $count = 0;
     foreach ($evenements as $evenement) : ?>
         <div class="carte-evenement">
-            <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?>">
+            <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant 1' ?>">
             <p class="vs">VS</p>
-            <img src="<?= $evenement['image2'] ?>" alt="<?= $evenement['combattant2_nom'] ?>">
+            <img src="<?= $evenement['image2'] ?>" alt="<?= isset($evenement['combattant2_nom']) ? $evenement['combattant2_nom'] : 'Nom du combattant 2' ?>">
             <h2><?= $evenement['nom'] ?></h2>
             <div class="details">
                 <p><strong>Date:</strong> <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
