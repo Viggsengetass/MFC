@@ -1,5 +1,9 @@
 <!-- header.php -->
 
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +13,7 @@
     <meta charset="utf-8" />
     <meta name="Description" content="entertainment and Art" />
     <title>Accueil - M.F.C MMA Tournament</title>
-    <link rel="stylesheet" href="/style/header.css"> <!-- Fichier de surcharge CSS pour l'en-tête -->
+    <link rel="stylesheet" href="/style/header.css">
     <link rel="stylesheet" href="https://unpkg.com/feather-icons/dist/feather.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
@@ -25,10 +29,10 @@
             <li><a href="combattants.php">Combattants</a></li>
             <li><a href="evenements.php">Événements</a></li>
             <li><a href="contact.php">Contact</a></li>
+
             <?php
-            // Vérifiez si l'utilisateur est connecté
             if (isset($_SESSION['user'])) {
-                echo '<li><a href="#">Bienvenue, ' . $_SESSION['user']['username'] . '!</a></li>';
+                echo '<li>Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
                 echo '<li><a href="logout.php">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php">Se Connecter</a></li>';
