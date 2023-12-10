@@ -29,7 +29,7 @@ $combattants = getAllCombattants($conn);
             <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
             <p><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
             <p><strong>Description:</strong> <?= $combattant['description'] ?></p>
-            <p><strong>Catégorie ID:</strong> <?= $combattant['categorie_id'] ?></p>
+            <p><strong>Catégorie:</strong> <?= $combattant['categorie_nom'] ?></p>
         </div>
     <?php endforeach; ?>
 </div>
