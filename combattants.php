@@ -11,6 +11,21 @@ include 'admin-functions.php';
 
 // Récupère tous les combattants
 $combattants = getAllCombattants($conn);
+
+// Nombre de combattants par page
+$combattantsParPage = 6;
+
+// Nombre total de pages
+$nombrePages = ceil(count($combattants) / $combattantsParPage);
+
+// Page actuelle, par défaut 1
+$pageActuelle = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+// Indice de début pour la pagination
+$indiceDebut = ($pageActuelle - 1) * $combattantsParPage;
+
+// Combattants à afficher sur la page actuelle
+$combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsParPage);
 ?>
 
 <!DOCTYPE html>
@@ -38,21 +53,24 @@ $combattants = getAllCombattants($conn);
 <div id="content" class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
 
-    <?php $count = 0; ?>
-    <?php foreach ($combattants as $combattant) : ?>
-    <div class="carte-combattant p-4 rounded-md mb-4">
-        <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
-        <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
-        <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
-        <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
-        <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
-    </div>
-    <?php $count++; ?>
-    <?php if ($count % 6 === 0) : ?> <!-- Début d'un nouveau groupe de 6 cartes -->
-</div>
-<div class="container mx-auto mt-8">
-    <?php endif; ?>
+    <?php foreach ($combattantsPageActuelle as $combattant) : ?>
+        <div class="carte-combattant p-4 rounded-md mb-4">
+            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
+            <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
+            <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
+            <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
+            <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
+        </div>
     <?php endforeach; ?>
+
+    <!-- Afficher la pagination si nécessaire -->
+    <?php if ($nombrePages > 1) : ?>
+        <div class="flex justify-center mt-4">
+            <?php for ($i = 1; $i <= $nombrePages; $i++) : ?>
+                <a href="?page=<?= $i ?>" class="mx-2 p-2 bg-gray-800 text-white rounded-full"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
+    <?php endif; ?>
 </div>
 </body>
 </html>
