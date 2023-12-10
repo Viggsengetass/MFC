@@ -1,18 +1,8 @@
 <?php
 include 'config.php';
 
-function isAdmin() {
-    session_start();
-    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';
-}
-
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
-    if (!isAdmin()) {
-        header('Location: unauthorized.php');
-        exit();
-    }
-
-    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
@@ -32,12 +22,7 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
 }
 
 function getAllCombattants($conn) {
-    if (!isAdmin()) {
-        header('Location: unauthorized.php');
-        exit();
-    }
-
-    $query = "SELECT * FROM combattants_admin";
+    $query = "SELECT * FROM combattants";
     $result = $conn->query($query);
 
     if (!$result) {

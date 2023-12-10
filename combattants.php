@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 
 // Inclut les fichiers nécessaires
 include 'config.php';
+include 'admin-functions.php';
 
 // Récupère tous les combattants
 $combattants = getAllCombattants($conn);
