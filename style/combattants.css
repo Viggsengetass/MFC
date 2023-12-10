@@ -64,3 +64,26 @@ body {
 .pagination .active {
     background-color: #2d3748;
 }
+
+
+/* dark-neumorphic.css */
+
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.carte-combattant {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 8px 8px 16px #0d0d0d, -8px -8px 16px #404040;
+    transition: transform 0.3s ease-in-out;
+    margin: 8px;
+    width: calc(33.333% - 16px);
+}
+
+.carte-combattant:hover {
+    transform: scale(1.05);
+}
+
