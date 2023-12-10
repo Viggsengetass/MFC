@@ -3,13 +3,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
-
-include 'header.php';
-
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +20,8 @@ include 'header.php';
 <div class="container">
     <?php
     if (isset($_SESSION['user'])) {
-        echo '<p>Bienvenue, ' . $_SESSION['user']['username'] . '!</p>';
-        echo '<p>Vous êtes connecté en tant que ' . $_SESSION['user']['role'] . '.</p>';
+        echo '<p>Bienvenue, ' . (isset($_SESSION['user']['username']) ? $_SESSION['user']['username'] : 'Utilisateur') . '!</p>';
+        echo '<p>Vous êtes connecté en tant que ' . (isset($_SESSION['user']['role']) ? $_SESSION['user']['role'] : 'utilisateur') . '.</p>';
         echo '<p><a href="logout.php">Déconnexion</a></p>';
     } else {
         ?>
@@ -42,20 +40,6 @@ include 'header.php';
                 <button class="btn" type="submit">Login</button>
                 <span class="switch">Don't have an account?
                         <a href="register.php">Sign Up</a>
-                    </span>
-            </div>
-            <div class="form_back">
-                <div class="form_details">Sign Up</div>
-                <input placeholder="Firstname" class="input" type="text">
-                <input placeholder="Username" class="input" type="text">
-                <input placeholder="Email" class="input" type="text">
-                <input placeholder="Password" class="input" type="password">
-                <input placeholder="Confirm Password" class="input" type="password">
-                <button class="btn">Signup</button>
-                <span class="switch">Already have an account?
-                        <label class="login_tog" for="login_toggle">
-                            Sign In
-                        </label>
                     </span>
             </div>
         </form>
