@@ -2,18 +2,16 @@
 include 'config.php';
 
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
-    $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
-        // Gestion de l'erreur pour la requête préparée
         die("Erreur de préparation de la requête: " . $conn->error);
     }
 
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
 
     if (!$stmt->execute()) {
-        // Gestion de l'erreur pour l'exécution de la requête
         die("Erreur lors de l'exécution de la requête: " . $stmt->error);
     }
 
@@ -22,11 +20,10 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
 }
 
 function getAllCombattants($conn) {
-    $query = "SELECT * FROM combattants";
+    $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
 
     if (!$result) {
-        // Gestion de l'erreur pour la requête
         die("Erreur lors de l'exécution de la requête: " . $conn->error);
     }
 
