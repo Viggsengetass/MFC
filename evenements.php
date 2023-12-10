@@ -26,10 +26,11 @@ $evenements = getAllEvenements($conn);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            gap: 16px; /* Espace entre les cartes */
         }
 
         .carte-evenement {
-            width: 48%;
+            width: calc(50% - 16px); /* Largeur de 50% avec espacement entre les cartes */
             margin-bottom: 16px;
             padding: 16px;
             border-radius: 8px;
@@ -38,6 +39,8 @@ $evenements = getAllEvenements($conn);
 
         .carte-evenement img {
             width: 100%;
+            max-height: 200px; /* Hauteur maximale de l'image */
+            object-fit: cover; /* Ajustement de l'image pour couvrir la zone */
             border-radius: 4px;
             margin-bottom: 8px;
         }
@@ -85,7 +88,7 @@ $evenements = getAllEvenements($conn);
         </div>
         <?php
         $count++;
-        if ($count % 4 == 0) {
+        if ($count % 2 == 0) {
             echo '</div><div class="container mx-auto mt-8">';
         }
         ?>
