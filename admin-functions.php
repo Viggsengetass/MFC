@@ -1,5 +1,4 @@
 <?php
-// admin-functions.php
 
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
@@ -20,10 +19,6 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
 }
 
 function getAllCombattants($conn) {
-    if (!$conn) {
-        die("La connexion à la base de données a échoué.");
-    }
-
     $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
 
@@ -42,6 +37,10 @@ function getAllCombattants($conn) {
     return $combattants;
 }
 
+function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
+    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image) && $categorie_id !== false;
+}
+
 function getCategoryName($categorie_id, $conn) {
     $query = "SELECT name FROM categories WHERE id = ?";
     $stmt = $conn->prepare($query);
@@ -57,13 +56,15 @@ function getCategoryName($categorie_id, $conn) {
     }
 
     $stmt->bind_result($name);
-    $stmt->fetch();
+
+    // Si la requête ne retourne pas de résultat, retourner une valeur par défaut
+    if (!$stmt->fetch()) {
+        $name = 'Inconnue';
+    }
+
     $stmt->close();
 
     return $name;
 }
 
-function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
-    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image) && $categorie_id !== false;
-}
 ?>
