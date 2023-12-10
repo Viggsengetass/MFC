@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Inclut les fichiers nécessaires
-include 'config.php';
+include 'common.php';
 include 'admin-functions.php';
 
 // Récupère tous les combattants
