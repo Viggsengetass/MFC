@@ -30,7 +30,7 @@
 
             <?php
             if (isset($_SESSION['user'])) {
-                echo '<li>Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
+                echo '<li>Bienvenue, ' . (isset($_SESSION['user']['username']) ? $_SESSION['user']['username'] : 'Utilisateur') . '!</li>';
                 echo '<li><a href="logout.php">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php">Se Connecter</a></li>';
