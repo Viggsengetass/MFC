@@ -1,6 +1,8 @@
 <?php
-// Démarre ou reprend une session existante
-session_start();
+// Vérifie si une session est déjà active
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!DOCTYPE html>
