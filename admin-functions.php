@@ -20,6 +20,10 @@ function createCombattant($nom, $prenom, $surnom, $description, $image, $categor
 }
 
 function getAllCombattants($conn) {
+    if (!$conn) {
+        die("La connexion à la base de données a échoué.");
+    }
+
     $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
 
@@ -38,7 +42,7 @@ function getAllCombattants($conn) {
     return $combattants;
 }
 
-function getCategoryName($category_id, $conn) {
+function getCategoryName($categorie_id, $conn) {
     $query = "SELECT name FROM categories WHERE id = ?";
     $stmt = $conn->prepare($query);
 
@@ -46,18 +50,17 @@ function getCategoryName($category_id, $conn) {
         die("Erreur de préparation de la requête: " . $conn->error);
     }
 
-    $stmt->bind_param("i", $category_id);
+    $stmt->bind_param("i", $categorie_id);
 
     if (!$stmt->execute()) {
         die("Erreur lors de l'exécution de la requête: " . $stmt->error);
     }
 
-    $result = $stmt->get_result();
-    $category = $result->fetch_assoc();
-
+    $stmt->bind_result($name);
+    $stmt->fetch();
     $stmt->close();
 
-    return $category ? $category['name'] : 'Inconnue';
+    return $name;
 }
 
 function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
