@@ -17,19 +17,19 @@ $combattants = getAllCombattants($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
-    <link rel="stylesheet" href="/style/combattants.css">
+    <!-- Pas besoin de re-déclarer le lien Tailwind ici car il est déjà inclus dans common.php -->
 </head>
-<body>
-<div id="content">
-    <h1>Liste des Combattants</h1>
+<body class="bg-gray-100">
+<div id="content" class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4">Liste des Combattants</h1>
 
     <?php foreach ($combattants as $combattant) : ?>
-        <div class="carte-combattant">
-            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
-            <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
+        <div class="carte-combattant bg-white p-4 rounded-md shadow-md mb-4">
+            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>" class="rounded-full mb-4">
+            <h2 class="text-xl font-semibold mb-2"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
             <p><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
-            <p><strong>Description:</strong> <?= $combattant['description'] ?></p>
-            <p><strong>Catégorie ID:</strong> <?= $combattant['categorie_id'] ?></p>
+            <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
+            <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
         </div>
     <?php endforeach; ?>
 </div>
