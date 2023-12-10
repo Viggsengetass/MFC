@@ -32,15 +32,11 @@ nav .menu {
 .menu ul {
     list-style: none;
     display: flex;
-    margin-bottom: 20px; /* Ajout de la marge en bas */
-}
-
-.menu ul li {
-    margin-right: 10px; /* Ajustez la marge entre les éléments de la liste si nécessaire */
+    align-items: center;
 }
 
 .menu ul a {
-    margin: 0;
+    margin: 0 8px;
     text-decoration: none;
     font-size: 18px;
     color: #31344b;
@@ -83,7 +79,7 @@ nav label.cancel {
     display: none;
 }
 
-@media (max-width:940px) {
+@media (max-width: 940px) {
     .menu ul {
         display: block;
         position: fixed;
@@ -116,15 +112,15 @@ nav label.cancel {
         display: block;
     }
 
-    #check:checked ~ label.bars {
+    #check:checked~label.bars {
         display: none;
     }
 
-    #check:checked ~ ul label.cancel {
+    #check:checked~ul label.cancel {
         display: block;
     }
 
-    #check:checked ~ ul {
+    #check:checked~ul {
         left: 0;
     }
 }
@@ -139,4 +135,11 @@ nav {
     top: 0;
     width: 100%;
     z-index: 1000;
+}
+/* Nouveaux styles ajoutés */
+.user-welcome {
+    margin-left: auto;
+    padding: 10px 12px;
+    box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px #ceced1;
+    position: relative;
 }
