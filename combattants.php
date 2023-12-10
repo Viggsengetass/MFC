@@ -13,7 +13,7 @@ include 'admin-functions.php';
 $combattants = getAllCombattants($conn);
 
 // Nombre de combattants par page
-$combattantsParPage = 6;
+$combattantsParPage = 4;
 
 // Nombre total de pages
 $nombrePages = ceil(count($combattants) / $combattantsParPage);
@@ -41,7 +41,7 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
             margin: 8px; /* Ajouter de l'espace entre les cartes */
         }
 
-        /* Créer une grille pour afficher 3 cartes par ligne */
+        /* Créer une grille pour afficher 2 cartes par ligne */
         #content {
             display: flex;
             flex-wrap: wrap;
@@ -59,7 +59,7 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
             <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
             <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
             <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
-            <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
+            <p class="mt-2"><strong>Catégorie:</strong> <?= getCategoryName($combattant['categorie_id'], $conn) ?></p>
         </div>
     <?php endforeach; ?>
 
