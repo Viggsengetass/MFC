@@ -35,33 +35,22 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
-    <style>
-        .carte-combattant {
-            width: 200px; /* Réduire la largeur des cartes */
-            margin: 8px; /* Ajouter de l'espace entre les cartes */
-        }
-
-        /* Créer une grille pour afficher 2 cartes par ligne */
-        #content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-    </style>
 </head>
 <body>
 <div id="content" class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
 
-    <?php foreach ($combattantsPageActuelle as $combattant) : ?>
-        <div class="carte-combattant p-4 rounded-md mb-4">
-            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
-            <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
-            <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
-            <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
-            <p class="mt-2"><strong>Catégorie:</strong> <?= getCategoryName($combattant['categorie_id'], $conn) ?></p>
-        </div>
-    <?php endforeach; ?>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <?php foreach ($combattantsPageActuelle as $combattant) : ?>
+            <div class="carte-combattant p-4 rounded-md">
+                <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
+                <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
+                <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
+                <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
+                <p class="mt-2"><strong>Catégorie:</strong> <?= getCategoryName($combattant['categorie_id'], $conn) ?></p>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
     <!-- Afficher la pagination si nécessaire -->
     <?php if ($nombrePages > 1) : ?>
