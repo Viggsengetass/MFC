@@ -22,9 +22,15 @@ $evenements = getAllEvenements($conn);
     <title>Événements</title>
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
     <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
         .carte-evenement {
-            width: 400px;
-            margin: 16px;
+            width: 48%;
+            margin-bottom: 16px;
             padding: 16px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -49,17 +55,27 @@ $evenements = getAllEvenements($conn);
             font-size: 0.9rem;
             color: #555;
         }
+
+        .vs {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 8px 0;
+        }
     </style>
 </head>
 <body>
 <div class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Événements</h1>
 
-    <?php foreach ($evenements as $evenement) : ?>
+    <?php
+    $count = 0;
+    foreach ($evenements as $evenement) : ?>
         <div class="carte-evenement">
-            <img src="<?= $evenement['image'] ?>" alt="<?= $evenement['nom'] ?>">
+            <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?>">
+            <p class="vs">VS</p>
+            <img src="<?= $evenement['image2'] ?>" alt="<?= $evenement['combattant2_nom'] ?>">
             <h2><?= $evenement['nom'] ?></h2>
-            <p><?= $evenement['description'] ?></p>
             <div class="details">
                 <p><strong>Date:</strong> <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
                 <p><strong>Heure:</strong> <?= date('H:i', strtotime($evenement['heure'])) ?></p>
@@ -67,6 +83,12 @@ $evenements = getAllEvenements($conn);
                 <p><strong>Catégorie:</strong> <?= isset($categories[$evenement['categorie_id']]) ? $categories[$evenement['categorie_id']] : 'Inconnue' ?></p>
             </div>
         </div>
+        <?php
+        $count++;
+        if ($count % 4 == 0) {
+            echo '</div><div class="container mx-auto mt-8">';
+        }
+        ?>
     <?php endforeach; ?>
 </div>
 </body>
