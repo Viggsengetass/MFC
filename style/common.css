@@ -1,30 +1,29 @@
-/* Couleurs de la charte graphique */
-:root {
-    --yellow: #ffda10;
-    --dark-gray: #333033;
-    --light-gray: #ffffff;
-    --black: #000000;
-}
-
-/* Style pour les éléments enfoncés */
-/*.neu-element {*/
-/*    box-shadow: 5px 5px 10px rgba(51, 51, 51, 0.1),*/
-/*    -5px -5px 10px rgba(255, 255, 255, 0.8);*/
+/*:root {*/
+/*    --yellow: #ffda10;*/
+/*    --dark-gray: #333033;*/
+/*    --light-gray: #ffffff;*/
+/*    --black: #000000;*/
 /*}*/
 
-/*!* Style pour les éléments enfoncés plus profondément *!*/
-/*.neu-concave {*/
-/*    box-shadow: inset 5px 5px 10px rgba(51, 51, 51, 0.2),*/
-/*    inset -5px -5px 10px rgba(255, 255, 255, 0.8);*/
+/*!* Style pour les éléments enfoncés *!*/
+/*!*.neu-element {*!*/
+/*!*    box-shadow: 5px 5px 10px rgba(51, 51, 51, 0.1),*!*/
+/*!*    -5px -5px 10px rgba(255, 255, 255, 0.8);*!*/
+/*!*}*!*/
+
+/*!*!* Style pour les éléments enfoncés plus profondément *!*!*/
+/*!*.neu-concave {*!*/
+/*!*    box-shadow: inset 5px 5px 10px rgba(51, 51, 51, 0.2),*!*/
+/*!*    inset -5px -5px 10px rgba(255, 255, 255, 0.8);*!*/
+/*!*}*!*/
+
+/*!*!* Appliquer le style de neumorphisme au body et aux éléments principaux *!*!*/
+/*!*body, #sidebar, #content, h1, h2, h3, a, .button, .btn-primary, .btn-login, .btn-register, .btn, .social-icon, .nav-link, .text-2xl, .word, .grid, .bg-white, .text-xl, .text-blue-600, .form-input, .btn-rank, section {*!*/
+/*!*    background-color: var(--light-gray);*!*/
+/*!*    color: var(--dark-gray);*!*/
+/*!*    border-radius: 8px;*!*/
+/*!*    box-shadow: 5px 5px 10px rgba(51, 51, 51, 0.1),*!*/
+/*!*    -5px -5px 10px rgba(255, 255, 255, 0.8);*!*/
 /*}*/
 
-/*!* Appliquer le style de neumorphisme au body et aux éléments principaux *!*/
-/*body, #sidebar, #content, h1, h2, h3, a, .button, .btn-primary, .btn-login, .btn-register, .btn, .social-icon, .nav-link, .text-2xl, .word, .grid, .bg-white, .text-xl, .text-blue-600, .form-input, .btn-rank, section {*/
-/*    background-color: var(--light-gray);*/
-/*    color: var(--dark-gray);*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 5px 5px 10px rgba(51, 51, 51, 0.1),*/
-/*    -5px -5px 10px rgba(255, 255, 255, 0.8);*/
-}
-
-/* ... Ajouter d'autres éléments au besoin ... */
+/*!* ... Ajouter d'autres éléments au besoin ... *!*/

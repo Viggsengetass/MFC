@@ -1,12 +1,12 @@
 <?php
+// Active l'affichage des erreurs pendant le développement
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
+// Inclut les fichiers nécessaires
 include 'config.php';
-include 'admin-functions.php';
 
-// Récupérer tous les combattants
+// Récupère tous les combattants
 $combattants = getAllCombattants($conn);
 ?>
 
@@ -16,7 +16,7 @@ $combattants = getAllCombattants($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
-    <link rel="stylesheet" href="/style/combattants.css"> <!-- Assurez-vous d'avoir un fichier de styles CSS -->
+    <link rel="stylesheet" href="/style/combattants.css">
 </head>
 <body>
 <div id="content">
