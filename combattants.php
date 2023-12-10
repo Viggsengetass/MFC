@@ -9,11 +9,19 @@ ini_set('display_errors', 1);
 include 'common.php';
 include 'admin-functions.php';
 
+// Connexion à la base de données
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+// Vérifier la connexion
+if (!$conn) {
+    die("La connexion à la base de données a échoué.");
+}
+
 // Récupère tous les combattants
 $combattants = getAllCombattants($conn);
 
 // Nombre de combattants par page
-$combattantsParPage = 6;
+$combattantsParPage = 4;
 
 // Nombre total de pages
 $nombrePages = ceil(count($combattants) / $combattantsParPage);
@@ -41,7 +49,7 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
             margin: 8px; /* Ajouter de l'espace entre les cartes */
         }
 
-        /* Créer une grille pour afficher 3 cartes par ligne */
+        /* Créer une grille pour afficher 2 cartes par ligne */
         #content {
             display: flex;
             flex-wrap: wrap;
