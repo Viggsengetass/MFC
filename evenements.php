@@ -75,14 +75,16 @@ $evenements = getAllEvenements($conn);
     $count = 0;
     foreach ($evenements as $evenement) : ?>
         <div class="carte-evenement">
-            <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?? '' ?>">
-            <p class="vs">VS</p>
-            <img src="<?= $evenement['image2'] ?>" alt="<?= $evenement['combattant2_nom'] ?? '' ?>">
-            <h2><?= $evenement['nom'] ?></h2>
+            <?php if (isset($evenement['image1'], $evenement['combattant1_nom'], $evenement['image2'], $evenement['combattant2_nom'])) : ?>
+                <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?>">
+                <p class="vs">VS</p>
+                <img src="<?= $evenement['image2'] ?>" alt="<?= $evenement['combattant2_nom'] ?>">
+            <?php endif; ?>
+            <h2><?= $evenement['nom'] ?? '' ?></h2>
             <div class="details">
-                <p><strong>Date:</strong> <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
-                <p><strong>Heure:</strong> <?= date('H:i', strtotime($evenement['heure'])) ?></p>
-                <p><strong>Lieu:</strong> <?= $evenement['lieu'] ?></p>
+                <p><strong>Date:</strong> <?= date('d-m-Y', strtotime($evenement['date'] ?? '')) ?></p>
+                <p><strong>Heure:</strong> <?= date('H:i', strtotime($evenement['heure'] ?? '')) ?></p>
+                <p><strong>Lieu:</strong> <?= $evenement['lieu'] ?? '' ?></p>
                 <p><strong>Catégorie:</strong> <?= isset($categories[$evenement['categorie_id']]) ? $categories[$evenement['categorie_id']] : 'Inconnue' ?></p>
             </div>
         </div>
