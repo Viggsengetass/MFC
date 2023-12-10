@@ -29,14 +29,18 @@ nav .menu {
     align-items: center;
 }
 
-
 .menu ul {
     list-style: none;
     display: flex;
+    margin-bottom: 20px; /* Ajout de la marge en bas */
+}
+
+.menu ul li {
+    margin-right: 10px; /* Ajustez la marge entre les éléments de la liste si nécessaire */
 }
 
 .menu ul a {
-    margin: 0 8px;
+    margin: 0;
     text-decoration: none;
     font-size: 18px;
     color: #31344b;
@@ -124,16 +128,15 @@ nav label.cancel {
         left: 0;
     }
 }
+
 .logo-img {
     max-width: 70px;
     max-height: 70px;
 }
 
-
 nav {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000; /* Assurez-vous que le z-index est supérieur à d'autres éléments si nécessaire */
-    /* ... le reste de votre style */
+    z-index: 1000;
 }
