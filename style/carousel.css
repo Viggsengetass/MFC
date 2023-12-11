@@ -1,4 +1,4 @@
-/* style.css */
+/* carousel.css */
 body {
     min-height: 100vh;
     display: grid;
@@ -18,7 +18,7 @@ body {
     margin-top: 20%;
 }
 
-.container > div {
+.card {
     flex: 0 0 250px;
     border-radius: 0.5rem;
     transition: 0.5s ease-in-out;
@@ -28,13 +28,13 @@ body {
     overflow: hidden;
 }
 
-.container > div img {
+.card img {
     width: 100%;
     height: auto;
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
-.container > div .content {
+.card .content {
     font-size: 1.2rem;
     color: #fff;
     display: flex;
@@ -50,13 +50,13 @@ body {
     opacity: 0;
 }
 
-.container > div:hover {
+.card:hover {
     flex: 0 0 300px;
     box-shadow: 1px 3px 15px #7645d8;
     transform: translateY(-30px);
 }
 
-.container > div:hover .content {
+.card:hover .content {
     transform: translateY(0%);
     opacity: 1;
 }
