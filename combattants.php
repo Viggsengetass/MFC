@@ -27,7 +27,7 @@
     <div class="arrow arrow-right">&gt;</div>
 </div>
 
-<script src="/scripts/carousel.js"></script>
+<script src="/js/carousel.js"></script>
 
 </body>
 </html>
