@@ -40,11 +40,6 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
         #content {
             display: none; /* Cacher la liste de combattants */
         }
-
-        /* Ajout du style pour cacher les combattants dans le carrousel */
-        .carousel-item .content {
-            display: none;
-        }
     </style>
 </head>
 <body>
