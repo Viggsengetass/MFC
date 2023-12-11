@@ -15,7 +15,7 @@ body {
     justify-content: center;
     height: 500px;
     gap: 10px;
-    margin-top: 20%;
+    margin-top: 15%; /* Changé de 20% à 15% */
 }
 
 .card {
@@ -26,6 +26,7 @@ body {
     box-shadow: 1px 5px 15px #1e0e3e;
     position: relative;
     overflow: hidden;
+    margin-top: 15px; /* Ajouté un margin-top de 15px */
 }
 
 .card img {
