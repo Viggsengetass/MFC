@@ -16,7 +16,6 @@ body {
     height: 500px;
     gap: 10px;
     margin-top: 15%;
-    overflow: hidden; /* Ajout pour gérer le repoussement */
 }
 
 .card {
@@ -28,7 +27,6 @@ body {
     position: relative;
     overflow: hidden;
     margin-top: 15px;
-    position: relative; /* Ajout pour positionner les informations par rapport à la carte */
 }
 
 .card img {
@@ -44,7 +42,6 @@ body {
 .card:hover {
     transform: scale(1.2); /* Ajustez la valeur selon vos préférences */
     box-shadow: 1px 3px 15px #7645d8;
-    z-index: 2; /* Met la carte survolée au-dessus des autres */
 }
 
 .card .content {
@@ -52,9 +49,7 @@ body {
     color: #fff;
     display: flex;
     flex-direction: column;
-    position: absolute; /* Ajout pour positionner les informations par rapport à la carte */
-    bottom: 0; /* Ajout pour positionner les informations par rapport à la carte */
-    width: 100%; /* Ajout pour positionner les informations par rapport à la carte */
+    height: 100%;
     justify-content: flex-end;
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
