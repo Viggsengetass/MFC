@@ -10,13 +10,16 @@
     <link rel="stylesheet" href="/style/index.css">
     <script src="/js/index.js"></script>
 </head>
-<body class="dark-neumorphic">
+<body class="dark-neumorphic" style="margin-top: 7%;">
 <!-- Section des événements à venir -->
 <section class="container mx-auto mt-8">
     <h2 class="text-3xl font-semibold">Événements à venir</h2>
-    <!-- Liste des événements à venir -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        <?php if (isset($evenements) && is_array($evenements) && !empty($evenements)) : ?>
+
+    <?php if (empty($evenements)) : ?>
+        <p>Aucun événement à venir pour le moment.</p>
+    <?php else : ?>
+        <!-- Liste des événements à venir -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             <?php foreach ($evenements as $evenement) : ?>
                 <div class="bg-white p-4 rounded-lg shadow">
                     <?php if (!empty($evenement['image1']) && !empty($evenement['combattant1_nom'])) : ?>
@@ -28,10 +31,8 @@
                     <a href="#" class="text-blue-600 hover:underline mt-2">Réserver des billets</a>
                 </div>
             <?php endforeach; ?>
-        <?php else : ?>
-            <p>Aucun événement à venir pour le moment.</p>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 </section>
 
 <!-- Ajoutez d'autres sections et fonctionnalités ici selon vos besoins -->
