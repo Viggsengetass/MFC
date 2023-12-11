@@ -37,15 +37,8 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
     <link rel="stylesheet" href="/style/carousel.css"> <!-- Ajout du lien vers le nouveau fichier CSS -->
     <style>
-        .carte-combattant {
-            width: 200px;
-            margin: 8px;
-        }
-
         #content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+            display: none; /* Cacher la liste de combattants */
         }
 
         /* Ajout du style pour cacher les combattants dans le carrousel */
@@ -55,28 +48,6 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     </style>
 </head>
 <body>
-<div id="content" class="container mx-auto mt-8">
-    <!-- Votre liste de combattants -->
-    <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
-    <?php foreach ($combattantsPageActuelle as $combattant) : ?>
-        <div class="carte-combattant p-4 rounded-md mb-4">
-            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
-            <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
-            <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
-            <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
-            <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
-        </div>
-    <?php endforeach; ?>
-
-    <!-- Afficher la pagination si nécessaire -->
-    <?php if ($nombrePages > 1) : ?>
-        <div class="flex justify-center mt-4">
-            <?php for ($i = 1; $i <= $nombrePages; $i++) : ?>
-                <a href="?page=<?= $i ?>" class="mx-2 p-2 bg-gray-800 text-white rounded-full"><?= $i ?></a>
-            <?php endfor; ?>
-        </div>
-    <?php endif; ?>
-</div>
 
 <!-- Ajouter le code du carrousel après la liste de combattants -->
 <div class="carousel-container">
