@@ -35,24 +35,29 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
+    <link rel="stylesheet" href="/style/carousel.css"> <!-- Ajout du lien vers le nouveau fichier CSS -->
     <style>
         .carte-combattant {
-            width: 200px; /* Réduire la largeur des cartes */
-            margin: 8px; /* Ajouter de l'espace entre les cartes */
+            width: 200px;
+            margin: 8px;
         }
 
-        /* Créer une grille pour afficher 3 cartes par ligne */
         #content {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
         }
+
+        /* Ajout du style pour cacher les combattants dans le carrousel */
+        .carousel-item .content {
+            display: none;
+        }
     </style>
 </head>
 <body>
 <div id="content" class="container mx-auto mt-8">
+    <!-- Votre liste de combattants -->
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
-
     <?php foreach ($combattantsPageActuelle as $combattant) : ?>
         <div class="carte-combattant p-4 rounded-md mb-4">
             <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
@@ -72,5 +77,35 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
         </div>
     <?php endif; ?>
 </div>
+
+<!-- Ajouter le code du carrousel après la liste de combattants -->
+<div class="carousel-container">
+    <div class="carousel-wrapper">
+        <?php foreach ($combattants as $combattant) : ?>
+            <div class="carousel-item">
+                <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
+                <div class="content">
+                    <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
+                    <span>Surnom: <?= $combattant['surnom'] ?></span>
+                    <span>Description: <?= $combattant['description'] ?></span>
+                    <span>Catégorie: <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></span>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<script>
+    // JavaScript pour le carrousel
+    const carouselWrapper = document.querySelector('.carousel-wrapper');
+    let currentIndex = 0;
+
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % <?= count($combattants) ?>; // Nombre total de combattants
+        const translateValue = -currentIndex * 130; // 130 est la largeur d'un élément plus la marge
+        carouselWrapper.style.transform = `translateX(${translateValue}px)`;
+    }, 3000); // Changement toutes les 3 secondes, ajustez selon vos besoins
+</script>
+
 </body>
 </html>
