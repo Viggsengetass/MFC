@@ -27,9 +27,9 @@
     </div>
     <div class="arrow arrow-left">&lt;</div>
     <div class="arrow arrow-right">&gt;</div>
-</div>
 
-<script src="/js/carousel.js"></script>
+    <script src="/js/carousel.js"></script>
+</div>
 
 </body>
 
