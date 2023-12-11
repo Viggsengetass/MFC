@@ -28,7 +28,7 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
 
 <div class="container">
     <?php foreach ($combattants as $combattant) : ?>
-        <div class="carousel-item">
+        <div>
             <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
             <div class="content">
                 <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>

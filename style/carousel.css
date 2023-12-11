@@ -1,16 +1,25 @@
-/* carousel.css */
+/* style.css */
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #100721;
+    font-family: "Ubuntu Mono", monospace;
+    font-weight: 400;
+    margin: 0;
+}
+
 .container {
     width: 100%;
     display: flex;
     justify-content: center;
     height: 500px;
     gap: 10px;
-    overflow: hidden;
-    position: relative;
+    margin-top: 20%;
 }
 
-.carousel-item {
-    flex: 0 0 120px;
+.container > div {
+    flex: 0 0 250px;
     border-radius: 0.5rem;
     transition: 0.5s ease-in-out;
     cursor: pointer;
@@ -19,41 +28,35 @@
     overflow: hidden;
 }
 
-.carousel-item img {
+.container > div img {
     width: 100%;
     height: auto;
-    border-radius: 0.5rem;
-    transition: transform 0.5s ease-in-out;
+    border-radius: 0.5rem 0.5rem 0 0;
 }
 
-.carousel-item:hover {
-    flex: 0 0 250px;
-    box-shadow: 1px 3px 15px #7645d8;
-}
-
-.carousel-item:hover img {
-    transform: scale(1.2);
-}
-
-.carousel-item .content {
-    font-size: 1.5rem;
+.container > div .content {
+    font-size: 1.2rem;
     color: #fff;
     display: flex;
-    align-items: center;
-    padding: 15px;
-    opacity: 0;
     flex-direction: column;
     height: 100%;
     justify-content: flex-end;
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
+    transition: transform 0.5s ease-in-out;
     transform: translateY(100%);
-    transition: opacity 0.5s ease-in-out, transform 0.5s 0.2s;
-    visibility: hidden;
+    padding: 15px;
+    text-align: center;
+    opacity: 0;
 }
 
-.carousel-item:hover .content {
-    opacity: 1;
+.container > div:hover {
+    flex: 0 0 300px;
+    box-shadow: 1px 3px 15px #7645d8;
+    transform: translateY(-30px);
+}
+
+.container > div:hover .content {
     transform: translateY(0%);
-    visibility: visible;
+    opacity: 1;
 }
