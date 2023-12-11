@@ -1,17 +1,37 @@
-<footer class="bg-gray-900 text-white py-8">
-    <!-- Pied de page, informations de contact, liens vers les réseaux sociaux, etc. -->
-    <div class="container mx-auto flex justify-between items-center">
-        <div>
-            <p class="text-xl font-semibold">Contactez-nous : contact@mfc-mma.com</p>
-            <ul class="flex space-x-4 mt-4">
-                <li><a href="#" class="text-white hover:text-blue-500"><img src="facebook.png" alt="Facebook"></a></li>
-                <li><a href="#" class="text-white hover:text-blue-500"><img src="twitter.png" alt="Twitter"></a></li>
-                <li><a href="#" class="text-white hover:text-blue-500"><img src="instagram.png" alt="Instagram"></a></li>
-            </ul>
-        </div>
-        <div>
-            <!-- Ajoutez des animations et des effets ici si nécessaire -->
-        </div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include 'common.php'; ?>
+    <title>Accueil - M.F.C MMA Tournament</title>
+    <link rel="stylesheet" href="/style/common.css"> <!-- Inclusion de la feuille de style CSS commune -->
+    <link rel="stylesheet" href="/style/footer.css"> <!-- Fichier de surcharge CSS pour le pied de page -->
+</head>
+<body class="flex flex-col min-h-screen">
+<header>
+</header>
+
+<main>
+</main>
+
+<footer class="rounded-lg shadow m-4 bg-gray-800 text-white" style="background-color: #333033;">
+    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+        <span class="text-sm text-gray-500 sm:text-center">© 2023 <a href="https://flowbite.com/" class="hover:underline">MFC</a>. All Rights Reserved.</span>
+        <ul class="flex flex-wrap items-center mt-3 space-x-4 items-center text-sm font-medium text-gray-500">
+            <li>
+                <a href="#" class="hover:underline me-4 md:me-6 neumorphism">About</a>
+            </li>
+            <li>
+                <a href="#" class="hover:underline me-4 md:me-6 neumorphism">Privacy Policy</a>
+            </li>
+            <li>
+                <a href="#" class="hover:underline me-4 md:me-6 neumorphism">Licensing</a>
+            </li>
+            <li>
+                <a href="#" class="hover:underline neumorphism">Contact</a>
+            </li>
+        </ul>
     </div>
 </footer>
 </body>
