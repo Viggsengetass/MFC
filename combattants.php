@@ -22,15 +22,14 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
-    <link rel="stylesheet" href="/style/carousel.css">
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
 
 <div class="container">
     <?php foreach ($combattants as $combattant) : ?>
         <div class="card">
-            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
-            <div class="content">
+            <div class="card-content">
                 <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
                 <span>Surnom: <?= $combattant['surnom'] ?></span>
                 <span>Description: <?= $combattant['description'] ?></span>
