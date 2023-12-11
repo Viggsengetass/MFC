@@ -7,11 +7,9 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    height: 500px;
     gap: 10px;
-    overflow: hidden; /* Ajout pour masquer les éléments débordants du carrousel */
+    overflow: hidden;
     position: relative;
-    margin-top: 20%; /* Ajout du margin-top de 20% */
 }
 
 .carousel-wrapper {
@@ -20,7 +18,7 @@
 }
 
 .carousel-item {
-    flex: 0 0 250px; /* Ajustement de la largeur des items */
+    flex: 0 0 250px;
     border-radius: 0.5rem;
     transition: 0.5s ease-in-out;
     cursor: pointer;
