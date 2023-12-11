@@ -18,7 +18,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         <?php foreach ($evenements as $evenement) : ?>
             <div class="bg-white p-4 rounded-lg shadow">
-                <?php if (isset($evenement['image1']) && isset($evenement['combattant1_nom'])) : ?>
+                <?php if (!empty($evenement['image1']) && !empty($evenement['combattant1_nom'])) : ?>
                     <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?>" class="w-full h-40 object-cover rounded">
                 <?php endif; ?>
                 <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
