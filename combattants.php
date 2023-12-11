@@ -1,21 +1,4 @@
-<?php
-// combattants.php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-include 'common.php';
-include 'admin-functions.php';
-
-$combattants = getAllCombattants($conn);
-
-$combattantsParPage = 6;
-$nombrePages = ceil(count($combattants) / $combattantsParPage);
-$pageActuelle = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-$indiceDebut = ($pageActuelle - 1) * $combattantsParPage;
-$combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsParPage);
-?>
-
+<!-- combattants.php -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,18 +10,24 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
 <body>
 
 <div class="container">
-    <?php foreach ($combattants as $combattant) : ?>
-        <div class="card">
-            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
-            <div class="content">
-                <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
-                <span>Surnom: <?= $combattant['surnom'] ?></span>
-                <span>Description: <?= $combattant['description'] ?></span>
-                <span>Catégorie: <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></span>
+    <div class="carousel">
+        <?php foreach ($combattants as $combattant) : ?>
+            <div class="card">
+                <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
+                <div class="content">
+                    <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
+                    <span>Surnom: <?= $combattant['surnom'] ?></span>
+                    <span>Description: <?= $combattant['description'] ?></span>
+                    <span>Catégorie: <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></span>
+                </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    </div>
+    <div class="arrow arrow-left">&lt;</div>
+    <div class="arrow arrow-right">&gt;</div>
 </div>
+
+<script src="/scripts/carousel.js"></script>
 
 </body>
 </html>

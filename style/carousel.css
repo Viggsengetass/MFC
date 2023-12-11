@@ -7,14 +7,20 @@ body {
     font-family: "Ubuntu Mono", monospace;
     font-weight: 400;
     margin: 0;
+    overflow: hidden; /* Empêche le défilement horizontal */
 }
 
 .container {
+    position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 15%;
+}
+
+.carousel {
+    display: flex;
     overflow: hidden;
 }
 
@@ -61,4 +67,22 @@ body {
 .card:hover .content {
     transform: translateY(0%);
     opacity: 1;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
 }
