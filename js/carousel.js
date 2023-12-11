@@ -29,4 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     setInterval(autoScroll, 3000); // Défilement automatique toutes les 3 secondes
+
+    // Afficher la première carte
+    showCard(currentIndex);
 });
