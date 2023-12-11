@@ -1,24 +1,24 @@
-/* carousel.css */
-.container {
-    margin-top: 20%;
+/* style.css */
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #100721;
+    font-family: "Ubuntu Mono", monospace;
+    font-weight: 400;
+    margin: 0;
 }
 
-.carousel-container {
+.container {
     width: 100%;
     display: flex;
     justify-content: center;
     height: 500px;
     gap: 10px;
-    overflow: hidden;
-    position: relative;
+    margin-top: 20%;
 }
 
-.carousel-wrapper {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
-.carousel-item {
+.container > div {
     flex: 0 0 250px;
     border-radius: 0.5rem;
     transition: 0.5s ease-in-out;
@@ -28,7 +28,13 @@
     overflow: hidden;
 }
 
-.carousel-item .content {
+.container > div img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.container > div .content {
     font-size: 1.5rem;
     color: #fff;
     display: flex;
@@ -42,18 +48,12 @@
     transform: translateY(100%);
 }
 
-.carousel-item .content span {
-    display: block;
-    margin-top: 5px;
-    font-size: 1.2rem;
-}
-
-.carousel-item:hover {
-    flex: 0 0 250px;
+.container > div:hover {
+    flex: 0 0 300px; /* Ajustez la taille d'expansion au survol selon vos préférences */
     box-shadow: 1px 3px 15px #7645d8;
     transform: translateY(-30px);
 }
 
-.carousel-item:hover .content {
+.container > div:hover .content {
     transform: translateY(0%);
 }
