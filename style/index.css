@@ -48,13 +48,16 @@
 }
 
 /* Styles pour la section des événements à venir */
+body {
+    background-color: #1c1c1c; /* Fond sombre pour la page entière */
+    color: #ffffff; /* Texte en mode sombre */
+    margin-top: 10%; /* Marge top de 10% */
+}
+
 section {
     padding: 20px 0;
-    background-color: #1c1c1c; /* Fond sombre pour la section */
-    color: #ffffff; /* Texte en mode sombre */
     border-radius: 15px; /* Effet de neumorphisme - bord arrondi */
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.1); /* Effet de neumorphisme - ombre */
-    margin-top: 7%; /* Marge top de 7% */
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3), -10px -10px 30px rgba(255, 255, 255, 0.1); /* Effet de neumorphisme - ombre */
 }
 
 /* Styles pour la liste des événements */
