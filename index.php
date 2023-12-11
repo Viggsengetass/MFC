@@ -15,6 +15,19 @@ $evenements = getAllEvenements($conn);
     <title>Accueil - M.F.C MMA Tournament</title>
     <?php include 'common.php'; ?>
     <link rel="stylesheet" href="/style/index.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            margin-top: 20%;
+        }
+
+        section {
+            color: #000; /* Couleur du texte dans la section (vous pouvez ajuster si nécessaire) */
+        }
+
+        /* Ajoutez d'autres styles ici selon vos besoins */
+    </style>
     <script src="/js/index.js"></script>
 </head>
 <body>
