@@ -14,6 +14,8 @@ $evenements = getAllEvenements($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - M.F.C MMA Tournament</title>
     <?php include 'common.php'; ?>
+    <link rel="stylesheet" href="/style/dark-neumorphic.css">
+
     <link rel="stylesheet" href="/style/index.css">
     <script src="/js/index.js"></script>
 </head>
