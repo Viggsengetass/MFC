@@ -84,7 +84,7 @@ function createEvenement($nom, $date, $lieu, $description, $conn) {
 }
 
 function getAllEvenements($conn) {
-    $query = "SELECT * FROM evenements_admin ORDER BY date ASC";
+    $query = "SELECT * FROM evenements_admin";
     $result = $conn->query($query);
 
     if (!$result) {
