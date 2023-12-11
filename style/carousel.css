@@ -28,6 +28,7 @@ body {
     position: relative;
     overflow: hidden;
     margin-top: 15px;
+    position: relative; /* Ajout pour positionner les informations par rapport à la carte */
 }
 
 .card img {
