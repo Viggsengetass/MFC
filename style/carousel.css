@@ -28,6 +28,7 @@ body {
     position: relative;
     overflow: hidden;
     margin-top: 15px;
+    z-index: 1; /* Met les cartes en dessous par défaut */
 }
 
 .card img {
@@ -38,6 +39,7 @@ body {
 
 .container:hover .card {
     flex: 0 0 150px; /* Ajustez la valeur selon vos préférences */
+    margin-right: -15px; /* Repousse les cartes à droite */
 }
 
 .card:hover {
