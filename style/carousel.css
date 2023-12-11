@@ -1,0 +1,64 @@
+/* carousel.css */
+.container {
+    margin-top: 20px;
+}
+
+.carousel-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    gap: 10px;
+    overflow: hidden; /* Ajout pour masquer les éléments débordants du carrousel */
+    position: relative;
+}
+
+.carousel-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    flex: 0 0 120px;
+    border-radius: 0.5rem;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+    box-shadow: 1px 5px 15px #1e0e3e;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-item .content {
+    font-size: 1.5rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    opacity: 0;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
+    background: #02022e;
+    background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
+    transform: translateY(100%);
+    transition: opacity 0.5s ease-in-out, transform 0.5s 0.2s;
+    visibility: hidden;
+}
+
+.carousel-item .content span {
+    display: block;
+    margin-top: 5px;
+    font-size: 1.2rem;
+}
+
+.carousel-item:hover {
+    flex: 0 0 250px;
+    box-shadow: 1px 3px 15px #7645d8;
+    transform: translateY(-30px);
+}
+
+.carousel-item:hover .content {
+    opacity: 1;
+    transform: translateY(0%);
+    visibility: visible;
+}

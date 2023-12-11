@@ -1,6 +1,31 @@
 <?php
-// ... (Votre code PHP existant)
+// combattants.php
 
+// Active l'affichage des erreurs pendant le développement
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Inclut les fichiers nécessaires
+include 'common.php';
+include 'admin-functions.php';
+
+// Récupère tous les combattants
+$combattants = getAllCombattants($conn);
+
+// Nombre de combattants par page
+$combattantsParPage = 6;
+
+// Nombre total de pages
+$nombrePages = ceil(count($combattants) / $combattantsParPage);
+
+// Page actuelle, par défaut 1
+$pageActuelle = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+// Indice de début pour la pagination
+$indiceDebut = ($pageActuelle - 1) * $combattantsParPage;
+
+// Combattants à afficher sur la page actuelle
+$combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsParPage);
 ?>
 
 <!DOCTYPE html>
@@ -13,73 +38,47 @@
     <link rel="stylesheet" href="/style/carousel.css"> <!-- Ajout du lien vers le nouveau fichier CSS -->
     <style>
         .carte-combattant {
-            display: none; /* Cacher les cartes individuelles */
+            width: 200px;
+            margin: 8px;
         }
 
         #content {
-            display: none; /* Cacher la liste de combattants */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
 
         /* Ajout du style pour cacher les combattants dans le carrousel */
-        .carousel-item {
-            flex: 0 0 250px;
-            border-radius: 0.5rem;
-            transition: 0.5s ease-in-out;
-            cursor: pointer;
-            box-shadow: 1px 5px 15px #1e0e3e;
-            position: relative;
-            overflow: hidden;
-            margin: 0 10px;
-        }
-
-        .carousel-item img {
-            width: 100%;
-            height: auto;
-        }
-
         .carousel-item .content {
-            font-size: 1.5rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            opacity: 0;
-            flex-direction: column;
-            height: 100%;
-            justify-content: flex-end;
-            background: #02022e;
-            background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
-            transform: translateY(100%);
-            transition: opacity 0.5s ease-in-out, transform 0.5s 0.2s;
-            visibility: hidden;
-        }
-
-        .carousel-item:hover {
-            flex: 0 0 300px;
-            box-shadow: 1px 3px 15px #7645d8;
-            transform: translateY(-30px);
-        }
-
-        .carousel-item:hover .content {
-            opacity: 1;
-            transform: translateY(0%);
-            visibility: visible;
-        }
-
-        .carousel-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-        }
-
-        .carousel-wrapper {
-            display: flex;
-            width: max-content;
+            display: none;
         }
     </style>
 </head>
 <body>
+<div id="content" class="container mx-auto mt-8">
+    <!-- Votre liste de combattants -->
+    <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
+    <?php foreach ($combattantsPageActuelle as $combattant) : ?>
+        <div class="carte-combattant p-4 rounded-md mb-4">
+            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
+            <h2 class="text-xl font-bold"><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
+            <p class="mt-2"><strong>Surnom:</strong> <?= $combattant['surnom'] ?></p>
+            <p class="mt-2"><strong>Description:</strong> <?= $combattant['description'] ?></p>
+            <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
+        </div>
+    <?php endforeach; ?>
+
+    <!-- Afficher la pagination si nécessaire -->
+    <?php if ($nombrePages > 1) : ?>
+        <div class="flex justify-center mt-4">
+            <?php for ($i = 1; $i <= $nombrePages; $i++) : ?>
+                <a href="?page=<?= $i ?>" class="mx-2 p-2 bg-gray-800 text-white rounded-full"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+<!-- Ajouter le code du carrousel après la liste de combattants -->
 <div class="carousel-container">
     <div class="carousel-wrapper">
         <?php foreach ($combattants as $combattant) : ?>
@@ -103,7 +102,7 @@
 
     setInterval(() => {
         currentIndex = (currentIndex + 1) % <?= count($combattants) ?>; // Nombre total de combattants
-        const translateValue = -currentIndex * 300; // 300 est la largeur d'un élément plus la marge
+        const translateValue = -currentIndex * 130; // 130 est la largeur d'un élément plus la marge
         carouselWrapper.style.transform = `translateX(${translateValue}px)`;
     }, 3000); // Changement toutes les 3 secondes, ajustez selon vos besoins
 </script>
