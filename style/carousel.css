@@ -16,7 +16,7 @@ body {
     height: 500px;
     gap: 10px;
     margin-top: 15%;
-    overflow: hidden;
+    overflow: hidden; /* Ajout pour gérer le repoussement */
 }
 
 .card {
@@ -28,6 +28,7 @@ body {
     position: relative;
     overflow: hidden;
     margin-top: 15px;
+    z-index: 1; /* Met les cartes en dessous par défaut */
 }
 
 .card img {
@@ -36,14 +37,25 @@ body {
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
+.container:hover .card {
+    flex: 0 0 150px; /* Ajustez la valeur selon vos préférences */
+    margin-right: -15px; /* Repousse les cartes à droite */
+}
+
+.card:hover {
+    transform: scale(1.2); /* Ajustez la valeur selon vos préférences */
+    box-shadow: 1px 3px 15px #7645d8;
+    z-index: 2; /* Met la carte survolée au-dessus des autres */
+}
+
 .card .content {
     font-size: 1.2rem;
     color: #fff;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    position: absolute; /* Ajout pour positionner les informations par rapport à la carte */
+    bottom: 0; /* Ajout pour positionner les informations par rapport à la carte */
+    width: 100%; /* Ajout pour positionner les informations par rapport à la carte */
     justify-content: flex-end;
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
@@ -52,16 +64,6 @@ body {
     padding: 15px;
     text-align: center;
     opacity: 0;
-}
-
-.container:hover .card {
-    flex: 0 0 150px;
-    margin-right: -15px;
-}
-
-.card:hover {
-    transform: scale(1.2);
-    box-shadow: 1px 3px 15px #7645d8;
 }
 
 .card:hover .content {
