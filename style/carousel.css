@@ -13,21 +13,20 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    height: 500px;
     gap: 10px;
     margin-top: 15%;
     overflow: hidden;
 }
 
 .card {
-    flex: 0 0 250px;
+    flex: 0 0 150px; /* Réduisez la taille des cartes de base */
     border-radius: 0.5rem;
     transition: 0.5s ease-in-out;
     cursor: pointer;
     box-shadow: 1px 5px 15px #1e0e3e;
     position: relative;
     overflow: hidden;
-    margin-top: 15px;
+    margin-right: -20px; /* Compense le margin-right au survol */
 }
 
 .card img {
@@ -36,14 +35,9 @@ body {
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
-.container:hover .card {
-    flex: 0 0 300px; /* Ajustez la valeur selon vos préférences */
-    margin-right: -20px;
-}
-
 .card:hover {
-    transform: scale(1.5); /* Ajustez la valeur selon vos préférences */
-    box-shadow: 1px 3px 15px #7645d8;
+    flex: 0 0 300px; /* Expande la carte au survol */
+    margin-right: 0;
 }
 
 .card .content {
