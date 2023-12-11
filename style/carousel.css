@@ -37,7 +37,7 @@ body {
 }
 
 .container:hover .card {
-    flex: 0 0 100px; /* Ajustez la valeur selon vos préférences */
+    flex: 0 0 300px; /* Ajustez la valeur selon vos préférences */
     margin-right: -20px;
 }
 
