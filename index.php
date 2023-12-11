@@ -1,3 +1,12 @@
+<?php
+// Inclut les fichiers nécessaires
+include 'common.php';
+include 'admin-functions.php';
+
+// Récupère tous les événements
+$evenements = getAllEvenements($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,9 +26,6 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
 
         <?php
-        // Récupérer tous les événements
-        $evenements = getAllEvenements($conn);
-
         // Parcourir les événements et les afficher dans les cartes
         foreach ($evenements as $evenement) :
             ?>
