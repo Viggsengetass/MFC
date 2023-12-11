@@ -32,6 +32,11 @@ body {
     width: 100%;
     height: auto;
     border-radius: 0.5rem 0.5rem 0 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+.container > div:hover img {
+    transform: scale(1.2); /* Ajustez la valeur selon vos préférences */
 }
 
 .container > div .content {
@@ -53,7 +58,6 @@ body {
 .container > div:hover {
     flex: 0 0 300px;
     box-shadow: 1px 3px 15px #7645d8;
-    transform: translateY(-30px);
 }
 
 .container > div:hover .content {
