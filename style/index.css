@@ -2,15 +2,10 @@
 
 /* Styles spécifiques à la page d'accueil */
 
-body.dark-theme {
-    background-color: #333;
-    color: #fff;
-}
-
 /* Styles pour l'animation du texte "MONSTRE-F.C" */
 #global {
     text-align: center;
-    margin-top: 7%;
+    margin-top: 50px;
 }
 
 #anim {
@@ -49,7 +44,6 @@ body.dark-theme {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
@@ -59,7 +53,7 @@ body.dark-theme {
 /* Styles pour la section des événements à venir */
 section {
     padding: 20px 0;
-    background-color: #333;
+    background-color: #F5F5F5;
 }
 
 /* Styles pour la liste des événements */
@@ -69,10 +63,15 @@ section {
 
 /* Styles pour les cartes d'événements */
 .bg-white {
-    background-color: #333;
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
+}
+
+.dark-theme .bg-white {
+    background-color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .bg-white:hover {
