@@ -1,4 +1,28 @@
-<!-- index.php -->
+<?php
+// Inclure le fichier common.php qui contient la connexion à la base de données et d'autres configurations
+include 'common.php';
+
+// Exemple de requête pour récupérer les événements à venir avec les détails des combattants
+$query = "SELECT evenements_admin.*, combattants_admin.nom AS combattant1_nom, combattants_admin.image AS image1
+          FROM evenements_admin
+          LEFT JOIN combattants_admin ON evenements_admin.combattant_id = combattants_admin.id
+          WHERE evenements_admin.date >= CURDATE()
+          ORDER BY evenements_admin.date
+          LIMIT 6";
+$result = mysqli_query($conn, $query);
+
+// Vérifier si la requête a réussi
+if ($result) {
+    // Convertir les résultats en un tableau associatif
+    $evenements = mysqli_fetch_all($result, MYSQLI_ASSOC);
+} else {
+    // Gérer les erreurs de requête
+    echo "Erreur de requête : " . mysqli_error($conn);
+}
+
+// Fermer la connexion à la base de données
+mysqli_close($conn);
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
