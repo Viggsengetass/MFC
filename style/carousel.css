@@ -7,21 +7,21 @@ body {
     font-family: "Ubuntu Mono", monospace;
     font-weight: 400;
     margin: 0;
+    overflow: hidden; /* Empêche le défilement horizontal */
 }
 
 .container {
+    position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 15%;
-    overflow: hidden;
-    position: relative; /* Ajoutez cette ligne */
 }
 
 .carousel {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    overflow: hidden;
 }
 
 .card {
@@ -69,21 +69,20 @@ body {
     opacity: 1;
 }
 
-/* Ajoutez ces styles pour les flèches */
 .arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     font-size: 2rem;
-    color: white;
+    color: #fff;
     cursor: pointer;
-    z-index: 2;
+    z-index: 1;
 }
 
 .arrow-left {
-    left: 0;
+    left: 10px;
 }
 
 .arrow-right {
-    right: 0;
+    right: 10px;
 }
