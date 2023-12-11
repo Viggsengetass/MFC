@@ -16,6 +16,7 @@ body {
     height: 500px;
     gap: 10px;
     margin-top: 15%;
+    overflow: hidden;
 }
 
 .card {
@@ -36,11 +37,12 @@ body {
 }
 
 .container:hover .card {
-    flex: 0 0 150px; /* Ajustez la valeur selon vos préférences */
+    flex: 0 0 100px; /* Ajustez la valeur selon vos préférences */
+    margin-right: -20px;
 }
 
 .card:hover {
-    transform: scale(1.2); /* Ajustez la valeur selon vos préférences */
+    transform: scale(1.5); /* Ajustez la valeur selon vos préférences */
     box-shadow: 1px 3px 15px #7645d8;
 }
 
@@ -49,7 +51,9 @@ body {
     color: #fff;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     justify-content: flex-end;
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
