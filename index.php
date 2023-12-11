@@ -16,7 +16,7 @@
     <h2 class="text-3xl font-semibold">Événements à venir</h2>
     <!-- Liste des événements à venir -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        <?php if (isset($evenements) && is_array($evenements) && !empty($evenements)) : ?>
+        <?php if (isset($evenements) && is_array($evenements)) : ?>
             <?php foreach ($evenements as $evenement) : ?>
                 <div class="bg-white p-4 rounded-lg shadow">
                     <?php if (!empty($evenement['image1']) && !empty($evenement['combattant1_nom'])) : ?>
