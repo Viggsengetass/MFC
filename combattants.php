@@ -34,7 +34,8 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
         }
     </style>
 </head>
-<body>
+<body style="margin-top: 20%;">
+
 <div id="content" class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Combattants</h1>
     <?php foreach ($combattantsPageActuelle as $combattant) : ?>
@@ -46,13 +47,6 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
             <p class="mt-2"><strong>Catégorie:</strong> <?= isset($categories[$combattant['categorie_id']]) ? $categories[$combattant['categorie_id']] : 'Inconnue' ?></p>
         </div>
     <?php endforeach; ?>
-    <?php if ($nombrePages > 1) : ?>
-        <div class="flex justify-center mt-4">
-            <?php for ($i = 1; $i <= $nombrePages; $i++) : ?>
-                <a href="?page=<?= $i ?>" class="mx-2 p-2 bg-gray-800 text-white rounded-full"><?= $i ?></a>
-            <?php endfor; ?>
-        </div>
-    <?php endif; ?>
 </div>
 
 <div class="carousel-container">
@@ -77,9 +71,10 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
 
     setInterval(() => {
         currentIndex = (currentIndex + 1) % <?= count($combattants) ?>;
-        const translateValue = -currentIndex * 250;
+        const translateValue = -currentIndex * 260;
         carouselWrapper.style.transform = `translateX(${translateValue}px)`;
     }, 3000);
 </script>
+
 </body>
 </html>
