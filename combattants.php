@@ -28,8 +28,9 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
 
 <div class="container">
     <?php foreach ($combattants as $combattant) : ?>
-        <div class="card">
-            <div class="card-content">
+        <div class="carousel-item">
+            <img src="<?= $combattant['image'] ?>" alt="<?= $combattant['nom'] . ' ' . $combattant['prenom'] ?>">
+            <div class="content">
                 <h2><?= $combattant['prenom'] . ' ' . $combattant['nom'] ?></h2>
                 <span>Surnom: <?= $combattant['surnom'] ?></span>
                 <span>Description: <?= $combattant['description'] ?></span>
@@ -38,21 +39,6 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
         </div>
     <?php endforeach; ?>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const container = document.querySelector('.container');
-        const scrollRightButton = document.createElement('div');
-        scrollRightButton.classList.add('scroll-button', 'scroll-right');
-        scrollRightButton.innerHTML = '&rarr;'; // flèche vers la droite
-
-        scrollRightButton.addEventListener('click', function() {
-            container.scrollBy({ left: 300, behavior: 'smooth' }); // Ajustez la valeur selon vos besoins
-        });
-
-        document.body.appendChild(scrollRightButton);
-    });
-</script>
 
 </body>
 </html>
