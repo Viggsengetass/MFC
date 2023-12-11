@@ -27,7 +27,7 @@
     }
 }
 
-/* Styles pour le bouton "Tuer Nathael" */
+/* Styles pour le bouton "Tuer nathael" */
 #btn-rank {
     text-align: center;
     margin-top: 20px;
@@ -52,6 +52,9 @@ section {
     padding: 20px 0;
     background-color: #1c1c1c; /* Fond sombre pour la section */
     color: #ffffff; /* Texte en mode sombre */
+    border-radius: 15px; /* Effet de neumorphisme - bord arrondi */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.1); /* Effet de neumorphisme - ombre */
+    margin-top: 7%; /* Marge top de 7% */
 }
 
 /* Styles pour la liste des événements */
@@ -75,7 +78,6 @@ section {
 /* Styles pour les titres d'événements */
 .text-xl {
     font-size: 1.5rem;
-    color: #ffffff; /* Couleur du texte en mode sombre */
 }
 
 /* Styles pour les liens de réservation */
