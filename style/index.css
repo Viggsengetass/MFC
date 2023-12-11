@@ -1,3 +1,5 @@
+/* index.css */
+
 /* Styles spécifiques à la page d'accueil */
 
 /* Styles pour l'animation du texte "MONSTRE-F.C" */
@@ -22,6 +24,7 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -50,8 +53,7 @@
 /* Styles pour la section des événements à venir */
 section {
     padding: 20px 0;
-    background-color: #1a1a1a; /* Nouvelle couleur de fond pour la section des événements */
-    color: #fff; /* Nouvelle couleur du texte dans la section des événements */
+    background-color: #F5F5F5;
 }
 
 /* Styles pour la liste des événements */
@@ -61,8 +63,15 @@ section {
 
 /* Styles pour les cartes d'événements */
 .bg-white {
-    background-color: #fff; /* Nouvelle couleur de fond pour les cartes d'événements */
-    color: #1a1a1a; /* Nouvelle couleur du texte dans les cartes d'événements */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.dark-theme .bg-white {
+    background-color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .bg-white:hover {
