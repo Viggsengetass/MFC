@@ -1,20 +1,10 @@
 <?php
-// index.php
-
-// Active l'affichage des erreurs pendant le développement
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Inclut les fichiers nécessaires
 include 'common.php';
 include 'admin-functions.php';
 
-// Récupère tous les événements triés par date
+// Récupère tous les événements
 $evenements = getAllEvenements($conn);
-usort($evenements, function($a, $b) {
-    return strtotime($a['date']) - strtotime($b['date']);
-});
-
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +15,19 @@ usort($evenements, function($a, $b) {
     <title>Accueil - M.F.C MMA Tournament</title>
     <?php include 'common.php'; ?>
     <link rel="stylesheet" href="/style/index.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            margin-top: 20%;
+        }
+
+        section {
+            color: #000; /* Couleur du texte dans la section (vous pouvez ajuster si nécessaire) */
+        }
+
+        /* Ajoutez d'autres styles ici selon vos besoins */
+    </style>
     <script src="/js/index.js"></script>
 </head>
 <body>
@@ -34,7 +37,11 @@ usort($evenements, function($a, $b) {
     <h2 class="text-3xl font-semibold">Événements à venir</h2>
     <!-- Liste des événements à venir -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        <?php foreach ($evenements as $evenement) : ?>
+
+        <?php
+        // Parcourir les événements et les afficher dans les cartes
+        foreach ($evenements as $evenement) :
+            ?>
             <div class="bg-white p-4 rounded-lg shadow">
                 <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?>" class="w-full h-40 object-cover rounded">
                 <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
@@ -43,6 +50,7 @@ usort($evenements, function($a, $b) {
                 <a href="#" class="text-blue-600 hover:underline mt-2">Réserver des billets</a>
             </div>
         <?php endforeach; ?>
+
     </div>
 </section>
 
