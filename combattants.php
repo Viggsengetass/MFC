@@ -40,5 +40,20 @@ $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsP
     <?php endforeach; ?>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.querySelector('.container');
+        const scrollRightButton = document.createElement('div');
+        scrollRightButton.classList.add('scroll-button', 'scroll-right');
+        scrollRightButton.innerHTML = '&rarr;'; // flèche vers la droite
+
+        scrollRightButton.addEventListener('click', function() {
+            container.scrollBy({ left: 300, behavior: 'smooth' }); // Ajustez la valeur selon vos besoins
+        });
+
+        document.body.appendChild(scrollRightButton);
+    });
+</script>
+
 </body>
 </html>
