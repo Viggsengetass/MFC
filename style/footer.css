@@ -9,3 +9,16 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+.neumorphism {
+    border-radius: 50px;
+    background: linear-gradient(145deg, #2e2b2e, #373337);
+    box-shadow:  5px 5px 10px #242224,
+    -5px -5px 10px #423e42;
+    padding: 10px 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.neumorphism:hover {
+    box-shadow: 3px 3px 5px #242224, -3px -3px 5px #423e42;
+}
