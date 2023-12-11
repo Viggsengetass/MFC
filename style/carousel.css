@@ -33,6 +33,13 @@ body {
     width: 100%;
     height: auto;
     border-radius: 0.5rem 0.5rem 0 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+.card:hover {
+    flex: 0 0 350px; /* Ajustez la valeur selon vos préférences */
+    box-shadow: 1px 3px 15px #7645d8;
+    transform: translateY(-30px);
 }
 
 .card .content {
@@ -49,12 +56,6 @@ body {
     padding: 15px;
     text-align: center;
     opacity: 0;
-}
-
-.card:hover {
-    flex: 0 0 350px; /* Ajustez la valeur selon vos préférences */
-    box-shadow: 1px 3px 15px #7645d8;
-    transform: translateY(-30px);
 }
 
 .card:hover .content {
