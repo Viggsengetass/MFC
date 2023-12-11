@@ -35,6 +35,10 @@ body {
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
+.container:hover .card {
+    flex: 0 0 150px; /* Ajustez la valeur selon vos préférences */
+}
+
 .card:hover {
     transform: scale(1.2); /* Ajustez la valeur selon vos préférences */
     box-shadow: 1px 3px 15px #7645d8;
