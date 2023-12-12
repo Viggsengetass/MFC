@@ -37,6 +37,7 @@ body {
     position: relative;
     overflow: hidden;
     background-color: #000; /* Couleur de fond */
+    z-index: 1; /* Pour que la carte survolée apparaisse au-dessus des autres */
 }
 
 .card img {
@@ -69,6 +70,7 @@ body {
     flex: 0 0 300px; /* Largeur de la carte lorsqu'elle est agrandie */
     border: 2px solid #FFDA10; /* Couleur de bordure jaune */
     margin: 5px; /* Marge ajoutée pour éviter que les cartes ne se chevauchent */
+    z-index: 2; /* Pour que la carte agrandie apparaisse au-dessus des autres */
 }
 
 .card.expanded .content {
@@ -84,7 +86,7 @@ body {
     font-size: 2rem;
     color: #fff;
     cursor: pointer;
-    z-index: 1;
+    z-index: 3; /* Pour que les flèches apparaissent au-dessus des cartes */
 }
 
 .arrow-left {

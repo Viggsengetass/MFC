@@ -4,8 +4,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cards.forEach((card) => {
         card.addEventListener('mouseenter', function () {
-            cards.forEach((c) => c !== card && c.classList.remove('expanded'));
-            card.classList.add('expanded');
+            cards.forEach((c) => {
+                if (c === card) {
+                    c.classList.add('expanded');
+                } else {
+                    c.classList.remove('expanded');
+                }
+            });
         });
 
         card.addEventListener('mouseleave', function () {
