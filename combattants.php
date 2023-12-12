@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
     <link rel="stylesheet" href="/style/carousel.css">
+    <script src="/js/carousel.js"></script>
 </head>
 <body>
 
@@ -26,8 +27,6 @@
     <div class="arrow arrow-left">&lt;</div>
     <div class="arrow arrow-right">&gt;</div>
 </div>
-
-<script src="/js/carousel.js"></script>
 
 </body>
 </html>
