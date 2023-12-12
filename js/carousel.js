@@ -14,9 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.classList.add('expanded');
             }
         });
-        // Défilement automatique toutes les 4 secondes
-        clearInterval(intervalId);
-        intervalId = setInterval(autoScroll, 4000);
     }
 
     arrowLeft.addEventListener('click', function () {
@@ -33,6 +30,20 @@ document.addEventListener('DOMContentLoaded', function () {
         currentIndex = (currentIndex + 1) % cards.length;
         showCard(currentIndex);
     }
+
+    // Défilement automatique toutes les 4 secondes
+    intervalId = setInterval(autoScroll, 4000);
+
+    // Arrête le défilement automatique au survol d'une carte
+    cards.forEach((card) => {
+        card.addEventListener('mouseenter', function () {
+            clearInterval(intervalId);
+        });
+
+        card.addEventListener('mouseleave', function () {
+            intervalId = setInterval(autoScroll, 4000);
+        });
+    });
 
     // Afficher la première carte
     showCard(currentIndex);
