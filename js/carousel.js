@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const container = document.querySelector('.container');
     const cards = document.querySelectorAll('.card');
-    const cardWidth = 250; // Largeur d'une carte en pixels
-    const cardMargin = 10; // Marge entre les cartes en pixels
-    const animationDuration = 0.5; // Durée de l'animation en secondes
 
     cards.forEach((card) => {
         card.addEventListener('mouseenter', function () {
@@ -34,9 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function slideCarousel() {
-        const offset = -currentIndex * (cardWidth + cardMargin);
-        container.style.transition = `transform ${animationDuration}s ease-in-out`;
-        container.style.transform = `translateX(${offset}px)`;
+        cards.forEach((card, index) => {
+            if (index === currentIndex) {
+                card.style.marginRight = '10px';
+            } else {
+                card.style.marginRight = '0';
+            }
+        });
     }
 
     // Défilement automatique toutes les 4 secondes

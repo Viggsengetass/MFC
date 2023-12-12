@@ -18,6 +18,12 @@ body {
     gap: 10px;
     margin-top: 15%;
     overflow: hidden; /* Cache le contenu débordant des cartes */
+}
+
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
     transition: transform 0.5s ease-in-out; /* Animation de défilement */
 }
 
@@ -25,12 +31,12 @@ body {
     flex: 0 0 200px; /* Largeur initiale des cartes */
     border: 2px solid #333033; /* Couleur de bordure grise */
     border-radius: 0.5rem;
-    transition: flex 0.5s ease-in-out, transform 0.5s ease-in-out, border 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out; /* Transition pour le hover */
     cursor: pointer;
     box-shadow: 1px 5px 15px #1e0e3e;
     position: relative;
     overflow: hidden;
-    background-color: #333033; /* Couleur de fond gris */
+    background-color: #000; /* Couleur de fond */
 }
 
 .card img {
@@ -51,7 +57,7 @@ body {
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
     transform: translateY(100%);
-    transition: transform 0.5s ease-in-out, max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
     padding: 15px;
     text-align: center;
     opacity: 0;
@@ -61,14 +67,33 @@ body {
 
 .card.expanded {
     flex: 0 0 250px; /* Largeur de la carte lorsqu'elle est agrandie */
-    border: 4px solid #333033; /* Épaisseur de bordure gris augmentée */
-    z-index: 2; /* Pour que la carte agrandie apparaisse au-dessus des autres */
-    transform: scale(1.1); /* Agrandissement au hover */
-    margin: 0; /* Suppression de la marge */
+    border: 4px solid #333033; /* Bordure plus épaisse en gris */
+}
+
+.card.expanded:hover {
+    border: 4px solid #FFDA10; /* Bordure plus épaisse en jaune au hover */
 }
 
 .card.expanded .content {
     max-height: 100%; /* Afficher la description en bas */
     transform: translateY(0%);
     opacity: 1;
+}
+
+/* Ajout d'une flèche pour faire défiler le carrousel */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: #FFDA10;
+    cursor: pointer;
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
 }
