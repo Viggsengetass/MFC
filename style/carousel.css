@@ -64,19 +64,3 @@ body {
     max-height: 0; /* Initialement caché en hauteur */
     overflow: hidden;
 }
-
-.card.expanded {
-    flex: 0 0 200px; /* Largeur des cartes lors du hover */
-    border: 4px solid #FFDA10; /* Bordure plus épaisse de couleur jaune */
-    box-shadow: 1px 3px 15px #7645d8; /* Couleur de l'ombre au survol */
-    transform: scale(1.1); /* Agrandissement de la carte au survol */
-    z-index: 1; /* Place la carte survolée au-dessus des autres */
-}
-
-.card.expanded .content {
-    transform: translateY(0%);
-    opacity: 1;
-    bottom: 0;
-    max-height: 100%; /* Affiche la description en hauteur */
-    overflow: visible;
-}
