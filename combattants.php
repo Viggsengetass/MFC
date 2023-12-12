@@ -1,14 +1,12 @@
 <!-- combattants.php -->
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combattants</title>
     <link rel="stylesheet" href="/style/carousel.css">
 </head>
-
 <body>
 
 <div class="container">
@@ -27,10 +25,9 @@
     </div>
     <div class="arrow arrow-left">&lt;</div>
     <div class="arrow arrow-right">&gt;</div>
-
-    <script src="/js/carousel.js"></script>
 </div>
 
-</body>
+<script src="/js/carousel.js"></script>
 
+</body>
 </html>
