@@ -16,7 +16,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 15%; /* Ajustez la marge supérieure pour centrer verticalement */
+    margin-top: 15%;
 }
 
 .carousel {
@@ -28,13 +28,14 @@ body {
     flex: 0 0 200px; /* Largeur initiale des cartes */
     border: 2px solid #FFDA10; /* Couleur de bordure */
     border-radius: 0.5rem;
-    transition: 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     cursor: pointer;
     box-shadow: 1px 5px 15px #1e0e3e;
     position: relative;
     overflow: hidden;
     margin-right: -10px; /* Compense le margin-right au survol */
     background-color: #000; /* Couleur de fond */
+    transition: all 0.5s ease-in-out; /* Animation de transition pour tous les changements */
 }
 
 .card img {
@@ -54,17 +55,19 @@ body {
     justify-content: flex-end;
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
-    transition: transform 0.5s ease-in-out;
     transform: translateY(100%);
+    transition: transform 0.5s ease-in-out;
     padding: 15px;
     text-align: center;
     opacity: 0;
 }
 
 .card:hover {
-    flex: 0 0 300px; /* Largeur des cartes au survol */
+    flex: 0 0 250px; /* Largeur des cartes au survol */
     margin-right: 0;
     box-shadow: 1px 3px 15px #7645d8; /* Couleur de l'ombre au survol */
+    transform: scale(1.1); /* Agrandissement de la carte au survol */
+    z-index: 1; /* Place la carte survolée au-dessus des autres */
 }
 
 .card:hover .content {
