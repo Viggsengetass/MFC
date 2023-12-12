@@ -1,35 +1,14 @@
-// carousel.js
 document.addEventListener('DOMContentLoaded', function () {
     const container = document.querySelector('.carousel');
     const cards = document.querySelectorAll('.card');
-    const arrowLeft = document.querySelector('.arrow-left');
-    const arrowRight = document.querySelector('.arrow-right');
 
-    let currentIndex = 0;
-
-    function showCard(index) {
-        cards.forEach((card, i) => {
-            card.style.transform = `translateX(${(i - index) * 100}%)`;
+    cards.forEach((card, index) => {
+        card.addEventListener('mouseover', function () {
+            card.classList.add('hovered');
         });
-    }
 
-    arrowLeft.addEventListener('click', function () {
-        currentIndex = Math.max(currentIndex - 1, 0);
-        showCard(currentIndex);
+        card.addEventListener('mouseout', function () {
+            card.classList.remove('hovered');
+        });
     });
-
-    arrowRight.addEventListener('click', function () {
-        currentIndex = Math.min(currentIndex + 1, cards.length - 1);
-        showCard(currentIndex);
-    });
-
-    function autoScroll() {
-        currentIndex = (currentIndex + 1) % cards.length;
-        showCard(currentIndex);
-    }
-
-    setInterval(autoScroll, 4000); // Défilement automatique toutes les 4 secondes
-
-    // Afficher la première carte
-    showCard(currentIndex);
 });
