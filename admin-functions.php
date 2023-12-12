@@ -101,4 +101,54 @@ function getAllEvenements($conn) {
 
     return $evenements;
 }
+
+// Update combatant information
+function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
+    $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+    $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id, $id);
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+    $stmt->close();
+    return true;
+}
+
+// Delete a combatant from the database
+function deleteCombattant($conn, $id) {
+    $query = "DELETE FROM combattants_admin WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+    $stmt->bind_param("i", $id);
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+    $stmt->close();
+    return true;
+}
+
+// Function to retrieve a single combatant's details
+function getCombattant($conn, $id) {
+    $query = "SELECT * FROM combattants_admin WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+    $stmt->bind_param("i", $id);
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+    $result = $stmt->get_result();
+    if ($result->num_rows === 1) {
+        return $result->fetch_assoc();
+    } else {
+        return null; // No combatant found with this ID
+    }
+}
+
 ?>
