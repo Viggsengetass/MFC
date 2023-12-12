@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
         showCard(currentIndex);
     }
 
-    setInterval(autoScroll, 3000); // Défilement automatique toutes les 3 secondes
+    setInterval(autoScroll, 4000); // Défilement automatique toutes les 4 secondes
 
     // Afficher la première carte
     showCard(currentIndex);

@@ -22,6 +22,7 @@ body {
 .carousel {
     display: flex;
     overflow: hidden;
+    border: 3px solid #FFDA10; /* Ajoute une bordure */
 }
 
 .card {
@@ -33,6 +34,7 @@ body {
     position: relative;
     overflow: hidden;
     margin-right: -20px; /* Compense le margin-right au survol */
+    border: 3px solid #FFDA10; /* Ajoute une bordure */
 }
 
 .card img {
@@ -44,6 +46,8 @@ body {
 .card:hover {
     flex: 0 0 300px; /* Expande la carte au survol */
     margin-right: 0;
+    border-color: #333033; /* Couleur de bordure au survol */
+    transition: 0.5s ease-in-out;
 }
 
 .card .content {
@@ -62,6 +66,8 @@ body {
     padding: 15px;
     text-align: center;
     opacity: 0;
+    border-top: 3px solid #FFDA10; /* Bordure supérieure */
+    border-bottom: 3px solid #FFDA10; /* Bordure inférieure */
 }
 
 .card:hover .content {
@@ -85,4 +91,10 @@ body {
 
 .arrow-right {
     right: 10px;
+    transition: 0.5s ease-in-out;
+}
+
+.arrow-left:hover,
+.arrow-right:hover {
+    color: #FFDA10; /* Couleur de survol des flèches */
 }
