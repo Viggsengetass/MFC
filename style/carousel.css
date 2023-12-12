@@ -36,12 +36,21 @@ body {
     border: 2px solid #FFDA10; /* Contour */
     background: #000; /* Fond des cartes */
     transition: all 0.5s ease-in-out;
+    margin-right: -10px; /* Marge négative pour que les cartes soient collées */
 }
 
 .card img {
     width: 100%;
     height: auto;
     border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.card:hover {
+    flex: 0 0 150px; /* Taille après le hover (ne change pas la largeur) */
+    height: 300px; /* Expansion en hauteur au hover */
+    margin-right: 0;
+    border: 2px solid #333033; /* Contour au hover */
+    box-shadow: 1px 5px 15px #1e0e3e;
 }
 
 .card .content {
@@ -62,34 +71,7 @@ body {
     opacity: 0;
 }
 
-.card:hover {
-    flex: 0 0 300px; /* Expansion de la carte au survol */
-    margin-right: -20px; /* Ajustement pour compenser l'expansion */
-}
-
-.card:hover ~ .card {
-    transform: translateX(150px); /* Repousser les autres cartes au survol */
-}
-
 .card:hover .content {
     transform: translateY(0%);
     opacity: 1;
-}
-
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    color: #FFFFFF; /* Couleur des flèches */
-    cursor: pointer;
-    z-index: 1;
-}
-
-.arrow-left {
-    left: 10px;
-}
-
-.arrow-right {
-    right: 10px;
 }

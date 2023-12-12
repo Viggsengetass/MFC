@@ -1,4 +1,4 @@
-// carousel.js
+/* carousel.js */
 document.addEventListener('DOMContentLoaded', function () {
     const container = document.querySelector('.carousel');
     const cards = document.querySelectorAll('.card');
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function showCard(index) {
         cards.forEach((card, i) => {
             card.style.transform = `translateX(${(i - index) * 100}%)`;
-            card.style.height = '400px'; /* Expansion en hauteur */
         });
     }
 
