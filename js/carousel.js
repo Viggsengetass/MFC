@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cards.forEach((card) => {
         card.addEventListener('mouseenter', function () {
-            cards.forEach((c) => c.classList.remove('expanded'));
+            cards.forEach((c) => c !== card && c.classList.remove('expanded'));
             card.classList.add('expanded');
         });
 

@@ -37,7 +37,6 @@ body {
     position: relative;
     overflow: hidden;
     background-color: #000; /* Couleur de fond */
-    margin: 5px; /* Marge ajoutée pour éviter que les cartes ne se chevauchent */
 }
 
 .card img {
@@ -76,4 +75,22 @@ body {
     max-height: 100%; /* Afficher la description en bas */
     transform: translateY(0%);
     opacity: 1;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
 }
