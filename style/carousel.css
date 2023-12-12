@@ -58,7 +58,7 @@ body {
     padding: 15px;
     text-align: center;
     opacity: 0;
-    height: 0; /* Initialement caché en hauteur */
+    max-height: 0; /* Initialement caché en hauteur */
     overflow: hidden;
 }
 
@@ -73,6 +73,6 @@ body {
     transform: translateY(0%);
     opacity: 1;
     bottom: 0;
-    height: auto; /* Affiche la description en hauteur */
+    max-height: 100%; /* Affiche la description en hauteur */
     overflow: visible;
 }
