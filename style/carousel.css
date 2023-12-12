@@ -64,3 +64,14 @@ body {
     max-height: 0; /* Initialement caché en hauteur */
     overflow: hidden;
 }
+
+.card.expanded {
+    flex: 0 0 300px; /* Largeur de la carte lorsqu'elle est agrandie */
+    border: 2px solid #FFDA10; /* Couleur de bordure jaune */
+}
+
+.card.expanded .content {
+    max-height: 100%; /* Afficher la description en bas */
+    transform: translateY(0%);
+    opacity: 1;
+}
