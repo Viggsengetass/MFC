@@ -15,7 +15,6 @@ $pageActuelle = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $indiceDebut = ($pageActuelle - 1) * $combattantsParPage;
 $combattantsPageActuelle = array_slice($combattants, $indiceDebut, $combattantsParPage);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
