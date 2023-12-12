@@ -28,7 +28,7 @@ body {
     flex: 0 0 200px; /* Largeur initiale des cartes */
     border: 2px solid #FFDA10; /* Couleur de bordure */
     border-radius: 0.5rem;
-    transition: all 0.5s ease-in-out;
+    transition: flex 0.5s ease-in-out;
     cursor: pointer;
     box-shadow: 1px 5px 15px #1e0e3e;
     position: relative;
@@ -48,7 +48,7 @@ body {
     display: flex;
     flex-direction: column;
     position: absolute;
-    bottom: 0;
+    bottom: -100%; /* Initialement caché en dehors de la carte */
     width: 100%;
     justify-content: flex-end;
     background: #02022e;
@@ -70,4 +70,5 @@ body {
 .card:hover .content {
     transform: translateY(0%);
     opacity: 1;
+    bottom: 0; /* Fait apparaître la description en dessous */
 }
