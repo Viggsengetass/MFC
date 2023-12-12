@@ -48,7 +48,7 @@ body {
     display: flex;
     flex-direction: column;
     position: absolute;
-    bottom: -100%; /* Initialement caché en dehors de la carte */
+    bottom: 0; /* Initialement caché en bas de la carte */
     width: 100%;
     justify-content: flex-end;
     background: #02022e;
@@ -58,6 +58,8 @@ body {
     padding: 15px;
     text-align: center;
     opacity: 0;
+    height: 0; /* Initialement caché en hauteur */
+    overflow: hidden;
 }
 
 .card:hover {
@@ -67,8 +69,10 @@ body {
     z-index: 1; /* Place la carte survolée au-dessus des autres */
 }
 
-.card:hover .content {
+.card.hovered .content {
     transform: translateY(0%);
     opacity: 1;
-    bottom: 0; /* Fait apparaître la description en dessous */
+    bottom: 0;
+    height: auto; /* Affiche la description en hauteur */
+    overflow: visible;
 }

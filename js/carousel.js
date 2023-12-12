@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const container = document.querySelector('.carousel');
     const cards = document.querySelectorAll('.card');
 
     cards.forEach((card, index) => {
