@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     const container = document.querySelector('.container');
     const cards = document.querySelectorAll('.card');
+    const cardWidth = 250; // Largeur d'une carte en pixels
+    const cardMargin = 10; // Marge entre les cartes en pixels
+    const animationDuration = 0.5; // Durée de l'animation en secondes
 
     cards.forEach((card) => {
         card.addEventListener('mouseenter', function () {
-            cards.forEach((c) => {
-                if (c === card) {
-                    c.classList.add('expanded');
-                } else {
-                    c.classList.remove('expanded');
-                }
-            });
+            card.classList.add('expanded');
         });
 
         card.addEventListener('mouseleave', function () {
@@ -23,16 +20,32 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentIndex = 0;
 
     arrowLeft.addEventListener('click', function () {
-        currentIndex = Math.max(currentIndex - 1, 0);
-        showCard(currentIndex);
+        if (currentIndex > 0) {
+            currentIndex--;
+            slideCarousel();
+        }
     });
 
     arrowRight.addEventListener('click', function () {
-        currentIndex = Math.min(currentIndex + 1, cards.length - 1);
-        showCard(currentIndex);
+        if (currentIndex < cards.length - 1) {
+            currentIndex++;
+            slideCarousel();
+        }
     });
 
-    function showCard(index) {
-        container.style.transform = `translateX(-${index * (200 + 10)}px)`;
+    function slideCarousel() {
+        const offset = -currentIndex * (cardWidth + cardMargin);
+        container.style.transition = `transform ${animationDuration}s ease-in-out`;
+        container.style.transform = `translateX(${offset}px)`;
     }
+
+    // Défilement automatique toutes les 4 secondes
+    setInterval(() => {
+        if (currentIndex < cards.length - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0;
+        }
+        slideCarousel();
+    }, 4000);
 });

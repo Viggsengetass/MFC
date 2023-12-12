@@ -18,12 +18,6 @@ body {
     gap: 10px;
     margin-top: 15%;
     overflow: hidden; /* Cache le contenu débordant des cartes */
-}
-
-.carousel {
-    display: flex;
-    overflow: hidden;
-    width: 100%;
     transition: transform 0.5s ease-in-out; /* Animation de défilement */
 }
 
@@ -31,13 +25,12 @@ body {
     flex: 0 0 200px; /* Largeur initiale des cartes */
     border: 2px solid #333033; /* Couleur de bordure grise */
     border-radius: 0.5rem;
-    transition: flex 0.5s ease-in-out;
+    transition: flex 0.5s ease-in-out, transform 0.5s ease-in-out, border 0.5s ease-in-out;
     cursor: pointer;
     box-shadow: 1px 5px 15px #1e0e3e;
     position: relative;
     overflow: hidden;
-    background-color: #000; /* Couleur de fond */
-    z-index: 1; /* Pour que la carte survolée apparaisse au-dessus des autres */
+    background-color: #333033; /* Couleur de fond gris */
 }
 
 .card img {
@@ -58,7 +51,7 @@ body {
     background: #02022e;
     background: linear-gradient(0deg, rgba(2, 2, 46, 0.6755077031) 0%, rgba(255, 255, 255, 0) 100%);
     transform: translateY(100%);
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
     padding: 15px;
     text-align: center;
     opacity: 0;
@@ -67,32 +60,15 @@ body {
 }
 
 .card.expanded {
-    flex: 0 0 300px; /* Largeur de la carte lorsqu'elle est agrandie */
-    border: 2px solid #FFDA10; /* Couleur de bordure jaune */
-    margin: 5px; /* Marge ajoutée pour éviter que les cartes ne se chevauchent */
+    flex: 0 0 250px; /* Largeur de la carte lorsqu'elle est agrandie */
+    border: 4px solid #333033; /* Épaisseur de bordure gris augmentée */
     z-index: 2; /* Pour que la carte agrandie apparaisse au-dessus des autres */
+    transform: scale(1.1); /* Agrandissement au hover */
+    margin: 0; /* Suppression de la marge */
 }
 
 .card.expanded .content {
     max-height: 100%; /* Afficher la description en bas */
     transform: translateY(0%);
     opacity: 1;
-}
-
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    color: #fff;
-    cursor: pointer;
-    z-index: 3; /* Pour que les flèches apparaissent au-dessus des cartes */
-}
-
-.arrow-left {
-    left: 10px;
-}
-
-.arrow-right {
-    right: 10px;
 }
