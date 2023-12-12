@@ -5,7 +5,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     exit();
 }
 
-include 'config.php';
 ?>
 
 <!DOCTYPE html>
