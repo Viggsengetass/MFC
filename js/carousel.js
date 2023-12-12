@@ -7,5 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
             cards.forEach((c) => c.classList.remove('expanded'));
             card.classList.add('expanded');
         });
+
+        card.addEventListener('mouseleave', function () {
+            card.classList.remove('expanded');
+        });
     });
 });

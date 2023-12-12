@@ -68,6 +68,7 @@ body {
 .card.expanded {
     flex: 0 0 300px; /* Largeur de la carte lorsqu'elle est agrandie */
     border: 2px solid #FFDA10; /* Couleur de bordure jaune */
+    margin: 5px; /* Marge ajoutée pour éviter que les cartes ne se chevauchent */
 }
 
 .card.expanded .content {
