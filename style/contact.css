@@ -1,0 +1,34 @@
+/* styles.css */
+
+body {
+    background-color: #f0f4f8;
+    color: #333033; /* Couleur du texte */
+}
+
+.neumorphism {
+    background-color: #dfe2e8;
+    transition: box-shadow 0.3s ease-in-out;
+    box-shadow: 10px 10px 20px #b4b8bd, -10px -10px 20px #ffffff;
+}
+
+.neumorphism-input {
+    background-color: #dfe2e8;
+    box-shadow: inset 5px 5px 10px #b4b8bd, inset -5px -5px 10px #ffffff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.neumorphism-input:focus {
+    box-shadow: inset 8px 8px 15px #b4b8bd, inset -8px -8px 15px #ffffff;
+}
+
+.neumorphism-button {
+    background-color: #FFDA10; /* Jaune */
+    box-shadow: 5px 5px 10px #E6E65E, -5px -5px 10px #FFFFE3;
+    transition: box-shadow 0.3s ease-in-out;
+    color: #333033; /* Couleur du texte */
+}
+
+.neumorphism-button:hover {
+    background-color: #E6E65E; /* Jaune plus foncé au survol */
+    box-shadow: 8px 8px 15px #C8C861, -8px -8px 15px #FFFFE3;
+}
