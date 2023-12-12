@@ -26,7 +26,7 @@ body {
 
 .card {
     flex: 0 0 200px; /* Largeur initiale des cartes */
-    border: 2px solid #FFDA10; /* Couleur de bordure */
+    border: 2px solid #333033; /* Couleur de bordure grise */
     border-radius: 0.5rem;
     transition: flex 0.5s ease-in-out;
     cursor: pointer;
@@ -62,14 +62,14 @@ body {
     overflow: hidden;
 }
 
-.card:hover {
-    flex: 0 0 250px; /* Largeur des cartes au survol */
+.card.expanded {
+    flex: 0 0 300px; /* Largeur des cartes lors du hover */
     box-shadow: 1px 3px 15px #7645d8; /* Couleur de l'ombre au survol */
     transform: scale(1.1); /* Agrandissement de la carte au survol */
     z-index: 1; /* Place la carte survolée au-dessus des autres */
 }
 
-.card.hovered .content {
+.card.expanded .content {
     transform: translateY(0%);
     opacity: 1;
     bottom: 0;
