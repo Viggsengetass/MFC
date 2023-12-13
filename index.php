@@ -43,6 +43,7 @@ $evenements = getAllEvenements($conn);
 </section>
 
 <!-- Ajoutez d'autres sections et fonctionnalités ici selon vos besoins -->
+<?php include_once 'footer.php'; ?>
 
 </body>
 </html>
