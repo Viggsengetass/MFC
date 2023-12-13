@@ -16,8 +16,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     $categorie_id = $_POST['categorie_id'];
 
     $image = null;
+    $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
+
+    // Vérifier si le dossier de destination existe, sinon le créer
+    if (!file_exists($targetDirectory)) {
+        if (!mkdir($targetDirectory, 0755, true)) {
+            die('Échec de la création des répertoires...');
+        }
+    }
+
     if (!empty($_FILES['image']['name'])) {
-        $targetDirectory = __DIR__ . "/image-combattants/"; // Le dossier doit exister sur le serveur
         $targetFile = $targetDirectory . basename($_FILES['image']['name']);
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
             $image = "image-combattants/" . basename($_FILES['image']['name']);
@@ -27,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     }
 
     if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
-        // Recharger les combattants après ajout
         $combattants = getAllCombattants($conn);
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
