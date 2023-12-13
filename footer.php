@@ -14,24 +14,25 @@
 <main>
 </main>
 
-<footer class="rounded-lg shadow m-4 bg-gray-800 text-white" style="background-color: #333033;">
-    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-        <span class="text-sm text-gray-500 sm:text-center">© 2023 <a href="https://flowbite.com/" class="hover:underline">MFC</a>. All Rights Reserved.</span>
-        <ul class="flex flex-wrap items-center mt-3 space-x-4 items-center text-sm font-medium text-gray-500">
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6 neumorphism">About</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6 neumorphism">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6 neumorphism">Licensing</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline neumorphism">Contact</a>
-            </li>
-        </ul>
-    </div>
+<footer class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between items-center" style="background-color: #333033;">
+        <span class="text-sm text-gray-500">
+            2023 <a href="https://flowbite.com/" class="hover:underline">MFC</a>. All Rights Reserved.
+        </span>
+
+    <ul class="flex items-center space-x-4 text-sm font-medium text-gray-500">
+        <li>
+            <a href="#" class="hover:underline neumorphism_footer">About</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline neumorphism_footer">Privacy Policy</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline neumorphism_footer">Licensing</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline neumorphism_footer">Contact</a>
+        </li>
+    </ul>
 </footer>
 </body>
 </html>
