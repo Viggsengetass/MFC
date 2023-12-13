@@ -1,18 +1,29 @@
 <?php
-// session_start(); // Uncomment if you use sessions
 require_once 'admin-functions.php';
 require_once 'common.php';
 
-// Ensure the user is an administrator
-// checkAdmin();
-
 $combattants = getAllCombattants($conn);
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
-    // Process the form data and add a new combatant
-    // Remember to validate and sanitize input data
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $surnom = $_POST['surnom'];
+    $description = $_POST['description'];
+    $categorie_id = $_POST['categorie_id'];
+
+    $image = null;
+    if (!empty($_FILES['image']['name'])) {
+        $image = "chemin_vers_dossier_images/" . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $image);
+    }
+
+    if (createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
+        $combattants = getAllCombattants($conn); // Recharger les combattants après ajout
+    } else {
+        echo "<p>Erreur lors de la création du combattant.</p>";
+    }
 }
+
 
 ?>
 <!DOCTYPE html>
