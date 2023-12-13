@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 
     $image = null;
     if (!empty($_FILES['image']['name'])) {
-        $image = "chemin_vers_dossier_images/" . basename($_FILES['image']['name']);
+        $image = "image-combattants/" . basename($_FILES['image']['name']);
         move_uploaded_file($_FILES['image']['tmp_name'], $image);
     }
 
