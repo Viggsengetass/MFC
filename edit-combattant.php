@@ -14,6 +14,8 @@ if (!$combattantId || !$combattant) {
     exit();
 }
 
+$error_message = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) {
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
@@ -23,12 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
 
     $image = $combattant['image']; // Utiliser l'image existante par défaut
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-        $targetDirectory = "/path/to/image-combattants/";
+        $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
         $targetFile = $targetDirectory . basename($_FILES['image']['name']);
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
             $image = "image-combattants/" . basename($_FILES['image']['name']);
         } else {
-            echo "<p>Erreur lors du téléchargement de l'image.</p>";
+            $error_message = "Erreur lors du téléchargement de l'image.";
         }
     }
 
@@ -40,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -48,9 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier Combattant</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Style personnalisé en plus de Tailwind CSS */
+        .container {
+            margin-top: 15%; /* Marge en haut de 15% */
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-white">
-<div class="flex justify-center min-h-screen items-center">
+<div class="container flex justify-center min-h-screen items-start">
     <div class="max-w-md w-full space-y-8">
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
