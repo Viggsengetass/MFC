@@ -49,28 +49,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #000;
+            background-color: #000; /* Fond noir */
         }
         .card {
-            width: 100%;
-            min-height: 350px;
-            border-radius: 30px;
+            border-radius: 15px;
             background: #212121;
-            box-shadow: 15px 15px 30px rgba(25, 25, 25, 0.5),
-            -15px -15px 30px rgba(60, 60, 60, 0.5);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
+            -5px -5px 10px rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
         }
         .card img {
             width: 100%;
-            height: 200px;
+            height: 150px; /* Hauteur fixe pour l'image */
             object-fit: cover;
-            transition: transform 0.3s ease-in-out;
-        }
-        .card:hover img {
-            transform: scale(1.05);
         }
         .card-content {
-            padding: 15px;
+            padding: 10px;
+            color: #fff;
         }
     </style>
 </head>
@@ -78,25 +77,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 <div id="sidebar">
     <!-- Sidebar content (if any) -->
 </div>
-<div id="content" class="p-4 mt-10">
-    <h1 class="text-3xl font-bold mb-6">Gérer les Combattants</h1>
+<div id="content" class="p-4">
+    <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
-    <div id="addCombatantForm" style="display:none;" class="mb-8 p-6 bg-gray-700 rounded">
-        <!-- Form content -->
-    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-5 gap-4">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
                 <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
                 <div class="card-content">
-                    <h2 class="text-xl font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
-                    <p><?= htmlspecialchars($combattant['prenom']) ?> "<?= htmlspecialchars($combattant['surnom']) ?>"</p>
-                    <p class="text-gray-300"><?= htmlspecialchars($combattant['description']) ?></p>
-                    <div class="flex justify-between items-center">
-                        <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="text-blue-300 hover:text-blue-400 hover:underline">Éditer</a>
-                        <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="text-red-300 hover:text-red-400 hover:underline">Supprimer</a>
-                    </div>
+                    <h2 class="text-lg font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
+                    <p class="text-sm"><?= htmlspecialchars($combattant['prenom']) ?></p>
+                    <!-- Autres informations du combattant -->
                 </div>
             </div>
         <?php endforeach; ?>
