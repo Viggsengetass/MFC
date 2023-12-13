@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include 'common.php'; ?>
     <title>Accueil - M.F.C MMA Tournament</title>
-    <link rel="stylesheet" href="/style/common.css"> <!-- Inclusion de la feuille de style CSS commune -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/style/footer.css"> <!-- Fichier de surcharge CSS pour le pied de page -->
 </head>
 <body class="flex flex-col min-h-screen">
