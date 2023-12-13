@@ -49,6 +49,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ajout du CSS personnalisé pour les cartes avec effet de neumorphisme */
+        .card {
+            width: 100%; /* Utilisation de la largeur complète dans le contexte d'un système de grille */
+            border-radius: 30px;
+            background: #212121;
+            box-shadow: 15px 15px 30px rgba(25, 25, 25, 0.5),
+            -15px -15px 30px rgba(60, 60, 60, 0.5);
+            overflow: hidden; /* Pour que le border-radius s'applique aux images à l'intérieur */
+        }
+        .card img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover img {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
 <div id="sidebar">
@@ -66,11 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <!-- Liste des combattants -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <?php foreach ($combattants as $combattant): ?>
-            <div class="bg-gray-700 hover:bg-gray-600 p-4 rounded shadow-md transition duration-300">
-                <div class="mb-4 overflow-hidden rounded" style="height: 200px;">
-                    <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" class="object-cover w-full h-full">
-                </div>
-                <div class="space-y-2">
+            <div class="card">
+                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
+                <div class="p-4">
                     <h2 class="text-xl font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
                     <p class="text-gray-300"><?= htmlspecialchars($combattant['description']) ?></p>
                     <div class="flex justify-between items-center">
