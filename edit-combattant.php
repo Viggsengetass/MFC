@@ -6,26 +6,17 @@ error_reporting(E_ALL);
 require_once 'admin-functions.php';
 require_once 'common.php';
 
-// Vérifiez que l'ID du combattant est passé en paramètre dans l'URL
-if (!isset($_GET['id'])) {
-    die('Un identifiant de combattant est nécessaire pour éditer.');
-}
-
-$combattantId = $_GET['id'];
-$combattant = getCombattant($conn, $combattantId);
-
-if (!$combattant) {
-    die('Combattant non trouvé.');
-}
+$combattantId = $_GET['id'] ?? null;
+$combattant = $combattantId ? getCombattant($conn, $combattantId) : null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $surnom = $_POST['surnom'];
-    $description = $_POST['description'];
-    $image = $combattant['image']; // Utiliser l'image existante par défaut
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $surnom = $_POST['surnom'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $categorie_id = $_POST['categorie_id'] ?? 0;
 
-    // Traitement de l'image téléchargée
+    $image = $combattant['image']; // Utiliser l'image existante par défaut
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
         $targetFile = $targetDirectory . basename($_FILES['image']['name']);
@@ -36,55 +27,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
         }
     }
 
-    // Mise à jour du combattant dans la base de données
-    if (updateCombattant($conn, $combattantId, $nom, $prenom, $surnom, $description, $image)) {
-        echo "<p>Combattant mis à jour avec succès.</p>";
-        $combattant = getCombattant($conn, $combattantId); // Actualiser les données du combattant
+    if (updateCombattant($conn, $combattantId, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
+        header('Location: admin-manage-combattants.php');
+        exit();
     } else {
-        echo "<p>Erreur lors de la mise à jour du combattant.</p>";
+        $error_message = "Erreur lors de la mise à jour du combattant.";
     }
 }
 
+if (!$combattantId || !$combattant) {
+    header('Location: admin-manage-combattants.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Éditer Combattant</title>
+    <title>Modifier Combattant</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-gray-100">
-<div class="container mx-auto p-4">
-    <h1 class="text-xl font-bold mb-4">Éditer le Combattant</h1>
-    <form method="POST" enctype="multipart/form-data" class="mb-4">
-        <div class="mb-4">
-            <label for="nom" class="block text-gray-300 mb-1">Nom:</label>
-            <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($combattant['nom']) ?>" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+<body class="bg-gray-900 text-white">
+<div class="flex justify-center min-h-screen items-center">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
+                Éditer Combattant
+            </h2>
+            <?php if (!empty($error_message)): ?>
+                <div class="bg-red-600 text-white p-3 rounded mb-4">
+                    <?= $error_message ?>
+                </div>
+            <?php endif; ?>
         </div>
-        <div class="mb-4">
-            <label for="prenom" class="block text-gray-300 mb-1">Prénom:</label>
-            <input type="text" id="prenom" name="prenom" value="<?= htmlspecialchars($combattant['prenom']) ?>" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
-        </div>
-        <div class="mb-4">
-            <label for="surnom" class="block text-gray-300 mb-1">Surnom:</label>
-            <input type="text" id="surnom" name="surnom" value="<?= htmlspecialchars($combattant['surnom']) ?>" class="w-full p-2 bg-gray-800 border border-gray-600 rounded">
-        </div>
-        <div class="mb-4">
-            <label for="description" class="block text-gray-300 mb-1">Description:</label>
-            <textarea id="description" name="description" rows="4" class="w-full p-2 bg-gray-800 border border-gray-600 rounded"><?= htmlspecialchars($combattant['description']) ?></textarea>
-        </div>
-        <div class="mb-4">
-            <label for="image" class="block text-gray-300 mb-1">Image actuelle:</label>
-            <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image actuelle" class="w-32 h-32 object-cover mb-2">
-            <input type="file" id="image" name="image" class="w-full p-2 bg-gray-800 border border-gray-600 rounded">
-        </div>
-        <button type="submit" name="update_combattant" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">Mettre à jour</button>
-    </form>
-    <a href="admin-manage-combattants.php" class="text-blue-300 hover:underline">Retour à la liste des combattants</a>
+        <form class="mt-8 space-y-6" action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?= $combattantId ?>">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="nom" class="sr-only">Nom</label>
+                    <input type="text" name="nom" id="nom" value="<?= htmlspecialchars($combattant['nom']) ?>" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Nom">
+                </div>
+                <div>
+                    <label for="prenom" class="sr-only">Prénom</label>
+                    <input type="text" name="prenom" id="prenom" value="<?= htmlspecialchars($combattant['prenom']) ?>" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Prénom">
+                </div>
+                <div>
+                    <label for="surnom" class="sr-only">Surnom</label>
+                    <input type="text" name="surnom" id="surnom" value="<?= htmlspecialchars($combattant['surnom']) ?>" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Surnom">
+                </div>
+                <div>
+                    <label for="description" class="sr-only">Description</label>
+                    <textarea name="description" id="description" rows="3" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Description"><?= htmlspecialchars($combattant['description']) ?></textarea>
+                </div>
+                <div>
+                    <label for="image" class="block mb-2 text-sm font-medium text-gray-300">Image actuelle:</label>
+                    <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image actuelle" class="w-32 h-32 object-cover mb-2">
+                    <input type="file" name="image" id="image" class="bg-gray-800 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" name="update_combattant" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Mettre à jour
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
-<script>
-    // Code JavaScript si nécessaire
-</script>
 </body>
 </html>
