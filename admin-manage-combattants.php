@@ -52,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             background-color: #000; /* Fond noir */
         }
         .card {
-            width: 190px;
-            height: 254px;
+            width: 200px;
+            height: 370px;
             border-radius: 15px;
             background: #212121;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
