@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     $image = null;
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
-    // Vérifier si le dossier de destination existe, sinon le créer
     if (!file_exists($targetDirectory)) {
         if (!mkdir($targetDirectory, 0755, true)) {
             die('Échec de la création des répertoires...');
@@ -40,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -50,26 +48,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Ajout du CSS personnalisé pour les cartes avec effet de neumorphisme */
+        body {
+            background-color: #000; /* Fond noir pour le neumorphisme */
+        }
         .card {
-            width: 100%; /* Utilisation de la largeur complète dans le contexte d'un système de grille */
+            width: 100%; /* Adaptation à la largeur disponible */
             border-radius: 30px;
             background: #212121;
             box-shadow: 15px 15px 30px rgba(25, 25, 25, 0.5),
             -15px -15px 30px rgba(60, 60, 60, 0.5);
-            overflow: hidden; /* Pour que le border-radius s'applique aux images à l'intérieur */
+            overflow: hidden;
+            margin-bottom: 20px; /* Espacement entre les cartes */
         }
         .card img {
+            width: 100%; /* Largeur de l'image */
+            height: 200px; /* Hauteur fixe pour l'image */
+            object-fit: cover; /* S'assure que l'image remplit bien l'espace */
             transition: transform 0.3s ease-in-out;
         }
         .card:hover img {
-            transform: scale(1.05);
+            transform: scale(1.05); /* Effet de zoom au survol */
+        }
+        .card-content {
+            padding: 15px; /* Espacement intérieur */
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100">
+<body>
 <div id="sidebar">
-    <!-- Include the sidebar here -->
+    <!-- Sidebar content (if any) -->
 </div>
 <div id="content" class="p-4 mt-10">
     <h1 class="text-3xl font-bold mb-6">Gérer les Combattants</h1>
@@ -77,15 +84,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
     <div id="addCombatantForm" style="display:none;" class="mb-8 p-6 bg-gray-700 rounded">
-        <!-- Form content -->
+        <!-- Form content (your form fields go here) -->
     </div>
 
-    <!-- Liste des combattants -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
                 <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
-                <div class="p-4">
+                <div class="card-content">
                     <h2 class="text-xl font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
                     <p class="text-gray-300"><?= htmlspecialchars($combattant['description']) ?></p>
                     <div class="flex justify-between items-center">
