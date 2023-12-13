@@ -38,6 +38,7 @@ $evenements = getAllEvenements($conn);
                 <a href="#" class="text-blue-600 hover:underline mt-2">Réserver des billets</a>
             </div>
         <?php endforeach; ?>
+<?php include 'footer.php'; ?>
 
     </div>
 </section>
