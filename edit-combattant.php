@@ -9,6 +9,11 @@ require_once 'common.php';
 $combattantId = $_GET['id'] ?? null;
 $combattant = $combattantId ? getCombattant($conn, $combattantId) : null;
 
+if (!$combattantId || !$combattant) {
+    header('Location: admin-manage-combattants.php');
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) {
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
@@ -18,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
 
     $image = $combattant['image']; // Utiliser l'image existante par défaut
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-        $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
+        $targetDirectory = "/path/to/image-combattants/";
         $targetFile = $targetDirectory . basename($_FILES['image']['name']);
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
             $image = "image-combattants/" . basename($_FILES['image']['name']);
@@ -33,11 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
     } else {
         $error_message = "Erreur lors de la mise à jour du combattant.";
     }
-}
-
-if (!$combattantId || !$combattant) {
-    header('Location: admin-manage-combattants.php');
-    exit();
 }
 ?>
 <!DOCTYPE html>
