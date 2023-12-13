@@ -59,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             overflow: hidden;
             transition: transform 0.2s;
             margin-bottom: 20px;
-            width: 190px;
-            height: 254px;
+            width: 200px;
+            height: 350px;
         }
         .card:hover {
             transform: scale(1.05);
