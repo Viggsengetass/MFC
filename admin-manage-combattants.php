@@ -58,37 +58,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             -5px -5px 10px rgba(255, 255, 255, 0.1);
             overflow: hidden;
             transition: transform 0.2s;
+            margin-bottom: 20px;
         }
         .card:hover {
             transform: scale(1.05);
         }
         .card img {
             width: 100%;
-            height: 150px; /* Hauteur fixe pour l'image */
+            height: 200px;
             object-fit: cover;
         }
         .card-content {
             padding: 10px;
             color: #fff;
         }
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
     </style>
 </head>
 <body>
 <div id="sidebar">
-    <!-- Sidebar content (if any) -->
+    <!-- Contenu de la barre latérale (si présent) -->
 </div>
 <div id="content" class="p-4">
     <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
-    <div class="grid grid-cols-5 gap-4">
+    <div class="grid grid-cols-1 gap-4">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
                 <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
                 <div class="card-content">
                     <h2 class="text-lg font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
-                    <p class="text-sm"><?= htmlspecialchars($combattant['prenom']) ?></p>
-                    <!-- Autres informations du combattant -->
+                    <p><?= htmlspecialchars($combattant['prenom']) ?> "<?= htmlspecialchars($combattant['surnom']) ?>"</p>
+                    <p><?= htmlspecialchars($combattant['description']) ?></p>
+                    <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="btn">Éditer</a>
+                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn btn-danger">Supprimer</a>
                 </div>
             </div>
         <?php endforeach; ?>
