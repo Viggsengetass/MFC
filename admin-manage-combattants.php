@@ -52,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             background-color: #000; /* Fond noir */
         }
         .card {
+            width: 190px;
+            height: 254px;
             border-radius: 15px;
             background: #212121;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
@@ -65,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         }
         .card img {
             width: 100%;
-            height: 200px;
+            height: 120px; /* Ajustement de la hauteur de l'image */
             object-fit: cover;
         }
         .card-content {
@@ -85,6 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         .btn-danger {
             background-color: #dc3545;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 20px;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
-    <div class="grid grid-cols-1 gap-4">
+    <div class="grid-container">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
                 <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
