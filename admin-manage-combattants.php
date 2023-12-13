@@ -17,17 +17,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 
     $image = null;
     if (!empty($_FILES['image']['name'])) {
-        $image = "image-combattants/" . basename($_FILES['image']['name']);
-        move_uploaded_file($_FILES['image']['tmp_name'], $image);
+        $targetDirectory = __DIR__ . "/image-combattants/"; // Le dossier doit exister sur le serveur
+        $targetFile = $targetDirectory . basename($_FILES['image']['name']);
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+            $image = "image-combattants/" . basename($_FILES['image']['name']);
+        } else {
+            echo "<p>Erreur lors du téléchargement de l'image.</p>";
+        }
     }
 
-    if (createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
-        $combattants = getAllCombattants($conn); // Recharger les combattants après ajout
+    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
+        // Recharger les combattants après ajout
+        $combattants = getAllCombattants($conn);
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -92,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <div class="grid grid-cols-3 gap-4">
         <?php foreach ($combattants as $combattant): ?>
             <div class="bg-gray-800 p-4 rounded shadow">
-                <img class="rounded mb-4" src="<?= htmlspecialchars($combattant['image']) ?>" alt="Image" style="width: 100%; height: 200px; object-fit: cover;">
+                <img class="rounded mb-4" src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" style="width: 100%; height: 200px; object-fit: cover;">
                 <h2 class="text-xl mb-2"><?= htmlspecialchars($combattant['nom']) ?></h2>
                 <p class="mb-4"><?= htmlspecialchars($combattant['description']) ?></p>
                 <!-- Autres détails du combattant -->
@@ -106,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 </div>
 
 <script>
-    // JavaScript to toggle the add combatant form
     document.getElementById('addCombatantBtn').addEventListener('click', function() {
         var form = document.getElementById('addCombatantForm');
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
