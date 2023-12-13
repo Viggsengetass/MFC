@@ -52,8 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             background-color: #000; /* Fond noir */
         }
         .card {
-            width: 200px;
-            height: 370px;
             border-radius: 15px;
             background: #212121;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
@@ -61,13 +59,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             overflow: hidden;
             transition: transform 0.2s;
             margin-bottom: 20px;
+            width: 190px;
+            height: 254px;
         }
         .card:hover {
             transform: scale(1.05);
         }
         .card img {
             width: 100%;
-            height: 120px; /* Ajustement de la hauteur de l'image */
+            height: 120px; /* Hauteur de l'image */
             object-fit: cover;
         }
         .card-content {
@@ -93,6 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             gap: 20px;
         }
     </style>
+    <script>
+        function confirmDelete() {
+            return confirm("Êtes-vous sûr de vouloir supprimer ce combattant ?");
+        }
+    </script>
 </head>
 <body>
 <div id="sidebar">
@@ -111,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
                     <p><?= htmlspecialchars($combattant['prenom']) ?> "<?= htmlspecialchars($combattant['surnom']) ?>"</p>
                     <p><?= htmlspecialchars($combattant['description']) ?></p>
                     <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="btn">Éditer</a>
-                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn btn-danger">Supprimer</a>
+                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn btn-danger" onclick="return confirmDelete()">Supprimer</a>
                 </div>
             </div>
         <?php endforeach; ?>
