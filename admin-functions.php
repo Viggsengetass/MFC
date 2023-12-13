@@ -1,7 +1,10 @@
 <?php
 // admin-functions.php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-include 'config.php';
+include 'common.php';
 
 function createCombattant($nom, $prenom, $surnom, $description, $image, $categorie_id, $conn) {
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
