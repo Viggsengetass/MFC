@@ -13,7 +13,6 @@ $evenements = getAllEvenements($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - M.F.C MMA Tournament</title>
-    <?php include 'common.php'; ?>
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
 
     <link rel="stylesheet" href="/style/index.css">
@@ -44,6 +43,7 @@ $evenements = getAllEvenements($conn);
 </section>
 
 <!-- Ajoutez d'autres sections et fonctionnalités ici selon vos besoins -->
+<?php include_once 'footer.php'; ?>
 
 </body>
 </html>
