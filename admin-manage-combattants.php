@@ -49,9 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Add Tailwind CSS configuration here if needed
-    </script>
 </head>
 <body class="bg-gray-900 text-gray-100">
 <div id="sidebar">
@@ -62,55 +59,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
-    <div id="addCombatantForm" style="display:none;" class="mb-8 p-6 bg-gray-800 rounded">
-        <form method="POST" enctype="multipart/form-data" class="space-y-4">
-            <div>
-                <label for="nom" class="block mb-2">Nom:</label>
-                <input type="text" name="nom" id="nom" placeholder="Nom" required class="w-full p-2 border border-gray-700 bg-gray-700 rounded">
-            </div>
-
-            <div>
-                <label for="prenom" class="block mb-2">Prénom:</label>
-                <input type="text" name="prenom" id="prenom" placeholder="Prénom" required class="w-full p-2 border border-gray-700 bg-gray-700 rounded">
-            </div>
-
-            <div>
-                <label for="surnom" class="block mb-2">Surnom:</label>
-                <input type="text" name="surnom" id="surnom" placeholder="Surnom" class="w-full p-2 border border-gray-700 bg-gray-700 rounded">
-            </div>
-
-            <div>
-                <label for="description" class="block mb-2">Description:</label>
-                <textarea name="description" id="description" placeholder="Description" class="w-full p-2 border border-gray-700 bg-gray-700 rounded"></textarea>
-            </div>
-
-            <div>
-                <label for="image" class="block mb-2">Image:</label>
-                <input type="file" name="image" id="image" class="w-full p-2 border border-gray-700 bg-gray-700 rounded">
-            </div>
-
-            <div>
-                <label for="categorie_id" class="block mb-2">Catégorie ID:</label>
-                <input type="number" name="categorie_id" id="categorie_id" placeholder="Catégorie ID" required class="w-full p-2 border border-gray-700 bg-gray-700 rounded">
-            </div>
-
-            <div>
-                <input type="submit" name="add_combattant" value="Créer le combattant" class="p-2 w-full bg-green-600 text-white rounded hover:bg-green-700 cursor-pointer">
-            </div>
-        </form>
+    <div id="addCombatantForm" style="display:none;" class="mb-8 p-6 bg-gray-700 rounded">
+        <!-- Form content -->
     </div>
 
     <!-- Liste des combattants -->
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <?php foreach ($combattants as $combattant): ?>
-            <div class="bg-gray-800 p-4 rounded shadow">
-                <img class="rounded mb-4" src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" style="width: 100%; height: 200px; object-fit: cover;">
-                <h2 class="text-xl mb-2"><?= htmlspecialchars($combattant['nom']) ?></h2>
-                <p class="mb-4"><?= htmlspecialchars($combattant['description']) ?></p>
-                <!-- Autres détails du combattant -->
-                <div class="flex justify-between">
-                    <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="text-blue-400 hover:underline">Éditer</a>
-                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="text-red-400 hover:underline">Supprimer</a>
+            <div class="bg-gray-700 hover:bg-gray-600 p-4 rounded shadow-md transition duration-300">
+                <div class="mb-4 overflow-hidden rounded" style="height: 200px;">
+                    <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" class="object-cover w-full h-full">
+                </div>
+                <div class="space-y-2">
+                    <h2 class="text-xl font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
+                    <p class="text-gray-300"><?= htmlspecialchars($combattant['description']) ?></p>
+                    <div class="flex justify-between items-center">
+                        <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="text-blue-300 hover:text-blue-400 hover:underline">Éditer</a>
+                        <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="text-red-300 hover:text-red-400 hover:underline">Supprimer</a>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
