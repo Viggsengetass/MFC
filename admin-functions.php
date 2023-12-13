@@ -142,4 +142,20 @@ function getCombattant($conn, $id) {
     }
 }
 
+function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
+    $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
+    $stmt->bind_param("sssssii", $nom, $prenom, $surnom, $description, $image, $categorie_id, $id);
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+
+    $stmt->close();
+    return true;
+}
+
 ?>
