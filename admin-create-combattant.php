@@ -1,27 +1,45 @@
 <?php
 session_start();
-include 'common.php';
-include 'admin-functions.php';
+include 'common.php'; // Assurez-vous que ce fichier contient la connexion à la base de données et les fonctions partagées
+include 'admin-functions.php'; // Ce fichier doit contenir la logique spécifique à l'admin
 
-// Définition de la fonction validateCombatant
+// Fonction pour valider les données du combattant
 function validateCombatant($nom, $prenom, $description, $image) {
-    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image);
+    if (empty($nom)) {
+        return "Le nom ne peut pas être vide.";
+    }
+    if (empty($prenom)) {
+        return "Le prénom ne peut pas être vide.";
+    }
+    if (empty($description)) {
+        return "La description ne peut pas être vide.";
+    }
+    if (empty($image)) {
+        return "Une image doit être sélectionnée.";
+    }
+    return true;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $description = $_POST['description'];
-    $image = ""; // Ici, vous devez gérer l'upload de l'image
+//checkAdmin(); // Décommentez cette ligne si la fonction checkAdmin est définie et utilisée pour vérifier les permissions
 
-    if (validateCombatant($nom, $prenom, $description, $image)) {
-        if (createCombattant($conn, $nom, $prenom, $description, $image)) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $image = $_FILES['image']['name'] ?? ''; // Ajustez la logique de téléchargement d'image selon vos besoins
+
+    // Valider les données reçues
+    $validationResult = validateCombatant($nom, $prenom, $description, $image);
+    if ($validationResult === true) {
+        // Votre logique pour créer un combattant ici
+        if (createCombattant($nom, $prenom, $description, $image)) {
             header('Location: admin-manage-combattants.php');
             exit();
+        } else {
+            $error_message = "Erreur lors de la création du combattant.";
         }
     } else {
-        // Gérer l'erreur de validation
-        echo "Les données fournies ne sont pas valides.";
+        $error_message = $validationResult;
     }
 }
 
