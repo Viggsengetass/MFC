@@ -4,138 +4,158 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'common.php'; // Assurez-vous que ce fichier existe et est correctement configuré
+require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
-// Fonctions pour les combattants
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    $query = "INSERT INTO combattants (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    if ($conn instanceof mysqli === false) {
+        die("La variable conn n'est pas une instance de mysqli.");
+    }
+
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+
     $stmt->close();
+    return true;
 }
 
+
 function getAllCombattants($conn) {
-    $query = "SELECT * FROM combattants";
+    $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
-    $combattants = [];
-    while ($row = $result->fetch_assoc()) {
-        $combattants[] = $row;
+
+    if (!$result) {
+        die("Erreur lors de l'exécution de la requête: " . $conn->error);
     }
+
+    $combattants = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $combattants[] = $row;
+        }
+    }
+
     return $combattants;
 }
 
-function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    $query = "UPDATE combattants SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssssii", $nom, $prenom, $surnom, $description, $image, $categorie_id, $id);
-    $stmt->execute();
-    $stmt->close();
+function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
+    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image) && $categorie_id !== false;
 }
 
-function deleteCombattant($conn, $id) {
-    $query = "DELETE FROM combattants WHERE id = ?";
+function getCategoryName($id, $conn) {
+    $query = "SELECT name FROM categories WHERE id = ?";
     $stmt = $conn->prepare($query);
+
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
     $stmt->bind_param("i", $id);
-    $stmt->execute();
+
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+
+    $stmt->bind_result($name);
+    $stmt->fetch();
     $stmt->close();
+
+    return $name;
 }
 
-function getCombattant($conn, $id) {
-    $query = "SELECT * FROM combattants WHERE id = ?";
+function createEvenement($nom, $date, $lieu, $description, $conn) {
+    $query = "INSERT INTO evenements_admin (nom, date, lieu, description) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
-}
 
-// Fonctions pour les événements
-function createEvenement($conn, $nom, $date, $lieu, $description) {
-    $query = "INSERT INTO evenements (nom, date, lieu, description) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
     $stmt->bind_param("ssss", $nom, $date, $lieu, $description);
-    $stmt->execute();
+
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+
     $stmt->close();
+    return true;
 }
 
 function getAllEvenements($conn) {
-    $query = "SELECT * FROM evenements";
+    $query = "SELECT * FROM evenements_admin ORDER BY date ASC";
     $result = $conn->query($query);
-    $evenements = [];
-    while ($row = $result->fetch_assoc()) {
-        $evenements[] = $row;
+
+    if (!$result) {
+        die("Erreur lors de l'exécution de la requête: " . $conn->error);
     }
+
+    $evenements = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $evenements[] = $row;
+        }
+    }
+
     return $evenements;
 }
 
-function updateEvenement($conn, $id, $nom, $date, $lieu, $description) {
-    $query = "UPDATE evenements SET nom = ?, date = ?, lieu = ?, description = ? WHERE id = ?";
+// Delete a combatant from the database
+function deleteCombattant($conn, $id) {
+    $query = "DELETE FROM combattants_admin WHERE id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ssssi", $nom, $date, $lieu, $description, $id);
-    $stmt->execute();
-    $stmt->close();
-}
-
-function deleteEvenement($conn, $id) {
-    $query = "DELETE FROM evenements WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->close();
-}
-
-function getEvenement($conn, $id) {
-    $query = "SELECT * FROM evenements WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
-}
-
-// Fonctions pour les catégories
-function createCategorie($conn, $nom) {
-    $query = "INSERT INTO categories (nom) VALUES (?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $nom);
-    $stmt->execute();
-    $stmt->close();
-}
-
-function getAllCategories($conn) {
-    $query = "SELECT * FROM categories";
-    $result = $conn->query($query);
-    $categories = [];
-    while ($row = $result->fetch_assoc()) {
-        $categories[] = $row;
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
     }
-    return $categories;
-}
-
-function updateCategorie($conn, $id, $nom) {
-    $query = "UPDATE categories SET nom = ? WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("si", $nom, $id);
-    $stmt->execute();
-    $stmt->close();
-}
-
-function deleteCategorie($conn, $id) {
-    $query = "DELETE FROM categories WHERE id = ?";
-    $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
     $stmt->close();
+    return true;
 }
 
-function getCategorie($conn, $id) {
-    $query = "SELECT * FROM categories WHERE id = ?";
+// Function to retrieve a single combatant's details
+function getCombattant($conn, $id) {
+    $query = "SELECT * FROM combattants_admin WHERE id = ?";
     $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
     $stmt->bind_param("i", $id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
     $result = $stmt->get_result();
-    return $result->fetch_assoc();
+    if ($result->num_rows === 1) {
+        return $result->fetch_assoc();
+    } else {
+        return null; // No combatant found with this ID
+    }
+}
+
+function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
+    $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
+    $stmt->bind_param("sssssii", $nom, $prenom, $surnom, $description, $image, $categorie_id, $id);
+    if (!$stmt->execute()) {
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
+    }
+
+    $stmt->close();
+    return true;
 }
 
 ?>
