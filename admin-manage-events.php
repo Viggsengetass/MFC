@@ -9,6 +9,34 @@ require_once 'common.php';
 $evenements = getAllEvenements($conn);
 $combattants = getAllCombattants($conn);
 
+// Fonction pour gérer l'upload des images
+function handleImageUpload($file) {
+    $uploadDirectory = 'uploads/'; // Répertoire de destination où vous souhaitez stocker les images
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Extensions de fichiers autorisées
+
+    // Vérifier s'il y a une erreur lors du téléchargement
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return 'Erreur lors du téléchargement du fichier.';
+    }
+
+    // Vérifier si l'extension du fichier est autorisée
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    if (!in_array($extension, $allowedExtensions)) {
+        return 'Extension de fichier non autorisée.';
+    }
+
+    // Générer un nom de fichier unique pour éviter les collisions
+    $uniqueFileName = uniqid('img_') . '.' . $extension;
+    $destination = $uploadDirectory . $uniqueFileName;
+
+    // Déplacer le fichier téléchargé vers le dossier de destination
+    if (move_uploaded_file($file['tmp_name'], $destination)) {
+        return $destination; // Retourne le chemin du fichier téléchargé
+    } else {
+        return 'Erreur lors du déplacement du fichier.';
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_event'])) {
         $nom = $_POST['nom'];
@@ -20,11 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $combattant2_id = $_POST['combattant2_id'];
 
         // Gérer l'upload des images pour les combattants
-        // Cette fonction doit être définie pour traiter les fichiers d'upload et retourner le chemin de l'image ou une erreur
         $image_combattant1 = handleImageUpload($_FILES['image_combattant1']);
         $image_combattant2 = handleImageUpload($_FILES['image_combattant2']);
 
-        createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+        // Vérifier s'il y a eu une erreur lors du téléchargement des images
+        if (is_string($image_combattant1) || is_string($image_combattant2)) {
+            // Une erreur s'est produite lors du téléchargement des images, vous pouvez afficher un message d'erreur.
+            echo "Erreur lors du téléchargement des images : " . $image_combattant1 . " " . $image_combattant2;
+        } else {
+            // Les images ont été téléchargées avec succès, vous pouvez continuer à ajouter l'événement.
+            createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+        }
     }
     // Les sections pour 'edit_event' et 'delete_event' doivent être complétées de manière similaire
 }
