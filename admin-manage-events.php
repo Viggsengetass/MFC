@@ -7,32 +7,26 @@ require_once 'admin-functions.php';
 require_once 'common.php';
 
 $evenements = getAllEvenements($conn);
+$combattants = getAllCombattants($conn); // Assurez-vous d'avoir cette fonction dans admin-functions.php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_event'])) {
-        // Code pour ajouter un nouvel événement
+        $nom = $_POST['nom'];
+        $date = $_POST['date'];
+        $heure = $_POST['heure'];
+        $lieu = $_POST['lieu'];
+        $description = $_POST['description'];
+        $combattant1_id = $_POST['combattant1_id'];
+        $combattant2_id = $_POST['combattant2_id'];
+
+        createEvenement($nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $conn);
     } elseif (isset($_POST['edit_event'])) {
-        // Code pour éditer un événement existant
+        // Logique pour éditer un événement
     } elseif (isset($_POST['delete_event'])) {
-        // Code pour supprimer un événement
+        // Logique pour supprimer un événement
     }
 }
 
-function getAllEvenements($conn) {
-    // Implémenter la récupération de tous les événements
-}
-
-function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $image) {
-    // Implémenter la création d'un événement
-}
-
-function editEvenement($conn, $id, $nom, $date, $heure, $lieu, $description, $image) {
-    // Implémenter la modification d'un événement
-}
-
-function deleteEvenement($conn, $id) {
-    // Implémenter la suppression d'un événement
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -41,9 +35,6 @@ function deleteEvenement($conn, $id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Événements</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Styles personnalisés ici */
-    </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
 <?php include_once 'admin-sidebar.php'; ?>
@@ -60,7 +51,16 @@ function deleteEvenement($conn, $id) {
             <input type="time" name="heure" required>
             <input type="text" name="lieu" placeholder="Lieu" required>
             <textarea name="description" placeholder="Description"></textarea>
-            <input type="file" name="image">
+            <select name="combattant1_id" required>
+                <?php foreach ($combattants as $combattant): ?>
+                    <option value="<?= $combattant['id'] ?>"><?= $combattant['nom'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select name="combattant2_id" required>
+                <?php foreach ($combattants as $combattant): ?>
+                    <option value="<?= $combattant['id'] ?>"><?= $combattant['nom'] ?></option>
+                <?php endforeach; ?>
+            </select>
             <button type="submit" name="add_event">Ajouter</button>
         </form>
     </div>
@@ -69,10 +69,11 @@ function deleteEvenement($conn, $id) {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         <?php foreach ($evenements as $evenement): ?>
             <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-                <img src="<?= htmlspecialchars($evenement['image']) ?>" alt="<?= htmlspecialchars($evenement['nom']) ?>" class="w-full h-60 object-cover">
                 <div class="p-5">
                     <h2 class="text-2xl font-semibold"><?= htmlspecialchars($evenement['nom']) ?></h2>
                     <p><?= htmlspecialchars($evenement['description']) ?></p>
+                    <img src="<?= getCombattantImage($evenement['combattant1_id'], $conn) ?>" alt="Combattant 1">
+                    <img src="<?= getCombattantImage($evenement['combattant2_id'], $conn) ?>" alt="Combattant 2">
                     <!-- Boutons d'édition et de suppression -->
                 </div>
             </div>
