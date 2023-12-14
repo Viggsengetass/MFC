@@ -1,4 +1,5 @@
 <?php
+// admin-manage-combattants.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -7,37 +8,6 @@ require_once 'admin-functions.php';
 require_once 'common.php';
 
 $combattants = getAllCombattants($conn);
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $surnom = $_POST['surnom'];
-    $description = $_POST['description'];
-    $categorie_id = $_POST['categorie_id'];
-
-    $image = null;
-    $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
-
-    if (!file_exists($targetDirectory)) {
-        mkdir($targetDirectory, 0755, true);
-    }
-
-    if (!empty($_FILES['image']['name'])) {
-        $targetFile = $targetDirectory . basename($_FILES['image']['name']);
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            $image = "image-combattants/" . basename($_FILES['image']['name']);
-        } else {
-            echo "<p>Erreur lors du téléchargement de l'image.</p>";
-        }
-    }
-
-    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
-        header("Location: admin-manage-combattants.php");
-        exit;
-    } else {
-        echo "<p>Erreur lors de la création du combattant.</p>";
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -100,12 +70,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 </head>
 <body>
 <div id="sidebar">
-    <!-- Contenu de la barre latérale (si présent) -->
+    <!-- Contenu de la barre latérale ici -->
 </div>
 <div id="content" class="p-4">
     <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
-    <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
+    <!-- Bouton pour ajouter un nouveau combattant -->
+    <a href="admin-create-combattant.php" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</a>
 
+    <!-- Affichage des combattants existants -->
     <div class="grid-container">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
@@ -121,12 +93,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         <?php endforeach; ?>
     </div>
 </div>
-
-<script>
-    document.getElementById('addCombatantBtn').addEventListener('click', function() {
-        var form = document.getElementById('addCombatantForm');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
-</script>
 </body>
 </html>
