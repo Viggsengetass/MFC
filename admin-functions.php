@@ -6,33 +6,53 @@ error_reporting(E_ALL);
 
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
-function categorieExists($conn, $id) {
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM categories WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_row();
-    return $row[0] > 0;
-}
-
-// Créez un nouveau combattant dans la base de données
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
+    // Ensure that the connection is a valid mysqli instance
+    if ($conn instanceof mysqli === false) {
+        return "La variable de connexion n'est pas une instance de mysqli.";
+    }
+
+    // Check if the category exists
     if (!categorieExists($conn, $categorie_id)) {
         return "Catégorie non trouvée.";
     }
-    $stmt = $conn->prepare("INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)");
+
+    // Prepare the insert statement
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        return "Erreur de préparation de la requête: " . $conn->error;
+    }
+
+    // Bind the parameters and execute the statement
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
     if (!$stmt->execute()) {
-        return $stmt->error;
+        return "Erreur lors de l'exécution de la requête: " . $stmt->error;
     }
+
+    // Close the statement
     $stmt->close();
-    return true;
+    return true; // Return true to indicate success
 }
 
-// Récupérez tous les combattants de la base de données
+
 function getAllCombattants($conn) {
-    $result = $conn->query("SELECT * FROM combattants_admin");
-    return $result->fetch_all(MYSQLI_ASSOC);
+    $query = "SELECT * FROM combattants_admin";
+    $result = $conn->query($query);
+
+    if (!$result) {
+        die("Erreur lors de l'exécution de la requête: " . $conn->error);
+    }
+
+    $combattants = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $combattants[] = $row;
+        }
+    }
+
+    return $combattants;
 }
 
 function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
