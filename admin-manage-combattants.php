@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     $image = null;
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
-    // Vérifier si le dossier de destination existe, sinon le créer
     if (!file_exists($targetDirectory)) {
         if (!mkdir($targetDirectory, 0755, true)) {
             die('Échec de la création des répertoires...');
@@ -40,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -50,48 +48,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Ajout du CSS personnalisé pour les cartes avec effet de neumorphisme */
+        body {
+            background-color: #000; /* Fond noir */
+        }
         .card {
-            width: 100%; /* Utilisation de la largeur complète dans le contexte d'un système de grille */
-            border-radius: 30px;
+            border-radius: 15px;
             background: #212121;
-            box-shadow: 15px 15px 30px rgba(25, 25, 25, 0.5),
-            -15px -15px 30px rgba(60, 60, 60, 0.5);
-            overflow: hidden; /* Pour que le border-radius s'applique aux images à l'intérieur */
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
+            -5px -5px 10px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+            width: 200px;
+            height: 350px;
         }
-        .card img {
-            transition: transform 0.3s ease-in-out;
-        }
-        .card:hover img {
+        .card:hover {
             transform: scale(1.05);
         }
+        .card img {
+            width: 100%;
+            height: 120px; /* Hauteur de l'image */
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 10px;
+            color: #fff;
+        }
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 20px;
+        }
     </style>
+    <script>
+        function confirmDelete() {
+            return confirm("Êtes-vous sûr de vouloir supprimer ce combattant ?");
+        }
+    </script>
 </head>
-<body class="bg-gray-900 text-gray-100">
+<body>
 <div id="sidebar">
-    <!-- Include the sidebar here -->
+    <!-- Contenu de la barre latérale (si présent) -->
 </div>
-<div id="content" class="p-4 mt-10">
-    <h1 class="text-3xl font-bold mb-6">Gérer les Combattants</h1>
-
+<div id="content" class="p-4">
+    <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
-    <div id="addCombatantForm" style="display:none;" class="mb-8 p-6 bg-gray-700 rounded">
-        <!-- Form content -->
-    </div>
-
-    <!-- Liste des combattants -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid-container">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
                 <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
-                    <p class="text-gray-300"><?= htmlspecialchars($combattant['description']) ?></p>
-                    <div class="flex justify-between items-center">
-                        <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="text-blue-300 hover:text-blue-400 hover:underline">Éditer</a>
-                        <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="text-red-300 hover:text-red-400 hover:underline">Supprimer</a>
-                    </div>
+                <div class="card-content">
+                    <h2 class="text-lg font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
+                    <p><?= htmlspecialchars($combattant['prenom']) ?> "<?= htmlspecialchars($combattant['surnom']) ?>"</p>
+                    <p><?= htmlspecialchars($combattant['description']) ?></p>
+                    <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="btn">Éditer</a>
+                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn btn-danger" onclick="return confirmDelete()">Supprimer</a>
                 </div>
             </div>
         <?php endforeach; ?>
