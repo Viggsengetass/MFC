@@ -47,65 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #000; /* Fond noir */
-        }
-        .card {
-            border-radius: 15px;
-            background: #212121;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
-            -5px -5px 10px rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            transition: transform 0.2s;
-            margin-bottom: 20px;
-            width: 200px;
-            height: 350px;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        .card img {
-            width: 100%;
-            height: 120px; /* Hauteur de l'image */
-            object-fit: cover;
-        }
-        .card-content {
-            padding: 10px;
-            color: #fff;
-        }
-        .btn {
-            display: inline-block;
-            padding: 5px 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            text-align: center;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 20px;
-        }
-    </style>
-    <script>
-        function confirmDelete() {
-            return confirm("Êtes-vous sûr de vouloir supprimer ce combattant ?");
-        }
-    </script>
 </head>
-<body class="bg-black mt-20"> <!-- margin-top de 20% -->
-<div id="sidebar">
-    <!-- Contenu de la barre latérale (si présent) -->
-</div>
+<body class="bg-black text-white" style="padding-top: 5rem;"> <!-- Utilisation de style inline pour le padding-top -->
+
+<!-- Barre de navigation ici (si vous en avez une) -->
+
 <div id="content" class="p-4">
-    <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
-    <button id="addCombatantBtn" class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">Ajouter un combattant</button>
+    <h1 class="text-3xl font-bold mb-6">Gérer les Combattants</h1>
+    <button id="addCombatantBtn" class="mb-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition duration-300">Ajouter un combattant</button>
 
     <div id="addCombatantForm" class="hidden"> <!-- Utilisation de la classe hidden de Tailwind -->
         <form action="admin-manage-combattants.php" method="post" enctype="multipart/form-data" class="bg-gray-800 p-6 rounded-lg shadow-lg">
@@ -143,7 +92,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <?php foreach ($combattants as $combattant): ?>
-            <!-- Ici, votre code HTML pour chaque carte de combattant -->
+            <div class="card bg-gray-800 rounded overflow-hidden shadow-lg transform transition duration-500 hover:scale-105">
+                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" class="w-full h-32 object-cover">
+                <div class="card-content p-4">
+                    <h2 class="text-lg font-semibold"><?= htmlspecialchars($combattant['nom']) ?> <?= htmlspecialchars($combattant['prenom']) ?></h2>
+                    <p class="text-gray-400"><?= htmlspecialchars($combattant['surnom']) ?></p>
+                    <p class="text-sm mt-2"><?= htmlspecialchars($combattant['description']) ?></p>
+                    <div class="flex justify-between items-center mt-4">
+                        <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="btn bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Éditer</a>
+                        <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded" onclick="return confirmDelete()">Supprimer</a>
+                    </div>
+                </div>
+            </div>
         <?php endforeach; ?>
     </div>
 </div>
