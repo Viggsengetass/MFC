@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <ul>
         <li><a href="admin-dashboard.php">Tableau de Bord</a></li>
         <li><a href="admin-manage-combattants.php">Gérer les Combattants</a></li>
-        <li><a href="admin-create-event.php">Créer un Événement</a></li>
+        <li><a href="admin-manage-events.php">Gérer les Événements</a></li>
         <li><a href="admin-list-events.php">Liste des Événements</a></li>
         <li><a href="logout.php">Déconnexion</a></li>
     </ul>
