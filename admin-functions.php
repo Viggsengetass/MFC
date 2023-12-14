@@ -33,7 +33,6 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
     // Close the statement
     $stmt->close();
     return true; // Return true to indicate success
-}ue;
 }
 
 
