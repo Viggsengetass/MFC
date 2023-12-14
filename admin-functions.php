@@ -29,8 +29,10 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 }
 
 function getAllCombattants($conn) {
-    // Suppression de la référence à la colonne inexistante 'name' dans 'categories'
-    $query = "SELECT combattants.* FROM combattants";
+    // Inclure la jointure avec la table 'categories' si elle existe et contient les informations pertinentes.
+    $query = "SELECT combattants.*, categories.name AS categorie_name 
+              FROM combattants 
+              LEFT JOIN categories ON combattants.categorie_id = categories.id";
     $result = $conn->query($query);
 
     if (!$result) {
