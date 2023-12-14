@@ -7,21 +7,18 @@ error_reporting(E_ALL);
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    if ($conn instanceof mysqli === false) {
-        die("La variable conn n'est pas une instance de mysqli.");
+    // Check if category exists
+    if (!categorieExists($conn, $categorie_id)) {
+        die("Catégorie non trouvée.");
     }
 
+    // Insert query with the correct column name for category
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
-    if (!$stmt) {
-        die("Erreur de préparation de la requête: " . $conn->error);
-    }
-
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
     if (!$stmt->execute()) {
         die("Erreur lors de l'exécution de la requête: " . $stmt->error);
     }
-
     $stmt->close();
     return true;
 }
