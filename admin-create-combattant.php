@@ -2,7 +2,7 @@
 session_start();
 include 'config.php';
 include 'admin-functions.php';
-checkAdmin(); // Assurez-vous que seul un admin peut accéder à cette page
+//checkAdmin(); // Assurez-vous que seul un admin peut accéder à cette page
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Assurez-vous que les données POST sont désinfectées
