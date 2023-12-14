@@ -99,43 +99,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         }
     </script>
 </head>
-<body>
+<body class="bg-black mt-20"> <!-- margin-top de 20% -->
 <div id="sidebar">
     <!-- Contenu de la barre latérale (si présent) -->
 </div>
 <div id="content" class="p-4">
     <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
-    <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
+    <button id="addCombatantBtn" class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">Ajouter un combattant</button>
 
-    <div id="addCombatantForm" style="display: none;">
-        <form action="admin-manage-combattants.php" method="post" enctype="multipart/form-data">
-            <input type="text" name="nom" placeholder="Nom" required>
-            <input type="text" name="prenom" placeholder="Prénom" required>
-            <input type="text" name="surnom" placeholder="Surnom">
-            <textarea name="description" placeholder="Description"></textarea>
-            <select name="categorie_id" required>
-                <?php
-                // Chargez ici les catégories depuis la base de données
-                $categories = getAllCategories($conn); // Assurez-vous que cette fonction fonctionne correctement
-                foreach ($categories as $categorie) {
-                    echo "<option value=\"{$categorie['id']}\">{$categorie['nom']}</option>";
-                }
-                ?>
-            </select>
-            <input type="file" name="image">
-            <input type="submit" name="add_combattant" value="Ajouter Combattant">
+    <div id="addCombatantForm" class="hidden"> <!-- Utilisation de la classe hidden de Tailwind -->
+        <form action="admin-manage-combattants.php" method="post" enctype="multipart/form-data" class="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <div class="mb-4">
+                <input type="text" name="nom" placeholder="Nom" class="w-full px-3 py-2 text-gray-700 bg-white border rounded shadow" required>
+            </div>
+            <div class="mb-4">
+                <input type="text" name="prenom" placeholder="Prénom" class="w-full px-3 py-2 text-gray-700 bg-white border rounded shadow" required>
+            </div>
+            <div class="mb-4">
+                <input type="text" name="surnom" placeholder="Surnom" class="w-full px-3 py-2 text-gray-700 bg-white border rounded shadow">
+            </div>
+            <div class="mb-4">
+                <textarea name="description" placeholder="Description" class="w-full px-3 py-2 text-gray-700 bg-white border rounded shadow"></textarea>
+            </div>
+            <div class="mb-4">
+                <select name="categorie_id" class="w-full px-3 py-2 text-gray-700 bg-white border rounded shadow" required>
+                    <?php
+                    // Chargez ici les catégories depuis la base de données
+                    $categories = getAllCategories($conn); // Assurez-vous que cette fonction fonctionne correctement
+                    foreach ($categories as $categorie) {
+                        echo "<option value=\"{$categorie['id']}\">{$categorie['nom']}</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="mb-4">
+                <input type="file" name="image" class="w-full px-3 py-2 text-gray-700 bg-white border rounded shadow">
+            </div>
+            <div>
+                <input type="submit" name="add_combattant" value="Ajouter Combattant" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition duration-300 cursor-pointer">
+            </div>
         </form>
     </div>
 
-    <div class="grid-container">
-        <!-- Ici, votre code PHP pour afficher les combattants -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <?php foreach ($combattants as $combattant): ?>
+            <!-- Ici, votre code HTML pour chaque carte de combattant -->
+        <?php endforeach; ?>
     </div>
 </div>
 
 <script>
     document.getElementById('addCombatantBtn').addEventListener('click', function() {
         var form = document.getElementById('addCombatantForm');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        form.classList.toggle('hidden');
     });
 </script>
 </body>
