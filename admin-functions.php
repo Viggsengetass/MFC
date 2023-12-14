@@ -29,7 +29,7 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 }
 
 function getAllCombattants($conn) {
-    $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id";
+    $query = "SELECT combattants.*, categories.category_name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id";
     $result = $conn->query($query);
     $combattants = [];
     while ($row = $result->fetch_assoc()) {
@@ -39,7 +39,7 @@ function getAllCombattants($conn) {
 }
 
 function getCombattant($conn, $id) {
-    $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id WHERE combattants.id = ?";
+    $query = "SELECT combattants.*, categories.category_name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id WHERE combattants.id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
