@@ -19,9 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
     if (!file_exists($targetDirectory)) {
-        if (!mkdir($targetDirectory, 0755, true)) {
-            die('Échec de la création des répertoires...');
-        }
+        mkdir($targetDirectory, 0755, true);
     }
 
     if (!empty($_FILES['image']['name'])) {
@@ -34,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     }
 
     if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
-        $combattants = getAllCombattants($conn);
+        header("Location: admin-manage-combattants.php");
+        exit;
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
