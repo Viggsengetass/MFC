@@ -16,11 +16,42 @@ $evenements = getAllEvenements($conn);
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
     <link rel="stylesheet" href="/style/index.css">
     <style>
-        /* Style pour gérer l'affichage en cas d'erreur de l'image */
-        .image-placeholder {
+        /* Styles CSS personnalisés */
+        .event-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-image {
             width: 100%;
             height: 40rem; /* Ajustez la hauteur selon vos besoins */
+            object-fit: cover;
+            border-radius: 0.25rem;
             background-color: #ccc; /* Couleur de remplacement */
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .event-date {
+            color: gray;
+            margin-top: 0.5rem;
+        }
+
+        .event-description {
+            margin-top: 1rem;
+        }
+
+        .event-link {
+            color: #3182ce;
+            text-decoration: underline;
+            margin-top: 0.5rem;
+            display: inline-block;
         }
     </style>
     <script src="/js/index.js"></script>
@@ -37,12 +68,12 @@ $evenements = getAllEvenements($conn);
         // Parcourir les événements et les afficher dans les cartes
         foreach ($evenements as $evenement) :
             ?>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu' ?>" class="w-full h-40 object-cover rounded image-placeholder">
-                <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
-                <p class="text-gray-500">Date : <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
-                <p class="mt-2"><?= $evenement['description'] ?></p>
-                <a href="#" class="text-blue-600 hover:underline mt-2">Réserver des billets</a>
+            <div class="event-card">
+                <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu' ?>" class="event-image">
+                <h3 class="event-title"><?= $evenement['nom'] ?></h3>
+                <p class="event-date">Date : <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
+                <p class="event-description"><?= $evenement['description'] ?></p>
+                <a href="#" class="event-link">Réserver des billets</a>
             </div>
         <?php endforeach; ?>
 
