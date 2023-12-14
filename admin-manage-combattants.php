@@ -51,34 +51,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-gray-100" style="padding-top: 5rem;">
-<?php include_once 'admin-sidebar.php';?>
+<?php include_once 'admin-sidebar.php'; ?>
 
 <div id="content" class="px-4 md:px-10 py-4 md:py-7">
     <h1 class="text-3xl font-bold mb-6">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 px-6 py-3 bg-blue-600 rounded-lg shadow-lg text-white font-semibold hover:bg-blue-700 transition duration-300">Ajouter un combattant</button>
+
     <div id="addCombatantForm" class="hidden">
-        <!-- Formulaire pour ajouter un combattant -->
         <form action="admin-manage-combattants.php" method="post" enctype="multipart/form-data" class="bg-gray-800 p-6 rounded-lg shadow-xl">
+            <!-- Champs du formulaire -->
             <input type="text" name="nom" placeholder="Nom" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow" required>
             <input type="text" name="prenom" placeholder="Prénom" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow" required>
             <input type="text" name="surnom" placeholder="Surnom" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow">
             <textarea name="description" placeholder="Description" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow"></textarea>
             <select name="categorie_id" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow" required>
-                <?php
-                $categories = getAllCategories($conn);
-                foreach ($categories as $categorie) {
-                    echo "<option value=\"{$categorie['id']}\">{$categorie['nom']}</option>";
-                }
-                ?>
+                <!-- Options de catégorie -->
             </select>
             <input type="file" name="image" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow">
             <input type="submit" name="add_combattant" value="Ajouter Combattant" class="px-6 py-3 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition duration-300 cursor-pointer">
         </form>
     </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         <?php foreach ($combattants as $combattant): ?>
-            <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
-                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" class="w-full h-40 object-cover">
+            <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105" style="height: 450px;">
+                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant" class="w-full h-60 object-cover">
                 <div class="p-5">
                     <h2 class="text-2xl font-semibold"><?= htmlspecialchars($combattant['nom']) ?> <?= htmlspecialchars($combattant['prenom']) ?></h2>
                     <p class="text-gray-400"><?= htmlspecialchars($combattant['surnom']) ?></p>
@@ -92,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         <?php endforeach; ?>
     </div>
 </div>
+
 <script>
     document.getElementById('addCombatantBtn').addEventListener('click', function() {
         var form = document.getElementById('addCombatantForm');
