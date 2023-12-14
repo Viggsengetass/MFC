@@ -26,17 +26,17 @@ if (session_status() == PHP_SESSION_NONE) {
         <div class="logo"><a href="#"><img src="/img/logo.png" alt="MFC Logo" class="logo-img"></a></div>
         <ul>
             <label class="btn cancel" for="check"><i class="fas fa-times"></i></label>
-            <li><a href="index.php">Accueil</a></li>
-            <li><a href="combattants.php">Combattants</a></li>
-            <li><a href="evenements.php">Événements</a></li>
-            <li><a href="contact.php">Contact</a></li>
+            <li><a href="index.php" class="neumorphism_header">Accueil</a></li>
+            <li><a href="combattants.php" class="neumorphism_header">Combattants</a></li>
+            <li><a href="evenements.php" class="neumorphism_header">Événements</a></li>
+            <li><a href="contact.php" class="neumorphism_header">Contact</a></li>
 
             <?php
             if (isset($_SESSION['user'])) {
                 echo '<li>Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
-                echo '<li><a href="logout.php">Déconnexion</a></li>';
+                echo '<li><a href="logout.php" class="neumorphism_header">Déconnexion</a></li>';
             } else {
-                echo '<li><a href="login.php">Se Connecter</a></li>';
+                echo '<li><a href="login.php" class="neumorphism_header">Se Connecter</a></li>';
             }
             ?>
         </ul>
