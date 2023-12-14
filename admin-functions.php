@@ -29,8 +29,8 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 }
 
 function getAllCombattants($conn) {
-    // Assurez-vous que le nom de la colonne correspond à celui de votre base de données.
-    $query = "SELECT combattants.*, categories.category_name AS categorie_name 
+    // Inclure la jointure avec la table 'categories' si elle existe et contient les informations pertinentes.
+    $query = "SELECT combattants.*, categories.name AS categorie_name 
               FROM combattants 
               LEFT JOIN categories ON combattants.categorie_id = categories.id";
     $result = $conn->query($query);
@@ -45,7 +45,6 @@ function getAllCombattants($conn) {
     }
     return $combattants;
 }
-
 
 function getCombattant($conn, $id) {
     $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id WHERE combattants.id = ?";
