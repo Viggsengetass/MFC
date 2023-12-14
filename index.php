@@ -15,6 +15,14 @@ $evenements = getAllEvenements($conn);
     <title>Accueil - M.F.C MMA Tournament</title>
     <link rel="stylesheet" href="/style/dark-neumorphic.css">
     <link rel="stylesheet" href="/style/index.css">
+    <style>
+        /* Style pour gérer l'affichage en cas d'erreur de l'image */
+        .image-placeholder {
+            width: 100%;
+            height: 40rem; /* Ajustez la hauteur selon vos besoins */
+            background-color: #ccc; /* Couleur de remplacement */
+        }
+    </style>
     <script src="/js/index.js"></script>
 </head>
 <body>
@@ -30,7 +38,7 @@ $evenements = getAllEvenements($conn);
         foreach ($evenements as $evenement) :
             ?>
             <div class="bg-white p-4 rounded-lg shadow">
-                <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu' ?>" class="w-full h-40 object-cover rounded">
+                <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu' ?>" class="w-full h-40 object-cover rounded image-placeholder">
                 <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
                 <p class="text-gray-500">Date : <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
                 <p class="mt-2"><?= $evenement['description'] ?></p>
