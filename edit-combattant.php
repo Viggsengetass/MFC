@@ -1,10 +1,10 @@
 <?php
-// edit-combattant.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once 'admin-functions.php';
+require_once 'common.php';
 
 $combattantId = $_GET['id'] ?? null;
 $combattant = $combattantId ? getCombattant($conn, $combattantId) : null;
@@ -17,14 +17,12 @@ if (!$combattantId || !$combattant) {
 $error_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) {
-    // Collecter les données du formulaire
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
     $surnom = $_POST['surnom'] ?? '';
     $description = $_POST['description'] ?? '';
     $categorie_id = $_POST['categorie_id'] ?? 0;
 
-    // Traitement de l'image
     $image = $combattant['image']; // Utiliser l'image existante par défaut
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $targetDirectory = __DIR__ . "/image-combattants/";
@@ -36,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_combattant'])) 
         }
     }
 
-    // Mise à jour du combattant
     if (empty($error_message) && updateCombattant($conn, $combattantId, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
         header('Location: admin-manage-combattants.php');
         exit();
