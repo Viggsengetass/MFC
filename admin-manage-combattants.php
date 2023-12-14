@@ -7,17 +7,15 @@ require_once 'admin-functions.php';
 require_once 'common.php';
 
 $combattants = getAllCombattants($conn);
-$categories = getAllCategories($conn); // Assurez-vous que cette fonction existe et récupère toutes les catégories.
+$categories = getAllCategories($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
-    // Récupération des données du formulaire
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $surnom = $_POST['surnom'];
     $description = $_POST['description'];
     $categorie_id = $_POST['categorie_id'];
 
-    // Gestion du téléchargement de l'image
     $image = null;
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
@@ -34,14 +32,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         }
     }
 
-    // Ajout du combattant à la base de données
     if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
-        header("Location: admin-manage-combattants.php"); // Redirection pour éviter les soumissions multiples du formulaire
+        header("Location: admin-manage-combattants.php");
         exit;
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
 }
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Combattants - Tableau de Bord Administratif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Vos styles CSS ici */
+    </style>
+    <script>
+        // Votre JavaScript ici
+    </script>
+</head>
+<body>
+<!-- Votre contenu HTML ici -->
+</body>
+</html>
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
