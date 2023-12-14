@@ -28,22 +28,8 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 
 // Obtenir tous les combattants
 function getAllCombattants($conn) {
-    // Vérifiez le nom de la colonne de la catégorie dans votre base de données et ajustez si nécessaire
-    $query = "SELECT combattants_admin.*, categories.nom AS categorie_nom FROM combattants_admin LEFT JOIN categories ON combattants_admin.categorie_id = categories.id";
-    $result = $conn->query($query);
-
-    if (!$result) {
-        die("Erreur lors de l'exécution de la requête: " . $conn->error);
-    }
-
-    $combattants = [];
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $combattants[] = $row;
-        }
-    }
-
-    return $combattants;
+    $result = $conn->query("SELECT combattants.*, categories.name as categorie_name FROM combattants INNER JOIN categories ON combattants.categorie_id = categories.id");
+    return $result->fetch_all(MYSQLI_ASSOC);
 }
 
 // Obtenir un combattant spécifique
