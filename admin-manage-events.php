@@ -11,7 +11,7 @@ $combattants = getAllCombattants($conn);
 
 // Fonction pour gérer l'upload des images
 function handleImageUpload($file) {
-    $uploadDirectory = 'uploads/'; // Répertoire de destination où vous souhaitez stocker les images
+    $uploadDirectory = 'image-combattants/'; // Répertoire de destination où vous souhaitez stocker les images
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Extensions de fichiers autorisées
 
     // Vérifier s'il y a une erreur lors du téléchargement
