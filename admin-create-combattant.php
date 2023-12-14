@@ -2,24 +2,27 @@
 session_start();
 include 'common.php';
 include 'admin-functions.php';
-//checkAdmin(); // Assurez-vous que seul un admin peut accéder à cette page
+
+// Définition de la fonction validateCombatant
+function validateCombatant($nom, $prenom, $description, $image) {
+    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Assurez-vous que les données POST sont désinfectées
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $description = $_POST['description'];
-    $image = ""; // Remplacez cela par la logique de téléchargement d'image
+    $image = ""; // Ici, vous devez gérer l'upload de l'image
 
-    // Vérifiez ici que les données reçues sont valides avant de les insérer dans la base de données
-    if (validateCombatant($nom, $prenom, $description, $image, $conn)) {
+    if (validateCombatant($nom, $prenom, $description, $image)) {
         if (createCombattant($conn, $nom, $prenom, $description, $image)) {
-            // Redirection après la création réussie
             header('Location: admin-manage-combattants.php');
             exit();
         }
+    } else {
+        // Gérer l'erreur de validation
+        echo "Les données fournies ne sont pas valides.";
     }
-    // Gérez ici les erreurs si les données ne sont pas valides ou si la création échoue
 }
 
 ?>
