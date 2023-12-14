@@ -155,7 +155,7 @@ function getCombattant($conn, $id) {
 function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
     // Check if the category exists before attempting to update
     if (!categorieExists($conn, $categorie_id)) {
-        die("Catégorie non trouvée.");
+        return "Catégorie non trouvée."; // Return error message instead of dying
     }
 
     $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
@@ -170,7 +170,7 @@ function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $ima
     }
 
     $stmt->close();
-    return true;
+    return true; // Return true on success
 }
 
 ?>
