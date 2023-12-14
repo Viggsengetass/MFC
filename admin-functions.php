@@ -4,9 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'common.php'; // Assurez-vous que ce fichier est correctement configuré et présent
+require_once 'common.php';
 
-// Vérifiez que la catégorie existe
+// Vérifie si une catégorie existe
 function categorieExists($conn, $id) {
     $query = "SELECT id FROM categories WHERE id = ?";
     $stmt = $conn->prepare($query);
@@ -29,7 +29,7 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 }
 
 function getAllCombattants($conn) {
-    $query = "SELECT combattants.*, categories.category_name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id";
+    $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id";
     $result = $conn->query($query);
     $combattants = [];
     while ($row = $result->fetch_assoc()) {
@@ -39,7 +39,7 @@ function getAllCombattants($conn) {
 }
 
 function getCombattant($conn, $id) {
-    $query = "SELECT combattants.*, categories.category_name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id WHERE combattants.id = ?";
+    $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id WHERE combattants.id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -119,5 +119,4 @@ function deleteEvenement($conn, $id) {
     $stmt->execute();
     $stmt->close();
 }
-
 ?>
