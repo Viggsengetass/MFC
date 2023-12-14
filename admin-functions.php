@@ -6,16 +6,6 @@ error_reporting(E_ALL);
 
 require_once 'common.php'; // Assurez-vous que ce fichier est correctement configuré et présent
 
-// Vérifiez que la catégorie existe
-function categorieExists($conn, $id) {
-    $query = "SELECT id FROM categories WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->num_rows > 0;
-}
-
 // Fonctions pour les combattants
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
     if (!categorieExists($conn, $categorie_id)) {
@@ -39,7 +29,7 @@ function getAllCombattants($conn) {
 }
 
 function getCombattant($conn, $id) {
-    $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id WHERE combattants.id = ?";
+    $query = "SELECT * FROM combattants WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -103,7 +93,7 @@ function createEvenement($conn, $nom, $date, $lieu, $description) {
 }
 
 function getAllEvenements($conn) {
-    $query = "SELECT * FROM evenements ORDER BY date ASC";
+    $query = "SELECT * FROM evenements ORDER BY date";
     $result = $conn->query($query);
     $evenements = [];
     while ($row = $result->fetch_assoc()) {
@@ -118,6 +108,16 @@ function deleteEvenement($conn, $id) {
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->close();
+}
+
+// Fonction auxiliaire pour vérifier l'existence d'une catégorie
+function categorieExists($conn, $id) {
+    $query = "SELECT id FROM categories WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
 }
 
 ?>
