@@ -29,14 +29,8 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 }
 
 function getAllCombattants($conn) {
-    // Assurez-vous que le nom de la colonne dans 'categories' est 'name'
     $query = "SELECT combattants.*, categories.name as categorie_name FROM combattants LEFT JOIN categories ON combattants.categorie_id = categories.id";
     $result = $conn->query($query);
-
-    if (!$result) {
-        die("Erreur lors de l'exécution de la requête: " . $conn->error);
-    }
-
     $combattants = [];
     while ($row = $result->fetch_assoc()) {
         $combattants[] = $row;
