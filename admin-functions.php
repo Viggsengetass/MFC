@@ -7,15 +7,21 @@ error_reporting(E_ALL);
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    if (!categorieExists($conn, $categorie_id)) {
-        return "Catégorie non trouvée.";
+    if ($conn instanceof mysqli === false) {
+        die("La variable conn n'est pas une instance de mysqli.");
     }
+
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
     if (!$stmt->execute()) {
-        return $stmt->error;
+        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
     }
+
     $stmt->close();
     return true;
 }
@@ -44,19 +50,15 @@ function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
     return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image) && $categorie_id !== false;
 }
 
-
 function categorieExists($conn, $id) {
-    if (!$id) {
-        return false;
-    }
     $query = "SELECT id FROM categories WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
-    $stmt->close();
     return $result->num_rows > 0;
 }
+
 
 function getCategoryName($id, $conn) {
     $query = "SELECT name FROM categories WHERE id = ?";
