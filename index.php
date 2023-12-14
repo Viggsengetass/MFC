@@ -20,6 +20,8 @@ $evenements = getAllEvenements($conn);
         .image-placeholder {
             width: 100%;
             height: 40rem; /* Ajustez la hauteur selon vos besoins */
+            object-fit: cover;
+            border-radius: 0.25rem;
             background-color: #ccc; /* Couleur de remplacement */
         }
     </style>
@@ -38,7 +40,11 @@ $evenements = getAllEvenements($conn);
         foreach ($evenements as $evenement) :
             ?>
             <div class="bg-white p-4 rounded-lg shadow">
-                <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu' ?>" class="w-full h-40 object-cover rounded image-placeholder">
+                <?php
+                $image1 = isset($evenement['image1']) ? $evenement['image1'] : '/path/to/default/image.jpg';
+                $altText = isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu';
+                ?>
+                <img src="<?= $image1 ?>" alt="<?= $altText ?>" class="w-full h-40 object-cover rounded image-placeholder">
                 <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
                 <p class="text-gray-500">Date : <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
                 <p class="mt-2"><?= $evenement['description'] ?></p>
