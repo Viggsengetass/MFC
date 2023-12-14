@@ -46,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
+    <link rel="stylesheet" href="/style/admin-dashboard.css">
+
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-gray-100" style="padding-top: 5rem;">
