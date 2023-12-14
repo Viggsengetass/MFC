@@ -107,19 +107,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
+    <div id="addCombatantForm" style="display: none;">
+        <form action="admin-manage-combattants.php" method="post" enctype="multipart/form-data">
+            <input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required>
+            <input type="text" name="surnom" placeholder="Surnom">
+            <textarea name="description" placeholder="Description"></textarea>
+            <select name="categorie_id" required>
+                <?php
+                // Chargez ici les catégories depuis la base de données
+                $categories = getAllCategories($conn); // Assurez-vous que cette fonction fonctionne correctement
+                foreach ($categories as $categorie) {
+                    echo "<option value=\"{$categorie['id']}\">{$categorie['nom']}</option>";
+                }
+                ?>
+            </select>
+            <input type="file" name="image">
+            <input type="submit" name="add_combattant" value="Ajouter Combattant">
+        </form>
+    </div>
+
     <div class="grid-container">
-        <?php foreach ($combattants as $combattant): ?>
-            <div class="card">
-                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
-                <div class="card-content">
-                    <h2 class="text-lg font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
-                    <p><?= htmlspecialchars($combattant['prenom']) ?> "<?= htmlspecialchars($combattant['surnom']) ?>"</p>
-                    <p><?= htmlspecialchars($combattant['description']) ?></p>
-                    <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="btn">Éditer</a>
-                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn btn-danger" onclick="return confirmDelete()">Supprimer</a>
-                </div>
-            </div>
-        <?php endforeach; ?>
+        <!-- Ici, votre code PHP pour afficher les combattants -->
     </div>
 </div>
 

@@ -181,5 +181,19 @@ function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $ima
     $stmt->close();
     return true; // Return true on success
 }
+function getAllCategories($conn) {
+    $query = "SELECT * FROM categories";
+    $result = $conn->query($query);
+
+    if (!$result) {
+        die("Erreur lors de l'exécution de la requête: " . $conn->error);
+    }
+
+    $categories = [];
+    while ($row = $result->fetch_assoc()) {
+        $categories[] = $row;
+    }
+    return $categories;
+}
 
 ?>
