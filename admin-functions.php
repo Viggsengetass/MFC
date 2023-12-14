@@ -7,18 +7,21 @@ error_reporting(E_ALL);
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    // Check if category exists
-    if (!categorieExists($conn, $categorie_id)) {
-        die("Catégorie non trouvée.");
+    if ($conn instanceof mysqli === false) {
+        die("La variable conn n'est pas une instance de mysqli.");
     }
 
-    // Insert query with the correct column name for category
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        die("Erreur de préparation de la requête: " . $conn->error);
+    }
+
     $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
     if (!$stmt->execute()) {
         die("Erreur lors de l'exécution de la requête: " . $stmt->error);
     }
+
     $stmt->close();
     return true;
 }
@@ -46,6 +49,16 @@ function getAllCombattants($conn) {
 function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
     return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image) && $categorie_id !== false;
 }
+
+function categorieExists($conn, $id) {
+    $query = "SELECT id FROM categories WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
+
 
 function getCategoryName($id, $conn) {
     $query = "SELECT name FROM categories WHERE id = ?";
@@ -140,6 +153,11 @@ function getCombattant($conn, $id) {
 }
 
 function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
+    // Check if the category exists before attempting to update
+    if (!categorieExists($conn, $categorie_id)) {
+        die("Catégorie non trouvée.");
+    }
+
     $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
