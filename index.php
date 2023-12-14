@@ -24,6 +24,20 @@ $evenements = getAllEvenements($conn);
             border-radius: 0.25rem;
             background-color: #ccc; /* Couleur de remplacement */
         }
+
+        /* Style pour afficher les images des combattants en haut de la carte */
+        .combattant-images {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .combattant-image {
+            flex-basis: 49%;
+            max-height: 12rem; /* Ajustez la hauteur selon vos besoins */
+            object-fit: cover;
+            border-radius: 0.25rem;
+        }
     </style>
     <script src="/js/index.js"></script>
 </head>
@@ -40,11 +54,15 @@ $evenements = getAllEvenements($conn);
         foreach ($evenements as $evenement) :
             ?>
             <div class="bg-white p-4 rounded-lg shadow">
-                <?php
-                $image1 = isset($evenement['image1']) ? $evenement['image1'] : '/path/to/default/image.jpg';
-                $altText = isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu';
-                ?>
-                <img src="<?= $image1 ?>" alt="<?= $altText ?>" class="w-full h-40 object-cover rounded image-placeholder">
+                <!-- Afficher les images des combattants en haut de la carte -->
+                <div class="combattant-images">
+                    <?php if (isset($evenement['image1'])) : ?>
+                        <img src="<?= $evenement['image1'] ?>" alt="<?= isset($evenement['combattant1_nom']) ? $evenement['combattant1_nom'] : 'Nom du combattant inconnu' ?>" class="combattant-image">
+                    <?php endif; ?>
+                    <?php if (isset($evenement['image2'])) : ?>
+                        <img src="<?= $evenement['image2'] ?>" alt="<?= isset($evenement['combattant2_nom']) ? $evenement['combattant2_nom'] : 'Nom du combattant inconnu' ?>" class="combattant-image">
+                    <?php endif; ?>
+                </div>
                 <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
                 <p class="text-gray-500">Date : <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
                 <p class="mt-2"><?= $evenement['description'] ?></p>
