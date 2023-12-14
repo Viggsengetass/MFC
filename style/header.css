@@ -43,7 +43,7 @@ nav .menu {
     font-weight: 400;
     display: inline-flex;
     padding: 10px 12px;
-    box-shadow: -3px -3px 7px #242224, 3px 3px 5px #423e42;
+    box-shadow: -3px -3px 7px #423e42, 3px 3px 5px #242224;
     position: relative;
     transition: all 0.3s ease;
 }
