@@ -1,33 +1,31 @@
 <?php
 session_start();
-include 'common.php'; // Assurez-vous que ce fichier contient la connexion à la base de données et les fonctions partagées
-include 'admin-functions.php'; // Ce fichier doit contenir la logique spécifique à l'admin
+require_once 'common.php'; // Assurez-vous que ce fichier contient la connexion à la base de données et les fonctions partagées
+require_once 'admin-functions.php'; // Ce fichier doit contenir la logique spécifique à l'admin
 
-// Vérifiez si la fonction checkAdmin existe avant de l'appeler
 if (function_exists('checkAdmin')) {
     checkAdmin(); // Assurez-vous que seul un admin peut accéder à cette page
 }
 
-// Fonction pour valider les données du combattant
 function validateCombatant($nom, $prenom, $description, $image) {
-    // Validation simplifiée, vous devez l'adapter à vos besoins
+    // Votre logique de validation ici
     // ...
     return true; // ou renvoyez une chaîne de message d'erreur si non valide
 }
 
-// Vérifiez si le formulaire a été soumis
+$error_message = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collecte des données du formulaire
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
     $description = $_POST['description'] ?? '';
-    $image = $_FILES['image']['name'] ?? ''; // La logique de téléchargement d'image doit être implémentée
+    $image = $_FILES['image']['name'] ?? '';
 
-    // Valider les données reçues
+    // Gestion du téléchargement de l'image
+    // ...
+
     $validationResult = validateCombatant($nom, $prenom, $description, $image);
     if ($validationResult === true) {
-        // Votre logique pour créer un combattant ici
-        // Assurez-vous que la fonction createCombattant existe et est correctement implémentée
         if (createCombattant($nom, $prenom, $description, $image)) {
             header('Location: admin-manage-combattants.php');
             exit();
@@ -38,10 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = $validationResult;
     }
 }
-// Le reste du code HTML reste inchangé
-?>
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -53,6 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="bg-gray-100">
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold text-gray-700 mb-6">Ajouter un nouveau combattant</h1>
+    <?php if ($error_message): ?>
+        <div class="mb-4 text-red-500">
+            <?= $error_message ?>
+        </div>
+    <?php endif; ?>
     <form action="admin-create-combattant.php" method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="nom">Nom:</label>
