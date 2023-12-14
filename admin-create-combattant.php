@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'common.php'; // Ce fichier doit inclure la connexion à la base de données et des fonctions communes
-require_once 'admin-functions.php'; // Ce fichier doit inclure des fonctions spécifiques à l'administration comme checkAdmin
+require_once 'admin-functions.php'; // Ce fichier doit inclure des fonctions spécifiques à l'administration
 
 // Fonction pour valider les données du combattant
 function validateCombatant($nom, $prenom, $description, $image) {
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $validationResult = validateCombatant($nom, $prenom, $description, $image);
     if ($validationResult === true) {
-        $targetDir = "uploads/";
+        $targetDir = "image-combattants/";
         $targetFile = $targetDir . basename($_FILES["image"]["name"]);
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
             if (createCombattant($conn, $nom, $prenom, $description, $targetFile)) {
