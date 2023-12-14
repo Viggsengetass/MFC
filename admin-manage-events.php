@@ -44,47 +44,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div id="content" class="px-4 md:px-10 py-4 md:py-7">
     <h1 class="text-3xl font-bold mb-6">Gérer les Événements</h1>
-    <button id="addEventBtn" class="mb-4">Ajouter un événement</button>
+    <button id="addEventBtn" class="mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Ajouter un événement</button>
 
     <!-- Formulaire pour ajouter un événement -->
-    <div id="addEventForm" class="hidden">
+    <div id="addEventForm" class="hidden bg-gray-800 rounded p-4">
         <form action="admin-manage-event.php" method="post" enctype="multipart/form-data">
-            <label for="nom">Nom de l'événement:</label>
-            <input type="text" name="nom" required><br>
+            <label class="block text-gray-300">Nom de l'événement:</label>
+            <input type="text" name="nom" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
-            <label for="date">Date:</label>
-            <input type="date" name="date" required><br>
+            <label class="block text-gray-300 mt-4">Date:</label>
+            <input type="date" name="date" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
-            <label for="heure">Heure:</label>
-            <input type="time" name="heure" required><br>
+            <label class="block text-gray-300 mt-4">Heure:</label>
+            <input type="time" name="heure" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
-            <label for="lieu">Lieu:</label>
-            <input type="text" name="lieu" required><br>
+            <label class="block text-gray-300 mt-4">Lieu:</label>
+            <input type="text" name="lieu" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
-            <label for="description">Description:</label>
-            <textarea name="description" required></textarea><br>
+            <label class="block text-gray-300 mt-4">Description:</label>
+            <textarea name="description" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"></textarea><br>
 
-            <label for="combattant1_id">Combattant 1:</label>
-            <select name="combattant1_id" required>
+            <label class="block text-gray-300 mt-4">Combattant 1:</label>
+            <select name="combattant1_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
                 <?php foreach ($combattants as $combattant): ?>
                     <option value="<?= $combattant['id'] ?>"><?= $combattant['nom'] ?></option>
                 <?php endforeach; ?>
             </select><br>
 
-            <label for="combattant2_id">Combattant 2:</label>
-            <select name="combattant2_id" required>
+            <label class="block text-gray-300 mt-4">Combattant 2:</label>
+            <select name="combattant2_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
                 <?php foreach ($combattants as $combattant): ?>
                     <option value="<?= $combattant['id'] ?>"><?= $combattant['nom'] ?></option>
                 <?php endforeach; ?>
             </select><br>
 
-            <label for="image_combattant1">Image du Combattant 1:</label>
-            <input type="file" name="image_combattant1" accept="image/*" required><br>
+            <label class="block text-gray-300 mt-4">Image du Combattant 1:</label>
+            <input type="file" name="image_combattant1" accept="image/*" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
-            <label for="image_combattant2">Image du Combattant 2:</label>
-            <input type="file" name="image_combattant2" accept="image/*" required><br>
+            <label class="block text-gray-300 mt-4">Image du Combattant 2:</label>
+            <input type="file" name="image_combattant2" accept="image/*" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
-            <button type="submit" name="add_event">Ajouter</button>
+            <button type="submit" name="add_event" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">Ajouter</button>
         </form>
     </div>
 
