@@ -1,5 +1,4 @@
 <?php
-// admin-manage-combattants.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,6 +7,37 @@ require_once 'admin-functions.php';
 require_once 'common.php';
 
 $combattants = getAllCombattants($conn);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $surnom = $_POST['surnom'];
+    $description = $_POST['description'];
+    $categorie_id = $_POST['categorie_id'];
+
+    $image = null;
+    $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
+
+    if (!file_exists($targetDirectory)) {
+        mkdir($targetDirectory, 0755, true);
+    }
+
+    if (!empty($_FILES['image']['name'])) {
+        $targetFile = $targetDirectory . basename($_FILES['image']['name']);
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+            $image = "image-combattants/" . basename($_FILES['image']['name']);
+        } else {
+            echo "<p>Erreur lors du téléchargement de l'image.</p>";
+        }
+    }
+
+    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
+        header("Location: admin-manage-combattants.php");
+        exit;
+    } else {
+        echo "<p>Erreur lors de la création du combattant.</p>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
