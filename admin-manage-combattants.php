@@ -47,53 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Combattants - Tableau de Bord Administratif</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        body {
-            background-color: #000; /* Fond noir */
-        }
-        .card {
-            border-radius: 15px;
-            background: #212121;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5),
-            -5px -5px 10px rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            transition: transform 0.2s;
-            margin-bottom: 20px;
-            width: 200px;
-            height: 350px;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        .card img {
-            width: 100%;
-            height: 120px; /* Hauteur de l'image */
-            object-fit: cover;
-        }
-        .card-content {
-            padding: 10px;
-            color: #fff;
-        }
-        .btn {
-            display: inline-block;
-            padding: 5px 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            text-align: center;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 20px;
-        }
-    </style>
 </head>
 <body class="bg-black text-white" style="padding-top: 5rem;"> <!-- Utilisation de style inline pour le padding-top -->
 
