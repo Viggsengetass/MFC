@@ -22,11 +22,8 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
 }
 
 function getAllCombattants($conn) {
-    $query = "SELECT * FROM combattants_admin";
+    $query = "SELECT combattants_admin.*, categories.name as categorie_name FROM combattants_admin LEFT JOIN categories ON combattants_admin.categorie_id = categories.id";
     $result = $conn->query($query);
-    if (!$result) {
-        die("Erreur lors de l'exécution de la requête: " . $conn->error);
-    }
     $combattants = [];
     while ($row = $result->fetch_assoc()) {
         $combattants[] = $row;
@@ -35,7 +32,7 @@ function getAllCombattants($conn) {
 }
 
 function getCombattant($conn, $id) {
-    $query = "SELECT * FROM combattants_admin WHERE id = ?";
+    $query = "SELECT combattants_admin.*, categories.name as categorie_name FROM combattants_admin LEFT JOIN categories ON combattants_admin.categorie_id = categories.id WHERE combattants_admin.id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -83,9 +80,6 @@ function createCategorie($conn, $name) {
 function getAllCategories($conn) {
     $query = "SELECT * FROM categories";
     $result = $conn->query($query);
-    if (!$result) {
-        die("Erreur lors de l'exécution de la requête: " . $conn->error);
-    }
     $categories = [];
     while ($row = $result->fetch_assoc()) {
         $categories[] = $row;
@@ -119,9 +113,6 @@ function createEvenement($conn, $nom, $date, $lieu, $description) {
 function getAllEvenements($conn) {
     $query = "SELECT * FROM evenements_admin ORDER BY date ASC";
     $result = $conn->query($query);
-    if (!$result) {
-        die("Erreur lors de l'exécution de la requête: " . $conn->error);
-    }
     $evenements = [];
     while ($row = $result->fetch_assoc()) {
         $evenements[] = $row;
