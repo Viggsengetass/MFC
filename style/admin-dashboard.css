@@ -25,6 +25,7 @@ header {
 /* Sidebar styles */
 #sidebar {
     background: #333033;
+    border-radius: 50px;
     box-shadow: 20px 20px 60px #2b292b, -20px -20px 60px #3b373b;
     color: #ecf0f1;
     width: 200px;
@@ -96,6 +97,7 @@ th, td {
 
 th {
     background: #333033;
+    border-radius: 50px;
     box-shadow: 20px 20px 60px #2b292b, -20px -20px 60px #3b373b;
     color: #ecf0f1;
 }
