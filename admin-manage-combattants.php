@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     $image = null;
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
-    // Vérifier si le dossier de destination existe, sinon le créer
     if (!file_exists($targetDirectory)) {
         if (!mkdir($targetDirectory, 0755, true)) {
             die('Échec de la création des répertoires...');

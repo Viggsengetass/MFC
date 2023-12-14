@@ -4,8 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'common.php';
-
+require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
     if ($conn instanceof mysqli === false) {
@@ -26,6 +25,8 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
     $stmt->close();
     return true;
 }
+
+
 function getAllCombattants($conn) {
     $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
@@ -105,21 +106,6 @@ function getAllEvenements($conn) {
     }
 
     return $evenements;
-}
-
-// Update combatant information
-function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    if (!$stmt) {
-        die("Erreur de préparation de la requête: " . $conn->error);
-    }
-    $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id, $id);
-    if (!$stmt->execute()) {
-        die("Erreur lors de l'exécution de la requête: " . $stmt->error);
-    }
-    $stmt->close();
-    return true;
 }
 
 // Delete a combatant from the database
