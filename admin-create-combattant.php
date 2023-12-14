@@ -1,16 +1,34 @@
 <?php
 session_start();
-require_once 'common.php'; // Assurez-vous que ce fichier contient la connexion à la base de données et les fonctions partagées
-require_once 'admin-functions.php'; // Ce fichier doit contenir la logique spécifique à l'admin
-
-if (function_exists('checkAdmin')) {
-    checkAdmin(); // Assurez-vous que seul un admin peut accéder à cette page
-}
+require_once 'common.php'; // Contient la connexion à la base de données et fonctions partagées
+require_once 'admin-functions.php'; // Logique spécifique à l'administration
 
 function validateCombatant($nom, $prenom, $description, $image) {
     // Votre logique de validation ici
-    // ...
-    return true; // ou renvoyez une chaîne de message d'erreur si non valide
+    if (empty($nom) || empty($prenom) || empty($description)) {
+        return "Tous les champs sont requis.";
+    }
+    if (empty($image)) {
+        return "Vous devez sélectionner une image.";
+    }
+    // Autres validations au besoin
+    return true;
+}
+
+function createCombattant($nom, $prenom, $description, $image) {
+    $conn = getDatabaseConnection(); // Assurez-vous que cette fonction retourne une connexion valide à la base de données
+
+    // Gestion du téléchargement d'image
+    $targetDir = "uploads/"; // Assurez-vous que ce répertoire existe et est accessible en écriture
+    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+    move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile);
+
+    // Préparation de la requête SQL
+    $stmt = $conn->prepare("INSERT INTO combattants (nom, prenom, description, image) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $nom, $prenom, $description, $targetFile);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
 }
 
 $error_message = '';
@@ -20,9 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $prenom = $_POST['prenom'] ?? '';
     $description = $_POST['description'] ?? '';
     $image = $_FILES['image']['name'] ?? '';
-
-    // Gestion du téléchargement de l'image
-    // ...
 
     $validationResult = validateCombatant($nom, $prenom, $description, $image);
     if ($validationResult === true) {
