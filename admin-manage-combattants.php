@@ -7,21 +7,22 @@ require_once 'admin-functions.php';
 require_once 'common.php';
 
 $combattants = getAllCombattants($conn);
+$categories = getAllCategories($conn); // Assurez-vous que cette fonction existe et récupère toutes les catégories.
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
+    // Récupération des données du formulaire
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $surnom = $_POST['surnom'];
     $description = $_POST['description'];
     $categorie_id = $_POST['categorie_id'];
 
+    // Gestion du téléchargement de l'image
     $image = null;
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
     if (!file_exists($targetDirectory)) {
-        if (!mkdir($targetDirectory, 0755, true)) {
-            die('Échec de la création des répertoires...');
-        }
+        mkdir($targetDirectory, 0755, true);
     }
 
     if (!empty($_FILES['image']['name'])) {
@@ -33,8 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         }
     }
 
+    // Ajout du combattant à la base de données
     if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
-        $combattants = getAllCombattants($conn);
+        header("Location: admin-manage-combattants.php"); // Redirection pour éviter les soumissions multiples du formulaire
+        exit;
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
@@ -101,22 +104,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
 </head>
 <body>
 <div id="sidebar">
-    <!-- Contenu de la barre latérale (si présent) -->
+    <!-- Contenu de la barre latérale ici -->
 </div>
 <div id="content" class="p-4">
     <h1 class="text-3xl font-bold mb-6 text-white">Gérer les Combattants</h1>
     <button id="addCombatantBtn" class="mb-4 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter un combattant</button>
 
+    <!-- Formulaire d'ajout de combattant -->
+    <div id="addCombatantForm" style="display: none;">
+        <form action="" method="post" enctype="multipart/form-data">
+            Nom: <input type="text" name="nom" required><br>
+            Prénom: <input type="text" name="prenom" required><br>
+            Surnom: <input type="text" name="surnom" required><br>
+            Description: <textarea name="description" required></textarea><br>
+            Catégorie: <select name="categorie_id" required>
+                <?php foreach ($categories as $categorie): ?>
+                    <option value="<?= $categorie['id']; ?>"><?= $categorie['nom']; ?></option>
+                <?php endforeach; ?>
+            </select><br>
+            Image: <input type="file" name="image" required><br>
+            <input type="submit" name="add_combattant" value="Ajouter">
+        </form>
+    </div>
+
+    <!-- Affichage des combattants existants -->
     <div class="grid-container">
         <?php foreach ($combattants as $combattant): ?>
             <div class="card">
-                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="Image de combattant">
+                <img src="<?= htmlspecialchars($combattant['image']) ?: 'path/to/default-image.png' ?>" alt="<?= htmlspecialchars($combattant['nom']) ?>">
                 <div class="card-content">
                     <h2 class="text-lg font-semibold"><?= htmlspecialchars($combattant['nom']) ?></h2>
-                    <p><?= htmlspecialchars($combattant['prenom']) ?> "<?= htmlspecialchars($combattant['surnom']) ?>"</p>
                     <p><?= htmlspecialchars($combattant['description']) ?></p>
-                    <a href="edit-combattant.php?id=<?= $combattant['id'] ?>" class="btn">Éditer</a>
-                    <a href="delete-combattant.php?id=<?= $combattant['id'] ?>" class="btn btn-danger" onclick="return confirmDelete()">Supprimer</a>
+                    <!-- Boutons d'action -->
                 </div>
             </div>
         <?php endforeach; ?>
