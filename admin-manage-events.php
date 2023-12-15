@@ -62,6 +62,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Les sections pour 'edit_event' et 'delete_event' doivent être complétées de manière similaire
 }
+function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2) {
+    $sql = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, categorie_id, combattant_id, image_combattant1, image_combattant2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "sssssssss", $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+        if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+            header("Location: admin-manage-event.php"); // Rediriger après l'ajout de l'événement
+            exit();
+        } else {
+            mysqli_stmt_close($stmt);
+            echo "Erreur lors de l'exécution de la requête : " . mysqli_error($conn);
+        }
+    } else {
+        echo "Erreur lors de la préparation de la requête : " . mysqli_error($conn);
+    }
+}
 ?>
 
 <!DOCTYPE html>
