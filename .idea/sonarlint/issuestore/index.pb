@@ -15,6 +15,3 @@ C
 edit-combattant.php,7\d\7d6d63700a7f41bddd6151a2a75a134decd5b5e8
 K
 admin-create-combattant.php,a\3\a3a07a4d574cc13b199e8942a082f59a7939bf86
-:
-
-header.php,6\3\6314feee14ea09173c34632864f7659d9d5a5a84
