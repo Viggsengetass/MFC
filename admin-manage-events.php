@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Formulaire pour ajouter un événement -->
     <div id="addEventForm" class="hidden bg-gray-800 rounded p-4">
-        <form action="admin-manage-event.php" method="post" enctype="multipart/form-data">
+        <form action="admin-functions.php" method="post" enctype="multipart/form-data">
             <label class="block text-gray-300">Nom de l'événement:</label>
             <input type="text" name="nom" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
