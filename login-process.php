@@ -1,112 +1,99 @@
 <?php
 session_start();
-include 'config.php';
+include 'config.php'; // Inclure votre fichier de configuration de base de données
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Si le formulaire de connexion est soumis
-    if (isset($_POST['username']) && isset($_POST['password'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+// Fonction pour la connexion de l'utilisateur
+function loginUser($conn, $username, $password) {
+    // Échapper les entrées utilisateur pour éviter les injections SQL
+    $escapedUsername = mysqli_real_escape_string($conn, $username);
+    $escapedPassword = mysqli_real_escape_string($conn, $password);
 
-        // Utilisez la fonction de traitement pour effectuer la connexion
-        $result = loginUser($username, $password);
+    // Requête SQL pour vérifier l'authentification
+    $sql = "SELECT * FROM users WHERE username='$escapedUsername' AND password='$escapedPassword'";
 
-        if ($result['success']) {
-            // Rediriger vers la page d'accueil après la connexion réussie
-            header('Location: index.php');
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        // Vérifier si des données correspondantes ont été trouvées
+        if (mysqli_num_rows($result) == 1) {
+            // L'utilisateur est authentifié avec succès
+            $user = mysqli_fetch_assoc($result);
+            $_SESSION['user_id'] = $user['id'];
+            return true;
         } else {
-            // Rediriger vers la page de connexion avec un message d'erreur
-            $_SESSION['login_error'] = "Nom d'utilisateur ou mot de passe incorrect.";
-            header('Location: login.php');
+            // Échec de l'authentification
+            return false;
         }
-    } elseif (isset($_POST['register_username']) && isset($_POST['register_password']) && isset($_POST['register_email'])) {
-        // Si le formulaire d'inscription est soumis
-        $firstname = $_POST['firstname'];
-        $register_username = $_POST['register_username'];
-        $register_password = $_POST['register_password'];
-        $register_email = $_POST['register_email'];
-        $confirm_password = $_POST['confirm_password'];
-
-        // Utilisez la fonction de traitement pour effectuer l'inscription
-        $result = registerUser($register_username, $register_password, $register_email);
-
-        if ($result['success']) {
-            // Rediriger vers la page d'accueil après l'inscription réussie
-            $_SESSION['registration_success'] = "Inscription réussie. Connectez-vous maintenant.";
-            header('Location: login.php');
-        } else {
-            // Rediriger vers la page d'inscription avec un message d'erreur
-            $_SESSION['registration_error'] = "Erreur lors de l'inscription. Veuillez réessayer.";
-            header('Location: login.php');
-        }
-    }
-}
-
-// Fonction pour effectuer la connexion d'un utilisateur
-function loginUser($username, $password) {
-    global $conn;
-    $result = array();
-
-    // Requête SQL pour récupérer l'utilisateur en fonction du nom d'utilisateur
-    $query = "SELECT * FROM users WHERE nom = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $user_result = $stmt->get_result();
-
-    if ($user_result->num_rows == 1) {
-        $user = $user_result->fetch_assoc();
-
-        // Vérifiez si le mot de passe est correct
-        if (password_verify($password, $user['mot_de_passe'])) {
-            // Enregistrez l'utilisateur dans la session
-            $_SESSION['user'] = $user;
-            $result['success'] = true;
-            $result['username'] = $user['nom'];
-            return $result; // La connexion a réussi
-        }
-    }
-
-    $result['success'] = false;
-    return $result; // La connexion a échoué
-}
-
-// Fonction pour effectuer l'inscription d'un utilisateur
-function registerUser($username, $password, $email) {
-    global $conn;
-    $result = array();
-
-    // Hachez le mot de passe
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Préparez la requête SQL avec des paramètres
-    $query = "INSERT INTO users (nom, mot_de_passe, email) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($query);
-
-    if (!$stmt) {
-        // La préparation de la requête a échoué
-        $result['success'] = false;
-        return $result;
-    }
-
-    // Liez les paramètres
-    $bindResult = $stmt->bind_param("sss", $username, $hashedPassword, $email);
-
-    if (!$bindResult) {
-        // La liaison des paramètres a échoué
-        $result['success'] = false;
-        return $result;
-    }
-
-    // Exécutez la requête
-    $executeResult = $stmt->execute();
-
-    if ($executeResult) {
-        $result['success'] = true; // L'inscription a réussi
-        return $result;
     } else {
-        $result['success'] = false; // L'inscription a échoué
-        return $result;
+        // Erreur de requête SQL
+        return false;
+    }
+}
+
+// Fonction pour l'enregistrement de l'utilisateur
+function registerUser($conn, $username, $password, $email) {
+    // Échapper les entrées utilisateur pour éviter les injections SQL
+    $escapedUsername = mysqli_real_escape_string($conn, $username);
+    $escapedPassword = mysqli_real_escape_string($conn, $password);
+    $escapedEmail = mysqli_real_escape_string($conn, $email);
+
+    // Vérifier si l'utilisateur existe déjà
+    $checkExistingUser = "SELECT * FROM users WHERE username='$escapedUsername'";
+    $existingUserResult = mysqli_query($conn, $checkExistingUser);
+
+    if ($existingUserResult && mysqli_num_rows($existingUserResult) > 0) {
+        // L'utilisateur existe déjà
+        return false;
+    } else {
+        // Insérer le nouvel utilisateur dans la base de données
+        $insertUser = "INSERT INTO users (username, password, email) VALUES ('$escapedUsername', '$escapedPassword', '$escapedEmail')";
+        $insertResult = mysqli_query($conn, $insertUser);
+
+        if ($insertResult) {
+            // Enregistrement réussi
+            return true;
+        } else {
+            // Erreur lors de l'enregistrement
+            return false;
+        }
+    }
+}
+
+// Gérer la soumission du formulaire de connexion
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login_submit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Appeler la fonction de connexion
+    if (loginUser($conn, $username, $password)) {
+        // Connexion réussie, rediriger vers la page d'accueil
+        header('Location: home.php');
+        exit();
+    } else {
+        // Échec de la connexion, afficher un message d'erreur
+        $_SESSION['login_error'] = 'Nom d\'utilisateur ou mot de passe incorrect.';
+        header('Location: login.php');
+        exit();
+    }
+}
+
+// Gérer la soumission du formulaire d'enregistrement
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register_submit'])) {
+    $registerUsername = $_POST['register_username'];
+    $registerPassword = $_POST['register_password'];
+    $registerEmail = $_POST['register_email'];
+
+    // Appeler la fonction d'enregistrement
+    if (registerUser($conn, $registerUsername, $registerPassword, $registerEmail)) {
+        // Enregistrement réussi, rediriger vers la page de connexion
+        $_SESSION['registration_success'] = 'Inscription réussie. Vous pouvez maintenant vous connecter.';
+        header('Location: login.php');
+        exit();
+    } else {
+        // Échec de l'enregistrement, afficher un message d'erreur
+        $_SESSION['registration_error'] = 'L\'inscription a échoué. Veuillez réessayer.';
+        header('Location: register.php');
+        exit();
     }
 }
 ?>
