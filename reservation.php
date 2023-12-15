@@ -1,38 +1,34 @@
-<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
 require_once 'common.php';
-require_once 'reservation-functions.php'; // Assurez-vous que ce fichier contient les fonctions relatives à la réservation
+require_once 'reservation-functions.php';
 
 $evenement_id = $_GET['id'] ?? 0;
-$utilisateur_id = $_SESSION['utilisateur_id'] ?? null; // S'assurer que l'utilisateur est connecté
+$utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
 
 if (!$utilisateur_id) {
-    die("Vous devez être connecté pour faire une réservation.");
+die("Vous devez être connecté pour faire une réservation.");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre_billets = $_POST['nombre_billets'];
-    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
-    if ($result === true) {
-        // Redirection vers le panier avec un message de succès
-        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
-        header('Location: panier.php');
-        exit();
-    } else {
-        // Afficher un message d'erreur si la réservation échoue
-        $erreur_message = "Erreur lors de la réservation : " . $result;
-    }
+$nombre_billets = $_POST['nombre_billets'];
+$result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
+if ($result === true) {
+$_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
+header('Location: panier.php');
+exit();
+} else {
+$erreur_message = "Erreur lors de la réservation : " . $result;
+}
 }
 
-// Récupérer les informations de l'événement
-$evenement = getEvenementDetails($conn, $evenement_id); // Assurez-vous que cette fonction est définie et renvoie les détails de l'événement
+$evenement = getEvenementDetails($conn, $evenement_id);
 
 if (!$evenement) {
-    die("Événement non trouvé.");
+die("Événement non trouvé.");
 }
 ?>
 
