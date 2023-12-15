@@ -26,20 +26,8 @@ $showPopup = false;
 
 // Traitement du formulaire de réservation
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['evenement_id']) && isset($_POST['nombre_billets'])) {
-        $evenement_id = $_POST['evenement_id'];
-        $nombre_billets = $_POST['nombre_billets'];
-
-        // Remplacez 'Nom de l'événement' par le nom réel de l'événement
-        $evenementNom = 'Nom de l\'événement';
-
-        $popupMessage = "Votre réservation pour \"$evenementNom\" avec $nombre_billets place(s) est confirmée.";
-        $showPopup = true;
-    } else {
-        // Affichez un message d'erreur si les variables ne sont pas définies
-        $popupMessage = "Erreur lors de la réservation : Les données du formulaire sont manquantes.";
-        $showPopup = true;
-    }
+    $popupMessage = "Votre réservation est confirmée.";
+    $showPopup = true;
 }
 ?>
 
@@ -76,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre_billets" name="nombre_billets" type="number" min="1" required>
             </div>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            <button class="bg-blue-500 hover.bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Réserver
             </button>
         </form>
