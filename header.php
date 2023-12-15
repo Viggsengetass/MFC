@@ -7,6 +7,29 @@ error_reporting(E_ALL);
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+// Inclure le fichier common.php pour la connexion à la base de données
+include 'common.php';
+
+// Fonction pour récupérer les informations de l'utilisateur connecté
+function getLoggedInUserInfo($conn) {
+    if (isset($_SESSION['user']) && isset($_SESSION['user']['username'])) {
+        $username = $_SESSION['user']['username'];
+        // Remplacez 'votre_table_utilisateurs' par le nom de votre table d'utilisateurs
+        $sql = "SELECT * FROM votre_table_utilisateurs WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 1) {
+            return $result->fetch_assoc();
+        }
+    }
+    return null;
+}
+
+// Récupérer les informations de l'utilisateur connecté
+$loggedInUser = getLoggedInUserInfo($mysqli);
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +60,8 @@ if (session_status() == PHP_SESSION_NONE) {
             <li><a href="contact.php" class="neumorphism_header">Contact</a></li>
 
             <?php
-            if (isset($_SESSION['user']) && isset($_SESSION['user']['username'])) {
-                echo '<li><span>Bienvenue, ' . htmlspecialchars($_SESSION['user']['username']) . '!</span></li>';
+            if ($loggedInUser) {
+                echo '<li><span>Bienvenue, ' . htmlspecialchars($loggedInUser['username']) . '!</span></li>';
                 echo '<li><a href="logout.php" class="neumorphism_header">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php" class="neumorphism_header">Se Connecter</a></li>';
