@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     <button id="addCombatantBtn" class="mb-4 px-6 py-3 bg-blue-600 rounded-lg shadow-lg text-white font-semibold hover:bg-blue-700 transition duration-300">Ajouter un combattant</button>
 
     <div id="addCombatantForm" class="hidden">
-        <form action="admin-manage-combattants.php" method="post" enctype="multipart/form-data" class="bg-gray-800 p-6 rounded-lg shadow-xl">
+        <form action="admin-functions.php" method="post" enctype="multipart/form-data" class="bg-gray-800 p-6 rounded-lg shadow-xl">
             <!-- Champs du formulaire -->
             <input type="text" name="nom" placeholder="Nom" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow" required>
             <input type="text" name="prenom" placeholder="Prénom" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow" required>
