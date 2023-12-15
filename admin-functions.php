@@ -90,15 +90,15 @@ function getCategoryName($id, $conn) {
     return $name;
 }
 
-function createEvenement($nom, $date, $lieu, $description, $conn) {
-    $query = "INSERT INTO evenements_admin (nom, date, lieu, description) VALUES (?, ?, ?, ?)";
+function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2) {
+    $query = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, combattant1_id, combattant2_id, image_combattant1, image_combattant2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
         die("Erreur de préparation de la requête: " . $conn->error);
     }
 
-    $stmt->bind_param("ssss", $nom, $date, $lieu, $description);
+    $stmt->bind_param("sssssiiss", $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
 
     if (!$stmt->execute()) {
         die("Erreur lors de l'exécution de la requête: " . $stmt->error);
