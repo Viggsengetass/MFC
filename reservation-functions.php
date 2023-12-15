@@ -48,4 +48,21 @@ function getEvenementDetails($conn, $evenement_id) {
         return null;
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre_billets = $_POST['nombre_billets'];
+
+    // Appel de la fonction pour ajouter la réservation
+    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
+
+    if ($result === true) {
+        // Redirection vers le panier avec un message de succès
+        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
+        header('Location: panier.php');
+        exit();
+    } else {
+        // Afficher un message d'erreur si la réservation échoue
+        $erreur_message = "Erreur lors de la réservation : " . $result;
+    }
+}
 ?>
