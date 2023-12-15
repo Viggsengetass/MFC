@@ -66,7 +66,8 @@ $evenements = getAllEvenements($conn);
                 <h3 class="text-xl font-semibold mt-2"><?= $evenement['nom'] ?></h3>
                 <p class="text-gray-500">Date : <?= date('d-m-Y', strtotime($evenement['date'])) ?></p>
                 <p class="mt-2"><?= $evenement['description'] ?></p>
-                <a href="#" class="text-blue-600 hover:underline mt-2">Réserver des billets</a>
+                <!-- Lien pour la réservation -->
+                <a href="reservation.php?id=<?= $evenement['id'] ?>" class="text-blue-600 hover:underline mt-2">Réserver des billets</a>
             </div>
         <?php endforeach; ?>
 
