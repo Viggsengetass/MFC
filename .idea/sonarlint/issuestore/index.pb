@@ -10,5 +10,3 @@ E
 admin-list-events.php,2\a\2a07074c6da516d98d92f5edf775d636790d9ee1
 C
 edit-combattant.php,7\d\7d6d63700a7f41bddd6151a2a75a134decd5b5e8
-K
-admin-create-combattant.php,a\3\a3a07a4d574cc13b199e8942a082f59a7939bf86

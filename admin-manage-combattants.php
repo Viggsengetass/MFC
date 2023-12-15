@@ -65,7 +65,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
             <input type="text" name="surnom" placeholder="Surnom" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow">
             <textarea name="description" placeholder="Description" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow"></textarea>
             <select name="categorie_id" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow" required>
-                <!-- Options de catégorie -->
+                <?php
+                // Récupérez toutes les catégories disponibles depuis la base de données
+                $categories = getAllCategories($conn);
+
+                // Parcourez les catégories et affichez-les dans la liste déroulante
+                foreach ($categories as $category) {
+                    echo '<option value="' . $category['id'] . '">' . htmlspecialchars($category['name']) . '</option>';
+                }
+                ?>
             </select>
             <input type="file" name="image" class="w-full px-3 py-2 mb-4 text-gray-700 bg-white border rounded shadow">
             <input type="submit" name="add_combattant" value="Ajouter Combattant" class="px-6 py-3 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition duration-300 cursor-pointer">
