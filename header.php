@@ -10,7 +10,6 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Inclure le fichier common.php pour la connexion à la base de données
 include 'common.php';
-include 'admin-functions.php';
 
 
 // Fonction pour récupérer les informations de l'utilisateur connecté
