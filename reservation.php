@@ -9,8 +9,6 @@ session_start();
 
 // Inclusion des fichiers nécessaires
 require_once 'common.php';
-require_once 'reservation-functions.php';
-require_once 'admin-functions.php';
 
 // Récupération de la liste des événements
 $evenements = getAllEvenements($conn);
@@ -27,16 +25,22 @@ if (!$utilisateur_id) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $evenement_id = $_POST['evenement_id'];
     $nombre_billets = $_POST['nombre_billets'];
+    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
 
-    // Validez les données du formulaire ici...
+    if ($result === true) {
+        // Récupération du nom de l'événement
+        $evenement = getEvenementById($conn, $evenement_id);
+        $evenementNom = $evenement['nom'];
 
-    // Envoi d'une requête à reservation-process.php
-    $_SESSION['reservation_data'] = [
-        'evenement_id' => $evenement_id,
-        'nombre_billets' => $nombre_billets,
-    ];
-    header('Location: reservation-process.php');
-    exit();
+        // JavaScript pour afficher la popup
+        echo "<script>
+            alert('Votre réservation pour \"$evenementNom\" avec $nombre_billets place(s) est confirmée.');
+            window.location.href = 'panier.php'; // Rediriger vers la page du panier
+        </script>";
+    } else {
+        // Afficher un message d'erreur si la réservation échoue
+        $erreur_message = "Erreur lors de la réservation : $result";
+    }
 }
 ?>
 
@@ -76,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre_billets" name="nombre_billets" type="number" min="1" required>
             </div>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            <button class="bg-blue-500 hover.bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Réserver
             </button>
         </form>
