@@ -10,7 +10,6 @@ session_start();
 require_once 'common.php';
 require_once 'admin-functions.php';
 
-
 // Récupération de la liste des événements
 $evenements = getAllEvenements($conn);
 
@@ -27,14 +26,20 @@ $showPopup = false;
 
 // Traitement du formulaire de réservation
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $evenement_id = $_POST['evenement_id'];
-    $nombre_billets = $_POST['nombre_billets'];
+    if (isset($_POST['evenement_id']) && isset($_POST['nombre_billets'])) {
+        $evenement_id = $_POST['evenement_id'];
+        $nombre_billets = $_POST['nombre_billets'];
 
-    // Remplacez 'Nom de l'événement' par le nom réel de l'événement
-    $evenementNom = 'Nom de l\'événement';
+        // Remplacez 'Nom de l'événement' par le nom réel de l'événement
+        $evenementNom = 'Nom de l\'événement';
 
-    $popupMessage = "Votre réservation pour \"$evenementNom\" avec $nombre_billets place(s) est confirmée.";
-    $showPopup = true;
+        $popupMessage = "Votre réservation pour \"$evenementNom\" avec $nombre_billets place(s) est confirmée.";
+        $showPopup = true;
+    } else {
+        // Affichez un message d'erreur si les variables ne sont pas définies
+        $popupMessage = "Erreur lors de la réservation : Les données du formulaire sont manquantes.";
+        $showPopup = true;
+    }
 }
 ?>
 
