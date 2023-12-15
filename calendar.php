@@ -4,8 +4,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // Inclure le fichier common.php pour la connexion à la base de données
 include 'common.php';
+include 'admin-functions.php';
 
-// Utilisez la connexion $mysqli de common.php au lieu de $mysqli
+
+// Vérifier la connexion à la base de données
+if ($mysqli->connect_error) {
+    die("La connexion à la base de données a échoué : " . $mysqli->connect_error);
+}
+
 // Sélectionnez les événements depuis la base de données
 $sql = "SELECT id, nom, date, heure FROM evenements";
 $result = $mysqli->query($sql);
