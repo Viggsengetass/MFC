@@ -6,35 +6,34 @@ error_reporting(E_ALL);
 
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
-function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    // Ensure that the connection is a valid mysqli instance
+function createCombattant($conn, $nom, $prenom, $surnom, $description, $image_combattant1, $image_combattant2, $categorie_id) {
+    // Assurez-vous que la connexion est une instance mysqli valide
     if ($conn instanceof mysqli === false) {
         return "La variable de connexion n'est pas une instance de mysqli.";
     }
 
-    // Check if the category exists
+    // Vérifiez si la catégorie existe
     if (!categorieExists($conn, $categorie_id)) {
         return "Catégorie non trouvée.";
     }
 
-    // Prepare the insert statement
-    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+    // Préparez l'instruction d'insertion
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image_combattant1, image_combattant2, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         return "Erreur de préparation de la requête: " . $conn->error;
     }
 
-    // Bind the parameters and execute the statement
-    $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
+    // Liez les paramètres et exécutez l'instruction
+    $stmt->bind_param("ssssssi", $nom, $prenom, $surnom, $description, $image_combattant1, $image_combattant2, $categorie_id);
     if (!$stmt->execute()) {
         return "Erreur lors de l'exécution de la requête: " . $stmt->error;
     }
 
-    // Close the statement
+    // Fermez l'instruction
     $stmt->close();
-    return true; // Return true to indicate success
+    return true; // Renvoie true pour indiquer le succès
 }
-
 
 function getAllCombattants($conn) {
     $query = "SELECT * FROM combattants_admin";
@@ -55,8 +54,8 @@ function getAllCombattants($conn) {
     return $combattants;
 }
 
-function validateCombatant($nom, $prenom, $description, $image, $categorie_id) {
-    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image) && $categorie_id !== false;
+function validateCombatant($nom, $prenom, $description, $image_combattant1, $image_combattant2, $categorie_id) {
+    return !empty($nom) && !empty($prenom) && !empty($description) && !empty($image_combattant1) && !empty($image_combattant2) && $categorie_id !== false;
 }
 
 function categorieExists($conn, $id) {
@@ -67,7 +66,6 @@ function categorieExists($conn, $id) {
     $result = $stmt->get_result();
     return $result->num_rows > 0;
 }
-
 
 function getCategoryName($id, $conn) {
     $query = "SELECT name FROM categories WHERE id = ?";
@@ -127,7 +125,7 @@ function getAllEvenements($conn) {
     return $evenements;
 }
 
-// Delete a combatant from the database
+// Supprimer un combattant de la base de données
 function deleteCombattant($conn, $id) {
     $query = "DELETE FROM combattants_admin WHERE id = ?";
     $stmt = $conn->prepare($query);
@@ -142,7 +140,7 @@ function deleteCombattant($conn, $id) {
     return true;
 }
 
-// Function to retrieve a single combatant's details
+// Fonction pour récupérer les détails d'un combattant unique
 function getCombattant($conn, $id) {
     $query = "SELECT * FROM combattants_admin WHERE id = ?";
     $stmt = $conn->prepare($query);
@@ -157,30 +155,31 @@ function getCombattant($conn, $id) {
     if ($result->num_rows === 1) {
         return $result->fetch_assoc();
     } else {
-        return null; // No combatant found with this ID
+        return null; // Aucun combattant trouvé avec cet ID
     }
 }
 
-function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
-    // Check if the category exists before attempting to update
+function updateCombattant($conn, $id, $nom, $prenom, $surnom, $description, $image_combattant1, $image_combattant2, $categorie_id) {
+    // Vérifiez si la catégorie existe avant de tenter de mettre à jour
     if (!categorieExists($conn, $categorie_id)) {
-        return "Catégorie non trouvée."; // Return error message instead of dying
+        return "Catégorie non trouvée."; // Renvoyer un message d'erreur au lieu de mourir
     }
 
-    $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image = ?, categorie_id = ? WHERE id = ?";
+    $query = "UPDATE combattants_admin SET nom = ?, prenom = ?, surnom = ?, description = ?, image_combattant1 = ?, image_combattant2 = ?, categorie_id = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         die("Erreur de préparation de la requête: " . $conn->error);
     }
 
-    $stmt->bind_param("sssssii", $nom, $prenom, $surnom, $description, $image, $categorie_id, $id);
+    $stmt->bind_param("ssssssii", $nom, $prenom, $surnom, $description, $image_combattant1, $image_combattant2, $categorie_id, $id);
     if (!$stmt->execute()) {
         die("Erreur lors de l'exécution de la requête: " . $stmt->error);
     }
 
     $stmt->close();
-    return true; // Return true on success
+    return true; // Renvoyer true en cas de succès
 }
+
 function getAllCategories($conn) {
     $query = "SELECT * FROM categories";
     $result = $conn->query($query);
@@ -195,5 +194,4 @@ function getAllCategories($conn) {
     }
     return $categories;
 }
-
 ?>
