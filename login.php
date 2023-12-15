@@ -1,3 +1,10 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -5,26 +12,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - M.F.C MMA Tournament</title>
+    <?php include 'common.php'; ?>
     <link rel="stylesheet" href="/style/register.css">
-    <style>
-        .popup {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background-color: white;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-        }
-        .success { border-color: green; }
-        .error { border-color: red; }
-    </style>
 </head>
 
 <body class="bg-gray-100">
 <div class="container">
     <?php
-    session_start();
     if (isset($_SESSION['user'])) {
         echo '<p>Bienvenue, ' . $_SESSION['user']['username'] . '!</p>';
         echo '<p>Vous êtes connecté en tant que ' . $_SESSION['user']['role'] . '.</p>';
@@ -53,29 +47,6 @@
     }
     ?>
 </div>
-
-<script>
-    window.onload = function() {
-        <?php if (isset($_SESSION['message'])) { ?>
-        var msgDiv = document.createElement("div");
-        msgDiv.classList.add("popup", "success");
-        msgDiv.textContent = "<?php echo $_SESSION['message']; ?>";
-        document.body.appendChild(msgDiv);
-        setTimeout(function() { msgDiv.remove(); }, 3000);
-        <?php unset($_SESSION['message']); ?>
-        <?php } ?>
-
-        <?php if (isset($_SESSION['error'])) { ?>
-        var errorDiv = document.createElement("div");
-        errorDiv.classList.add("popup", "error");
-        errorDiv.textContent = "<?php echo $_SESSION['error']; ?>";
-        document.body.appendChild(errorDiv);
-        setTimeout(function() { errorDiv.remove(); }, 3000);
-        <?php unset($_SESSION['error']); ?>
-        <?php } ?>
-    };
-</script>
-
 </body>
 
 </html>
