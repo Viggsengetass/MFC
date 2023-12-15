@@ -8,7 +8,7 @@ require_once 'common.php';
 
 $evenements = getAllEvenements($conn);
 $combattants = getAllCombattants($conn);
-
+$categories = getAllCategories($conn); // Ajout pour récupérer les catégories
 
 function handleImageUpload($file, $uploadDirectory = 'image-combattants/') {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -32,33 +32,27 @@ function handleImageUpload($file, $uploadDirectory = 'image-combattants/') {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['add_event'])) {
-        $nom = $_POST['nom'];
-        $date = $_POST['date'];
-        $heure = $_POST['heure'];
-        $lieu = $_POST['lieu'];
-        $description = $_POST['description'];
-        $combattant1_id = $_POST['combattant1_id'];
-        $combattant2_id = $_POST['combattant2_id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
+    $nom = $_POST['nom'];
+    $date = $_POST['date'];
+    $heure = $_POST['heure'];
+    $lieu = $_POST['lieu'];
+    $description = $_POST['description'];
+    $combattant1_id = $_POST['combattant1_id'];
+    $combattant2_id = $_POST['combattant2_id'];
+    $categorie_id = $_POST['categorie_id']; // Récupération de la catégorie
 
-        // Gérer l'upload des images pour les combattants
-        $image_combattant1 = handleImageUpload($_FILES['image_combattant1']);
-        $image_combattant2 = handleImageUpload($_FILES['image_combattant2']);
+    $image_combattant1 = handleImageUpload($_FILES['image_combattant1']);
+    $image_combattant2 = handleImageUpload($_FILES['image_combattant2']);
 
-        // Vérifier s'il y a eu une erreur lors du téléchargement des images
-        if (!is_string($image_combattant1) || !is_string($image_combattant2)) {
-            // Une erreur s'est produite lors du téléchargement des images, vous pouvez afficher un message d'erreur.
-            echo "Erreur lors du téléchargement des images : " . $image_combattant1 . " " . $image_combattant2;
-        } else {
-            // Les images ont été téléchargées avec succès, vous pouvez continuer à ajouter l'événement.
-            $result = createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
-            if ($result !== true) {
-                echo "Erreur lors de la création de l'événement : " . $result;
-            }
+    if (!is_string($image_combattant1) || !is_string($image_combattant2)) {
+        echo "Erreur lors du téléchargement des images : " . $image_combattant1 . " " . $image_combattant2;
+    } else {
+        $result = createEvenement($conn, $nom, $date, $heure, $lieu, $description, $categorie_id, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+        if ($result !== true) {
+            echo "Erreur lors de la création de l'événement : " . $result;
         }
     }
-    // Implémenter la logique pour 'edit_event' et 'delete_event'
 }
 ?>
 
@@ -78,24 +72,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1 class="text-3xl font-bold mb-6">Gérer les Événements</h1>
     <button id="addEventBtn" class="mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Ajouter un événement</button>
 
-    <!-- Formulaire pour ajouter un événement -->
     <div id="addEventForm" class="hidden bg-gray-800 rounded p-4">
         <form action="admin-manage-events.php" method="post" enctype="multipart/form-data">
             <label class="block text-gray-300">Nom de l'événement:</label>
             <input type="text" name="nom" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
-
             <label class="block text-gray-300 mt-4">Date:</label>
             <input type="date" name="date" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
-
             <label class="block text-gray-300 mt-4">Heure:</label>
             <input type="time" name="heure" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
-
             <label class="block text-gray-300 mt-4">Lieu:</label>
             <input type="text" name="lieu" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
-
             <label class="block text-gray-300 mt-4">Description:</label>
             <textarea name="description" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"></textarea><br>
 
+            <!-- Champ de sélection pour les combattants -->
             <label class="block text-gray-300 mt-4">Combattant 1:</label>
             <select name="combattant1_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
                 <?php foreach ($combattants as $combattant): ?>
@@ -110,11 +100,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php endforeach; ?>
             </select><br>
 
-            <label class="block text-gray-300 mt-4">Image du Combattant 1:</label>
-            <input type="file" name="image_combattant1" accept="image/*" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
-
-            <label class="block text-gray-300 mt-4">Image du Combattant 2:</label>
-            <input type="file" name="image_combattant2" accept="image/*" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
+            <!-- Champ de sélection pour les catégories -->
+            <label class="block text-gray-300 mt-4">Catégorie:</label>
+            <select name="categorie_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
+                <?php foreach ($categories as $categorie): ?>
+                    <option value="<?= $categorie['id'] ?>"><?= $categorie['nom'] ?></option>
+                <?php endforeach; ?>
+            </select><br>            <!-- ... -->
+            <label class="block text-gray-300 mt-4">Catégorie:</label>
+            <select name="categorie_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
+                <?php foreach ($categories as $categorie): ?>
+                    <option value="<?= $categorie['id'] ?>"><?= $categorie['nom'] ?></option>
+                <?php endforeach; ?>
+            </select><br>
 
             <button type="submit" name="add_event" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">Ajouter</button>
         </form>
