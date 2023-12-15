@@ -10,8 +10,6 @@ session_start();
 // Inclusion des fichiers nécessaires
 require_once 'common.php';
 require_once 'reservation-functions.php';
-require_once 'admin-functions.php';
-
 
 // Récupération de la liste des événements
 $evenements = getAllEvenements($conn);
