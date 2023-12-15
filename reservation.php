@@ -22,12 +22,12 @@ if (!$utilisateur_id) {
     die("Vous devez être connecté pour faire une réservation.");
 }
 
-// Récupération des informations de l'événement
+// Récupération des informations de l'événement depuis la base de données
 $evenement = getEvenementDetails($conn, $evenement_id);
 
 // Vérification si l'événement existe
 if (!$evenement) {
-    $erreur_message = "Erreur! Événement non trouvé."; // Message d'erreur personnalisé
+    die("Erreur! Événement non trouvé.");
 }
 
 // Traitement du formulaire de réservation
