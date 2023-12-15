@@ -27,7 +27,7 @@ $evenement = getEvenementDetails($conn, $evenement_id);
 
 // Vérification si l'événement existe
 if (!$evenement) {
-    $erreur_message = "Erreur! Événement non trouvé."; // Message d'erreur personnalisé
+    $erreur_message = "Erreur! Événement non trouvé.";
 }
 ?>
 
