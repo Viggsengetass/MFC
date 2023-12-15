@@ -22,27 +22,12 @@ if (!$utilisateur_id) {
     die("Vous devez être connecté pour faire une réservation.");
 }
 
-// Traitement du formulaire de réservation
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre_billets = $_POST['nombre_billets'];
-    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
-    if ($result === true) {
-        // Redirection vers le panier avec un message de succès
-        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
-        header('Location: panier.php');
-        exit();
-    } else {
-        // Afficher un message d'erreur si la réservation échoue
-        $erreur_message = "Erreur lors de la réservation : " . $result;
-    }
-}
-
 // Récupération des informations de l'événement
 $evenement = getEvenementDetails($conn, $evenement_id);
 
 // Vérification si l'événement existe
 if (!$evenement) {
-    $erreur_message = "Événement non trouvé."; // Message d'erreur personnalisé
+    $erreur_message = "Erreur! Événement non trouvé."; // Message d'erreur personnalisé
 }
 ?>
 
@@ -58,8 +43,7 @@ if (!$evenement) {
     <div class="bg-white p-8 rounded-lg shadow-lg">
         <?php if (isset($erreur_message)) : ?>
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong class="font-bold">Erreur!</strong>
-                <span class="block sm:inline"><?= $erreur_message ?></span>
+                <strong class="font-bold"><?= $erreur_message ?></strong>
             </div>
         <?php else : ?>
             <h1 class="text-xl font-bold mb-4">Réservation pour : <?= htmlspecialchars($evenement['nom']) ?></h1>
