@@ -101,16 +101,10 @@ $calendarEvents = array_map(function($event) {
             eventClick: function(info) {
                 alert('Événement: ' + info.event.title + '\nDate: ' + info.event.start.toISOString());
                 // Remplacer par une modal ou une autre interface
-            }
+            },
             // Autres options ici
         });
-        calendar.render();
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            // Options existantes
-        });
+
         calendar.render();
 
         // Gestion du changement d'année
