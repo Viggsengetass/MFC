@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require 'common.php'; // Utiliser require pour inclure la configuration de la base de données
+require 'common.php';
 
 function getEvents($conn) {
     $result = $conn->query("SELECT * FROM evenements_admin");
@@ -21,8 +21,13 @@ try {
 
 $calendarEvents = array_map(function($event) {
     return [
+        'id' => $event['id'],
         'title' => $event['nom'],
         'start' => $event['date'] . 'T' . $event['heure'],
+        'extendedProps' => [
+            'description' => $event['description'],
+            'lieu' => $event['lieu']
+        ]
     ];
 }, $events);
 ?>
@@ -73,7 +78,7 @@ $calendarEvents = array_map(function($event) {
         #year-select, #month-select {
             background-color: #555;
             color: white;
-            border: 1px solid #000;
+            border: none;
             padding: 5px;
             border-radius: 4px;
             margin-right: 5px;
@@ -129,14 +134,14 @@ $calendarEvents = array_map(function($event) {
     <div id='calendar-controls' style="margin-bottom: 10px;">
         <label for="year-select">Année :</label>
         <select id="year-select">
-            <?php for($i = 2020; $i <= 2030; $i++) { echo "<option value='$i'>$i</option>"; } ?>
+            <?php for ($i = 2020; $i <= 2030; $i++) { echo "<option value='$i'".($i === (int)date('Y') ? ' selected' : '').">$i</option>"; } ?>
         </select>
         <label for="month-select">Mois :</label>
         <select id="month-select">
             <?php
             $mois = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
             foreach ($mois as $index => $nom) {
-                echo "<option value='" . ($index + 1) . "'>$nom</option>";
+                echo "<option value='" . ($index + 1) . "'" .($index === (int)date('n') - 1 ? ' selected' : ''). ">$nom</option>";
             }
             ?>
         </select>
@@ -148,11 +153,13 @@ $calendarEvents = array_map(function($event) {
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2 id="modalTitle"></h2>
+        <p id="modalDate"></p>
         <p id="modalBody"></p>
         <button id="modalReserveButton" class="reserve">Réserver</button>
     </div>
 </div>
 
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -166,10 +173,12 @@ $calendarEvents = array_map(function($event) {
             },
             events: <?php echo json_encode($calendarEvents); ?>,
             eventClick: function(info) {
-                document.getElementById('modalTitle').textContent = info.event.title;
-                document.getElementById('modalBody').textContent = 'Date: ' + info.event.start.toISOString();
+                var eventObj = info.event;
+                document.getElementById('modalTitle').textContent = eventObj.title;
+                document.getElementById('modalDate').textContent = 'Date: ' + new Date(eventObj.start).toLocaleString();
+                document.getElementById('modalBody').textContent = eventObj.extendedProps.description;
                 document.getElementById('modalReserveButton').onclick = function() {
-                    window.location.href = 'reservation_link'; // Remplacer par le lien de réservation réel
+                    window.location.href = 'reservation.php?event_id=' + eventObj.id;
                 };
                 document.getElementById('eventModal').style.display = 'block';
             }
