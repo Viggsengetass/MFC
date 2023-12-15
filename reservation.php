@@ -1,30 +1,35 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once 'common.php';
-require_once 'reservation-functions.php'; // Utiliser le fichier de fonctions de réservation
+require_once 'reservation-functions.php'; // Assurez-vous que ce fichier contient les fonctions relatives à la réservation
 
 $evenement_id = $_GET['id'] ?? 0;
 $utilisateur_id = $_SESSION['utilisateur_id'] ?? null; // S'assurer que l'utilisateur est connecté
+
+if (!$utilisateur_id) {
+    die("Vous devez être connecté pour faire une réservation.");
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_billets = $_POST['nombre_billets'];
     $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
     if ($result === true) {
+        // Redirection vers le panier avec un message de succès
+        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
         header('Location: panier.php');
         exit();
     } else {
-        echo "Erreur lors de la réservation : " . $result;
+        // Afficher un message d'erreur si la réservation échoue
+        $erreur_message = "Erreur lors de la réservation : " . $result;
     }
 }
 
-// Récupération des informations de l'événement
-$query = "SELECT nom, date, heure, lieu FROM evenements WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $evenement_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$evenement = $result->fetch_assoc();
-$stmt->close();
+// Récupérer les informations de l'événement
+$evenement = getEvenementDetails($conn, $evenement_id); // Assurez-vous que cette fonction est définie et renvoie les détails de l'événement
 
 if (!$evenement) {
     die("Événement non trouvé.");
@@ -41,6 +46,13 @@ if (!$evenement) {
 <body class="bg-gray-100">
 <div class="container mx-auto mt-10">
     <div class="bg-white p-8 rounded-lg shadow-lg">
+        <?php if (isset($erreur_message)) : ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Erreur!</strong>
+                <span class="block sm:inline"><?= $erreur_message ?></span>
+            </div>
+        <?php endif; ?>
+
         <h1 class="text-xl font-bold mb-4">Réservation pour : <?= htmlspecialchars($evenement['nom']) ?></h1>
         <p>Date: <?= htmlspecialchars($evenement['date']) ?></p>
         <p>Heure: <?= htmlspecialchars($evenement['heure']) ?></p>
