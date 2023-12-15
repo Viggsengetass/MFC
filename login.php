@@ -32,7 +32,13 @@
     } else {
         ?>
         <input type="checkbox" id="login_toggle">
-        <form class="form" method="post" action="login-process.php">
+        <form class="form" method="post" action="login-process.php" class="space-y-4">
+            <?php
+            if (isset($_SESSION['login_error'])) {
+                echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
+                unset($_SESSION['login_error']);
+            }
+            ?>
             <div class="form_front">
                 <div class="form_details">Login</div>
                 <input placeholder="Username" name="username" class="input" type="text">
