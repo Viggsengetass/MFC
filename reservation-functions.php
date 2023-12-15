@@ -1,5 +1,5 @@
 <?php
-// admin-functions.php
+// reservation-functions.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -35,3 +35,17 @@ function getReservationsUtilisateur($conn, $utilisateur_id) {
     $stmt->close();
     return $reservations;
 }
+
+function getEvenementDetails($conn, $evenement_id) {
+    $query = "SELECT * FROM evenements WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $evenement_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows === 1) {
+        return $result->fetch_assoc();
+    } else {
+        return null;
+    }
+}
+?>
