@@ -1,0 +1,12 @@
+
+dphp:S103%"KSplit this 135 characters long line (which is greater than 120 authorized).(€Ù…Ùüÿÿÿÿ
+_php:S103O"KSplit this 365 characters long line (which is greater than 120 authorized).(ã¨âÚ
+dphp:S103S"KSplit this 364 characters long line (which is greater than 120 authorized).(·ã´Öûÿÿÿÿ
+_php:S103W"KSplit this 355 characters long line (which is greater than 120 authorized).(÷±žª
+_php:S103["KSplit this 375 characters long line (which is greater than 120 authorized).(™¥Ðÿ
+_php:S103_"KSplit this 165 characters long line (which is greater than 120 authorized).(ôŠÒé
+dphp:S103`"KSplit this 252 characters long line (which is greater than 120 authorized).(Ã‰»²þÿÿÿÿ
+dphp:S103e"KSplit this 299 characters long line (which is greater than 120 authorized).(¶ž’²üÿÿÿÿ
+g	php:S1779"ZReplace all non line feed end of line characters in this file "edit-combattant.php" by LF.
+r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(ðíÎ´ýÿÿÿÿ8â™¬¼Æ1
+m	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(âœ¯È8â™¬¼Æ1

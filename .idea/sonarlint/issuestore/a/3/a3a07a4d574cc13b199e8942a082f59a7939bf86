@@ -1,0 +1,8 @@
+
+fphp:S103"KSplit this 132 characters long line (which is greater than 120 authorized).(Òğ8ÑŒÏÆ1
+fphp:S103R"KSplit this 128 characters long line (which is greater than 120 authorized).(¤º±8ÑŒÏÆ1
+kphp:S103X"KSplit this 127 characters long line (which is greater than 120 authorized).(¸Îµøÿÿÿÿ8ÑŒÏÆ1
+Y	php:S1808"=Move this open curly brace to the beginning of the next line.(ó…öñ8ÒŒÏÆ1
+^	php:S1808"=Move this open curly brace to the beginning of the next line.(°”—´ıÿÿÿÿ8ÒŒÏÆ1
+r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(ÉŠáğıÿÿÿÿ8ÒŒÏÆ1
+r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(ªÈõüÿÿÿÿ8ÒŒÏÆ1

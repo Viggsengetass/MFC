@@ -107,12 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
                     <option value="<?= $categorie['id'] ?>"><?= $categorie['nom'] ?></option>
                 <?php endforeach; ?>
             </select><br>            <!-- ... -->
-            <label class="block text-gray-300 mt-4">Catégorie:</label>
-            <select name="categorie_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
-                <?php foreach ($categories as $categorie): ?>
-                    <option value="<?= $categorie['id'] ?>"><?= $categorie['nom'] ?></option>
-                <?php endforeach; ?>
-            </select><br>
 
             <button type="submit" name="add_event" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">Ajouter</button>
         </form>
