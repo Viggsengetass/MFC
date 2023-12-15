@@ -45,7 +45,7 @@ $calendarEvents = array_map(function($event) {
         }
         #calendar-container {
             width: 70%;
-            height: 90vh;
+            height: 85vh;
             margin: 20px auto;
             padding: 20px;
             background-color: #444;
@@ -77,6 +77,11 @@ $calendarEvents = array_map(function($event) {
 <body>
 
 <div id='calendar-container'>
+    <div id='calendar-controls'>
+        <select id="year-select">
+            <?php for($i = 2020; $i <= 2030; $i++) { echo "<option value='$i'>$i</option>"; } ?>
+        </select>
+    </div>
     <div id='calendar'></div>
 </div>
 
@@ -100,6 +105,21 @@ $calendarEvents = array_map(function($event) {
             // Autres options ici
         });
         calendar.render();
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            // Options existantes
+        });
+        calendar.render();
+
+        // Gestion du changement d'année
+        document.getElementById('year-select').addEventListener('change', function() {
+            var year = this.value;
+            var date = new Date(calendar.getDate());
+            date.setFullYear(year);
+            calendar.gotoDate(date); // Se déplace vers la nouvelle date
+        });
     });
 </script>
 
