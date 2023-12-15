@@ -37,6 +37,23 @@ session_start();
                     </span>
             </div>
         </form>
+
+        <!-- Popup de Bienvenue -->
+        <div id="popupBienvenue" class="popup">
+            <div class="popup-contenu">
+                <span id="messageBienvenue"></span>
+                <button id="fermerBienvenue">Fermer</button>
+            </div>
+        </div>
+
+        <!-- Popup d'Échec -->
+        <div id="popupEchec" class="popup">
+            <div class="popup-contenu">
+                <span id="messageEchec"></span>
+                <button id="fermerEchec">Fermer</button>
+            </div>
+        </div>
+
         <?php
     }
     ?>
@@ -61,6 +78,47 @@ session_start();
         <?php unset($_SESSION['error']); ?>
         <?php } ?>
     };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Bouton de Connexion
+        const connexionBtn = document.getElementById("connexionBtn");
+
+        // Popups
+        const popupBienvenue = document.getElementById("popupBienvenue");
+        const popupEchec = document.getElementById("popupEchec");
+
+        // Messages
+        const messageBienvenue = document.getElementById("messageBienvenue");
+        const messageEchec = document.getElementById("messageEchec");
+
+        // Boutons Fermer
+        const fermerBienvenue = document.getElementById("fermerBienvenue");
+        const fermerEchec = document.getElementById("fermerEchec");
+
+        // Gestion de l'événement de clic sur le bouton de connexion
+        connexionBtn.addEventListener("click", function () {
+            // Vous pouvez remplacer cette condition par votre logique de vérification de connexion
+            const connexionReussie = true;
+
+            if (connexionReussie) {
+                const nomUtilisateur = "John"; // Remplacez par le nom de l'utilisateur réel
+                messageBienvenue.textContent = "Bienvenue, " + nomUtilisateur + " !";
+                popupBienvenue.style.display = "block";
+            } else {
+                messageEchec.textContent = "La connexion n'a pas fonctionné. Veuillez réessayer.";
+                popupEchec.style.display = "block";
+            }
+        });
+
+        // Gestion de l'événement de clic sur les boutons Fermer
+        fermerBienvenue.addEventListener("click", function () {
+            popupBienvenue.style.display = "none";
+        });
+
+        fermerEchec.addEventListener("click", function () {
+            popupEchec.style.display = "none";
+        });
+    });
 </script>
 </body>
 
