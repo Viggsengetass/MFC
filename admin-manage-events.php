@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 require_once 'admin-functions.php';
 require_once 'common.php';
 
-$evenements = getAllEvenements($conn);
+// Déplacez la récupération des événements après la soumission du formulaire
 $combattants = getAllCombattants($conn);
 $categories = getAllCategories($conn);
 
@@ -53,6 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
             echo "Erreur lors de la création de l'événement : " . $result;
         }
     }
+
+    // Recharger les données des événements après la soumission du formulaire
+    $evenements = getAllEvenements($conn);
+} else {
+    // Charger les événements en dehors de la soumission du formulaire
+    $evenements = getAllEvenements($conn);
 }
 ?>
 
