@@ -51,6 +51,7 @@ $calendarEvents = array_map(function($event) {
             background-color: #444;
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 8px 8px 15px #2a2a2a, -8px -8px 15px #404040;
         }
         #calendar {
             height: 100%;
@@ -61,12 +62,14 @@ $calendarEvents = array_map(function($event) {
             color: #FFF;
         }
         .fc .fc-daygrid-day {
-            border: 1px solid #000; /* Lignes noires pour les cases du calendrier */
+            border: none;
+            box-shadow: inset 5px 5px 10px #2a2a2a, inset -5px -5px 10px #404040;
         }
         .fc-button-primary {
             background-color: #555;
             border: 1px solid #000;
             color: white;
+            box-shadow: 2px 2px 5px #2a2a2a, -2px -2px 5px #404040;
         }
         .fc-button-primary:hover {
             background-color: #666;
@@ -92,7 +95,12 @@ $calendarEvents = array_map(function($event) {
         </select>
         <label for="month-select">Mois :</label>
         <select id="month-select">
-            <?php for($i = 1; $i <= 12; $i++) { echo "<option value='$i'>$i</option>"; } ?>
+            <?php
+            $mois = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+            foreach ($mois as $index => $nom) {
+                echo "<option value='" . ($index + 1) . "'>$nom</option>";
+            }
+            ?>
         </select>
     </div>
     <div id='calendar'></div>
