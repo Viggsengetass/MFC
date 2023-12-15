@@ -12,7 +12,6 @@ require_once 'common.php';
 require_once 'reservation-functions.php';
 require_once 'admin-functions.php';
 
-
 // Récupération de la liste des événements
 $evenements = getAllEvenements($conn);
 
@@ -28,16 +27,16 @@ if (!$utilisateur_id) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $evenement_id = $_POST['evenement_id'];
     $nombre_billets = $_POST['nombre_billets'];
-    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
-    if ($result === true) {
-        // Redirection vers le panier avec un message de succès
-        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
-        header('Location: panier.php');
-        exit();
-    } else {
-        // Afficher un message d'erreur si la réservation échoue
-        $erreur_message = "Erreur lors de la réservation : " . $result;
-    }
+
+    // Validez les données du formulaire ici...
+
+    // Envoi d'une requête à reservation-process.php
+    $_SESSION['reservation_data'] = [
+        'evenement_id' => $evenement_id,
+        'nombre_billets' => $nombre_billets,
+    ];
+    header('Location: reservation-process.php');
+    exit();
 }
 ?>
 
