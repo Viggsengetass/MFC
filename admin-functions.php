@@ -6,55 +6,29 @@ error_reporting(E_ALL);
 
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
-/**
- * Crée un combattant dans la base de données.
- *
- * @param mysqli $conn Connexion à la base de données.
- * @param string $nom Nom du combattant.
- * @param string $prenom Prénom du combattant.
- * @param string $surnom Surnom du combattant.
- * @param string $description Description du combattant.
- * @param string $image URL de l'image du combattant.
- * @param string $image_combattant1 URL de l'image du combattant 1.
- * @param string $image_combattant2 URL de l'image du combattant 2.
- * @param int $categorie_id ID de la catégorie du combattant.
- * @return bool|string Retourne true en cas de succès, sinon un message d'erreur.
- */
 function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id) {
-    // Assurez-vous que la connexion est une instance mysqli valide
     if ($conn instanceof mysqli === false) {
         return "La variable de connexion n'est pas une instance de mysqli.";
     }
 
-    // Vérifiez si la catégorie existe
     if (!categorieExists($conn, $categorie_id)) {
         return "Catégorie non trouvée.";
     }
 
-    // Préparez l'instruction d'insertion
     $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, image_combattant1, image_combattant2, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         return "Erreur de préparation de la requête: " . $conn->error;
     }
 
-    // Liez les paramètres et exécutez l'instruction
     $stmt->bind_param("ssssssii", $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id);
     if (!$stmt->execute()) {
         return "Erreur lors de l'exécution de la requête: " . $stmt->error;
     }
 
-    // Fermez l'instruction
     $stmt->close();
-    return true; // Renvoie true pour indiquer le succès
+    return true;
 }
-
-/**
- * Obtient tous les combattants de la base de données.
- *
- * @param mysqli $conn Connexion à la base de données.
- * @return array Tableau associatif des combattants.
- */
 function getAllCombattants($conn) {
     $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
