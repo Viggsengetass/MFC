@@ -21,7 +21,10 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
         return "Erreur de préparation de la requête: " . $conn->error;
     }
 
+    // Bind les paramètres de la requête
     $stmt->bind_param("ssssssiii", $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id);
+
+    // Exécute la requête
     if (!$stmt->execute()) {
         return "Erreur lors de l'exécution de la requête: " . $stmt->error;
     }
