@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 
 require 'common.php'; // Utiliser require pour inclure la configuration de la base de données
 
-// Récupération des événements
 function getEvents($conn) {
     $result = $conn->query("SELECT * FROM evenements_admin");
     if (!$result) {
@@ -14,14 +13,12 @@ function getEvents($conn) {
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-// Connexion à la base de données et récupération des événements
 try {
     $events = getEvents($conn);
 } catch (Exception $e) {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
-// Convertir les événements pour FullCalendar
 $calendarEvents = array_map(function($event) {
     return [
         'title' => $event['nom'],
@@ -53,57 +50,64 @@ $calendarEvents = array_map(function($event) {
             overflow: hidden;
             box-shadow: 8px 8px 15px #2a2a2a, -8px -8px 15px #404040;
         }
-        #calendar {
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
             height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
         }
-        .fc .fc-col-header-cell-cushion,
-        .fc .fc-daygrid-day-top,
-        .fc .fc-daygrid-day-number {
-            color: #FFF;
+        .modal-content {
+            background-color: #444;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            width: 40%;
         }
-        .fc .fc-daygrid-day {
-            border: none;
-            box-shadow: inset 5px 5px 10px #2a2a2a, inset -5px -5px 10px #404040;
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
         }
-        .fc-button-primary {
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .reserve {
             background-color: #555;
-            border: 1px solid #000;
             color: white;
-            box-shadow: 2px 2px 5px #2a2a2a, -2px -2px 5px #404040;
+            padding: 12px 24px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        .fc-button-primary:hover {
+        .reserve:hover {
             background-color: #666;
         }
-        #year-select, #month-select {
-            background-color: #555;
-            color: white;
-            border: 1px solid #000;
-            padding: 5px;
-            border-radius: 4px;
-            margin-right: 5px;
-        }
-        /* Autres styles ici */
     </style>
 </head>
 <body>
 
 <div id='calendar-container'>
-    <div id='calendar-controls' style="margin-bottom: 10px;">
-        <label for="year-select">Année :</label>
-        <select id="year-select">
-            <?php for($i = 2020; $i <= 2030; $i++) { echo "<option value='$i'>$i</option>"; } ?>
-        </select>
-        <label for="month-select">Mois :</label>
-        <select id="month-select">
-            <?php
-            $mois = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
-            foreach ($mois as $index => $nom) {
-                echo "<option value='" . ($index + 1) . "'>$nom</option>";
-            }
-            ?>
-        </select>
-    </div>
     <div id='calendar'></div>
+</div>
+
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="eventTitle"></h2>
+        <p id="eventDetails"></p>
+        <a href="#" id="eventLink" class="reserve">Réserver</a>
+    </div>
 </div>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
@@ -112,36 +116,27 @@ $calendarEvents = array_map(function($event) {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            themeSystem: 'bootstrap',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
             events: <?php echo json_encode($calendarEvents); ?>,
             eventClick: function(info) {
-                alert('Événement: ' + info.event.title + '\nDate: ' + info.event.start.toISOString());
-                // Remplacer par une modal ou une autre interface
+                document.getElementById('eventTitle').textContent = info.event.title;
+                document.getElementById('eventDetails').textContent = 'Date: ' + info.event.start.toISOString();
+                document.getElementById('eventLink').href = 'reservation_link'; // Remplacer par le lien de réservation réel
+                document.getElementById('eventModal').style.display = 'block';
             }
         });
 
         calendar.render();
 
-        // Gestion du changement d'année
-        document.getElementById('year-select').addEventListener('change', function() {
-            var year = this.value;
-            var date = new Date(calendar.getDate());
-            date.setFullYear(year);
-            calendar.gotoDate(date); // Se déplace vers la nouvelle date
-        });
+        var closeButton = document.getElementsByClassName('close')[0];
+        closeButton.onclick = function() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
 
-        // Gestion du changement de mois
-        document.getElementById('month-select').addEventListener('change', function() {
-            var month = this.value - 1; // Les mois dans JavaScript sont de 0 à 11
-            var date = new Date(calendar.getDate());
-            date.setMonth(month);
-            calendar.gotoDate(date); // Se déplace vers la nouvelle date
-        });
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('eventModal')) {
+                document.getElementById('eventModal').style.display = 'none';
+            }
+        }
     });
 </script>
 
