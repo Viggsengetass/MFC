@@ -21,7 +21,7 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
         return "Erreur de préparation de la requête: " . $conn->error;
     }
 
-    $stmt->bind_param("ssssssii", $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id);
+    $stmt->bind_param("ssssssiii", $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id);
     if (!$stmt->execute()) {
         return "Erreur lors de l'exécution de la requête: " . $stmt->error;
     }
@@ -29,6 +29,7 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
     $stmt->close();
     return true;
 }
+
 function getAllCombattants($conn) {
     $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
