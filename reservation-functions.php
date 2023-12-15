@@ -4,9 +4,19 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
+require_once 'common.php';
+require_once 'admin-functions.php';
+// Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
 function ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets) {
+    // Vérification si l'événement existe
+    $evenement = getEvenementDetails($conn, $evenement_id);
+
+    if (!$evenement) {
+        return "Erreur! L'événement n'existe pas.";
+    }
+
+    // Insérer la réservation si l'événement existe
     $query = "INSERT INTO reservations (utilisateur_id, evenement_id, nombre_billets) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
