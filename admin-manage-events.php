@@ -6,10 +6,6 @@ error_reporting(E_ALL);
 require_once 'admin-functions.php';
 require_once 'common.php';
 
-// Déplacez la récupération des événements après la soumission du formulaire
-$combattants = getAllCombattants($conn);
-$categories = getAllCategories($conn);
-
 function handleImageUpload($file, $uploadDirectory = 'image-combattants/') {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
@@ -53,13 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
             echo "Erreur lors de la création de l'événement : " . $result;
         }
     }
-
-    // Recharger les données des événements après la soumission du formulaire
-    $evenements = getAllEvenements($conn);
-} else {
-    // Charger les événements en dehors de la soumission du formulaire
-    $evenements = getAllEvenements($conn);
 }
+
+// Chargement des événements et autres données, qu'il y ait eu soumission de formulaire ou non
+$combattants = getAllCombattants($conn);
+$categories = getAllCategories($conn);
+$evenements = getAllEvenements($conn);
 ?>
 
 <!DOCTYPE html>
@@ -82,16 +77,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
         <form action="admin-manage-events.php" method="post" enctype="multipart/form-data">
             <label class="block text-gray-300">Nom de l'événement:</label>
             <input type="text" name="nom" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
+
             <label class="block text-gray-300 mt-4">Date:</label>
             <input type="date" name="date" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
+
             <label class="block text-gray-300 mt-4">Heure:</label>
             <input type="time" name="heure" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
+
             <label class="block text-gray-300 mt-4">Lieu:</label>
             <input type="text" name="lieu" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
+
             <label class="block text-gray-300 mt-4">Description:</label>
             <textarea name="description" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"></textarea><br>
 
-            <!-- Champ de sélection pour les combattants -->
             <label class="block text-gray-300 mt-4">Combattant 1:</label>
             <select name="combattant1_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
                 <?php foreach ($combattants as $combattant): ?>
@@ -106,13 +104,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
                 <?php endforeach; ?>
             </select><br>
 
-            <!-- Champ de sélection pour les catégories -->
             <label class="block text-gray-300 mt-4">Catégorie:</label>
             <select name="categorie_id" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1">
                 <?php foreach ($categories as $categorie): ?>
                     <option value="<?= $categorie['id'] ?>"><?= $categorie['nom'] ?></option>
                 <?php endforeach; ?>
-            </select><br>            <!-- ... -->
+            </select><br>
+
+            <label class="block text-gray-300 mt-4">Image du Combattant 1:</label>
+            <input type="file" name="image_combattant1" accept="image/*" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
+
+            <label class="block text-gray-300 mt-4">Image du Combattant 2:</label>
+            <input type="file" name="image_combattant2" accept="image/*" required class="w-full bg-gray-700 text-white px-4 py-2 rounded mt-1"><br>
 
             <button type="submit" name="add_event" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">Ajouter</button>
         </form>
@@ -123,9 +126,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
         <?php foreach ($evenements as $evenement): ?>
             <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
                 <div class="p-4">
-                    <h2 class="text-xl font-bold"><?= $evenement['nom'] ?></h2>
-                    <p class="text-gray-500">Date: <?= $evenement['date'] ?>, Heure: <?= $evenement['heure'] ?></p>
-                    <p class="mt-2"><?= $evenement['description'] ?></p>
+                    <h2 class="text-xl font-bold"><?= htmlspecialchars($evenement['nom']) ?></h2>
+                    <p class="text-gray-500">Date: <?= htmlspecialchars($evenement['date']) ?>, Heure: <?= htmlspecialchars($evenement['heure']) ?></p>
+                    <p class="mt-2"><?= htmlspecialchars($evenement['description']) ?></p>
                 </div>
                 <div class="flex justify-between p-4">
                     <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded">Éditer</button>
