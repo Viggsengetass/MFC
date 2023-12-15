@@ -71,12 +71,13 @@ $calendarEvents = array_map(function($event) {
         .fc-button-primary:hover {
             background-color: #666;
         }
-        #year-select {
+        #year-select, #month-select {
             background-color: #555;
             color: white;
             border: 1px solid #000;
             padding: 5px;
             border-radius: 4px;
+            margin-right: 5px;
         }
         /* Autres styles ici */
     </style>
@@ -88,6 +89,10 @@ $calendarEvents = array_map(function($event) {
         <label for="year-select">Année :</label>
         <select id="year-select">
             <?php for($i = 2020; $i <= 2030; $i++) { echo "<option value='$i'>$i</option>"; } ?>
+        </select>
+        <label for="month-select">Mois :</label>
+        <select id="month-select">
+            <?php for($i = 1; $i <= 12; $i++) { echo "<option value='$i'>$i</option>"; } ?>
         </select>
     </div>
     <div id='calendar'></div>
@@ -119,6 +124,14 @@ $calendarEvents = array_map(function($event) {
             var year = this.value;
             var date = new Date(calendar.getDate());
             date.setFullYear(year);
+            calendar.gotoDate(date); // Se déplace vers la nouvelle date
+        });
+
+        // Gestion du changement de mois
+        document.getElementById('month-select').addEventListener('change', function() {
+            var month = this.value - 1; // Les mois dans JavaScript sont de 0 à 11
+            var date = new Date(calendar.getDate());
+            date.setMonth(month);
             calendar.gotoDate(date); // Se déplace vers la nouvelle date
         });
     });
