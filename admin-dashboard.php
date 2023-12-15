@@ -10,7 +10,6 @@
 <body>
 
 <!-- En-tête -->
-<?php include 'header.php'; ?>
 
 <!-- Menu de navigation -->
 <?php include 'admin-sidebar.php'; ?>
@@ -23,7 +22,6 @@
 </div>
 
 <!-- Pied de page -->
-<?php include 'footer.php'; ?>
 
 </body>
 </html>
