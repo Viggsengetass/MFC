@@ -14,6 +14,28 @@ session_start();
     <title>Connexion - M.F.C MMA Tournament</title>
     <?php include 'common.php'; ?>
     <link rel="stylesheet" href="/style/register.css">
+    <style>
+        /* Styles for the popup messages */
+        .popup {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+
+        .success {
+            background-color: green;
+        }
+
+        .error {
+            background-color: red;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
@@ -48,7 +70,7 @@ session_start();
         msgDiv.classList.add("popup", "success");
         msgDiv.textContent = "<?php echo $_SESSION['message']; ?>";
         document.body.appendChild(msgDiv);
-        setTimeout(function() { msgDiv.remove(); }, 3000);
+        setTimeout(function() { msgDiv.style.display = 'none'; }, 3000);
         <?php unset($_SESSION['message']); ?>
         <?php } ?>
 
@@ -57,7 +79,7 @@ session_start();
         errorDiv.classList.add("popup", "error");
         errorDiv.textContent = "<?php echo $_SESSION['error']; ?>";
         document.body.appendChild(errorDiv);
-        setTimeout(function() { errorDiv.remove(); }, 3000);
+        setTimeout(function() { errorDiv.style.display = 'none'; }, 3000);
         <?php unset($_SESSION['error']); ?>
         <?php } ?>
     };
