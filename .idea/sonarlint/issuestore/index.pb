@@ -1,7 +1,4 @@
 
-:
-
-config.php,9\2\9204b29823ec1df81e00f78763caf3d872210a9e
 @
 style/footer.css,c\d\cdcde281d4210850f11f2ee2ef048e10451e2c8f
 :

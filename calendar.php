@@ -3,20 +3,21 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'common.php'; // Inclure la configuration de la base de données
+require 'common.php'; // Utiliser require pour inclure la configuration de la base de données
 
 // Récupération des événements
-function getEvents($pdo) {
-    $stmt = $pdo->prepare("SELECT * FROM evenements_admin");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+function getEvents($conn) {
+    $result = $conn->query("SELECT * FROM evenements_admin");
+    if (!$result) {
+        die("Erreur lors de la requête: " . $conn->error);
+    }
+    return $result->fetch_all(MYSQLI_ASSOC);
 }
 
 // Connexion à la base de données et récupération des événements
 try {
-    // Assurez-vous que common.php initialise une variable $pdo pour la connexion PDO
-    $events = getEvents($pdo);
-} catch (PDOException $e) {
+    $events = getEvents($conn);
+} catch (Exception $e) {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
