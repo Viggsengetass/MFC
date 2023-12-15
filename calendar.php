@@ -14,9 +14,7 @@ function getEvents($pdo) {
 
 // Connexion à la base de données et récupération des événements
 try {
-    // Remplacer par vos propres détails de connexion
-    $pdo = new PDO('mysql:host=votre_hote;dbname=votre_base_de_donnees', 'votre_utilisateur', 'votre_mot_de_passe');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Assurez-vous que common.php initialise une variable $pdo pour la connexion PDO
     $events = getEvents($pdo);
 } catch (PDOException $e) {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
