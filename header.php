@@ -11,6 +11,13 @@ if (session_status() == PHP_SESSION_NONE) {
 // Inclure le fichier common.php pour la connexion à la base de données
 include 'common.php';
 
+// Connexion à la base de données
+$mysqli = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+// Vérifier la connexion
+if ($mysqli->connect_error) {
+    die("Erreur de connexion à la base de données : " . $mysqli->connect_error);
+}
 
 // Fonction pour récupérer les informations de l'utilisateur connecté
 function getLoggedInUserInfo($conn) {
