@@ -88,21 +88,21 @@ function getCategoryName($id, $conn) {
     return $name;
 }
 
-function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2) {
-    // Vérifier l'existence des combattants
-    if (!combattantExists($conn, $combattant1_id) || !combattantExists($conn, $combattant2_id)) {
-        return "L'un des ID des combattants n'existe pas.";
+function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $categorie_id, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2) {
+    // Vérifier l'existence des combattants et de la catégorie
+    if (!combattantExists($conn, $combattant1_id) || !combattantExists($conn, $combattant2_id) || !categorieExists($conn, $categorie_id)) {
+        return "L'un des ID des combattants ou la catégorie n'existe pas.";
     }
 
     // Préparation de la requête d'insertion
-    $query = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, combattant1_id, combattant2_id, image_combattant1, image_combattant2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, categorie_id, combattant1_id, combattant2_id, image_combattant1, image_combattant2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         return "Erreur de préparation de la requête: " . $conn->error;
     }
 
     // Liaison des paramètres
-    $stmt->bind_param("sssssiiss", $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+    $stmt->bind_param("sssssiiss", $nom, $date, $heure, $lieu, $description, $categorie_id, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
 
     // Exécution de la requête
     if (!$stmt->execute()) {
