@@ -1,55 +1,45 @@
 <?php
-session_start();
-require_once 'common.php'; // Ce fichier doit inclure la connexion à la base de données et des fonctions communes
-require_once 'admin-functions.php'; // Ce fichier doit inclure des fonctions spécifiques à l'administration
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Fonction pour valider les données du combattant
-function validateCombatant($nom, $prenom, $description, $image) {
-    if (empty($nom) || empty($prenom) || empty($description)) {
-        return "Le nom, le prénom et la description ne peuvent pas être vides.";
-    }
-    if (empty($image)) {
-        return "Vous devez sélectionner une image.";
-    }
-    // Effectuez ici d'autres validations au besoin
-    return true;
-}
+require_once 'admin-functions.php';
+require_once 'common.php';
 
-// Fonction pour créer un combattant dans la base de données
-function createCombattant($conn, $nom, $prenom, $description, $imagePath) {
-    $stmt = $conn->prepare("INSERT INTO combattants (nom, prenom, description, image) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $nom, $prenom, $description, $imagePath);
-    $success = $stmt->execute();
-    $stmt->close();
-    return $success;
-}
+$combattants = getAllCombattants($conn);
 
-$error_message = '';
-$success_message = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $surnom = $_POST['surnom'];
+    $description = $_POST['description'];
+    $categorie_id = $_POST['categorie_id'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn = getDatabaseConnection(); // Assurez-vous que cette fonction existe et retourne une connexion valide à la base de données
+    $image_combattant1 = null;
+    $image_combattant2 = null;
 
-    $nom = $_POST['nom'] ?? '';
-    $prenom = $_POST['prenom'] ?? '';
-    $description = $_POST['description'] ?? '';
-    $image = $_FILES['image']['name'] ?? '';
+    $image = null;
+    $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
-    $validationResult = validateCombatant($nom, $prenom, $description, $image);
-    if ($validationResult === true) {
-        $targetDir = "image-combattants/";
-        $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-            if (createCombattant($conn, $nom, $prenom, $description, $targetFile)) {
-                $success_message = "Combattant ajouté avec succès.";
-            } else {
-                $error_message = "Erreur lors de l'ajout dans la base de données.";
-            }
-        } else {
-            $error_message = "Erreur lors du téléchargement de l'image.";
+    if (!file_exists($targetDirectory)) {
+        if (!mkdir($targetDirectory, 0755, true)) {
+            die('Échec de la création des répertoires...');
         }
+    }
+
+    if (!empty($_FILES['image']['name'])) {
+        $targetFile = $targetDirectory . basename($_FILES['image']['name']);
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+            $image = "image-combattants/" . basename($_FILES['image']['name']);
+        } else {
+            echo "<p>Erreur lors du téléchargement de l'image.</p>";
+        }
+    }
+
+    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id)) {
+        $combattants = getAllCombattants($conn);
     } else {
-        $error_message = $validationResult;
+        echo "<p>Erreur lors de la création du combattant.</p>";
     }
 }
 ?>
