@@ -9,19 +9,6 @@ require_once 'common.php';
 $evenements = getAllEvenements($conn);
 $combattants = getAllCombattants($conn);
 
-function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2) {
-    $query = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, combattant1_id, combattant2_id, image_combattant1, image_combattant2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    if (!$stmt) {
-        die("Erreur de préparation de la requête: " . mysqli_error($conn));
-    }
-    $stmt->bind_param("sssssiiss", $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
-    if (!$stmt->execute()) {
-        die("Erreur lors de l'exécution de la requête: " . mysqli_error($conn));
-    }
-    $stmt->close();
-    return true;
-}
 
 function handleImageUpload($file, $uploadDirectory = 'image-combattants/') {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
