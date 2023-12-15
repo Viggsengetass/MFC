@@ -14,10 +14,6 @@ require_once 'reservation-functions.php';
 // Récupération de la liste des événements depuis la base de données
 $evenements = getAllEvenements($conn);
 
-// Récupération des informations du formulaire
-$evenement_id = $_POST['evenement_id'] ?? 0;
-$nombre_billets = $_POST['nombre_billets'] ?? 0;
-
 // Récupération de l'identifiant de l'utilisateur depuis la session
 $utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
 
@@ -26,8 +22,20 @@ if (!$utilisateur_id) {
     die("Vous devez être connecté pour faire une réservation.");
 }
 
+// Récupération des informations du formulaire
+$evenement_id = $_POST['evenement_id'] ?? 0;
+$nombre_billets = $_POST['nombre_billets'] ?? 0;
+
+// Récupération des informations de l'événement sélectionné
+$evenement = getEvenementDetails($conn, $evenement_id);
+
+// Vérification si l'événement existe
+if (!$evenement) {
+    $erreur_message = "Erreur! Événement non trouvé."; // Message d'erreur personnalisé
+}
+
 // Traitement du formulaire de réservation
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !$erreur_message) {
     // Vérifiez si l'utilisateur a sélectionné un événement valide
     if ($evenement_id && $nombre_billets > 0) {
         $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
@@ -45,9 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $erreur_message = "Veuillez sélectionner un événement et spécifier le nombre de billets à réserver.";
     }
 }
-
-// Récupération des informations de l'événement sélectionné
-$evenement = getEvenementDetails($conn, $evenement_id);
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +73,7 @@ $evenement = getEvenementDetails($conn, $evenement_id);
 
         <h1 class="text-xl font-bold mb-4">Réservation d'Événement</h1>
 
-        <form action="reservation.php" method="post" class="mt-4">
+        <form action="reservation-process.php" method="post" class="mt-4">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="evenement_id">
                     Sélectionnez un événement

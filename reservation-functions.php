@@ -1,68 +1,53 @@
 <?php
-// reservation-functions.php
+// Configuration pour afficher les erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
+// Démarrage de la session
+session_start();
 
-function ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets) {
-    $query = "INSERT INTO reservations (utilisateur_id, evenement_id, nombre_billets) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    if (!$stmt) {
-        return "Erreur de préparation de la requête: " . $conn->error;
-    }
+// Inclusion des fichiers nécessaires
+require_once 'common.php';
+require_once 'reservation-functions.php';
 
-    $stmt->bind_param("iii", $utilisateur_id, $evenement_id, $nombre_billets);
-    if (!$stmt->execute()) {
-        return "Erreur lors de l'exécution de la requête: " . $stmt->error;
-    }
+// Récupération de l'identifiant de l'utilisateur depuis la session
+$utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
 
-    $stmt->close();
-    return true;
+// Vérification de la connexion de l'utilisateur
+if (!$utilisateur_id) {
+    die("Vous devez être connecté pour faire une réservation.");
 }
 
-function getReservationsUtilisateur($conn, $utilisateur_id) {
-    $query = "SELECT r.id, e.nom, r.nombre_billets FROM reservations r JOIN evenements e ON r.evenement_id = e.id WHERE r.utilisateur_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $utilisateur_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $reservations = [];
-    while ($row = $result->fetch_assoc()) {
-        $reservations[] = $row;
-    }
-    $stmt->close();
-    return $reservations;
+// Récupération des informations du formulaire
+$evenement_id = $_POST['evenement_id'] ?? 0;
+$nombre_billets = $_POST['nombre_billets'] ?? 0;
+
+// Récupération des informations de l'événement sélectionné
+$evenement = getEvenementDetails($conn, $evenement_id);
+
+// Vérification si l'événement existe
+if (!$evenement) {
+    $erreur_message = "Erreur! Événement non trouvé."; // Message d'erreur personnalisé
 }
 
-function getEvenementDetails($conn, $evenement_id) {
-    $query = "SELECT * FROM evenements WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $evenement_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows === 1) {
-        return $result->fetch_assoc();
+// Traitement du formulaire de réservation
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !$erreur_message) {
+    // Vérifiez si l'utilisateur a sélectionné un événement valide
+    if ($evenement_id && $nombre_billets > 0) {
+        $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
+        if ($result === true) {
+            // Redirection vers le panier avec un message de succès
+            $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
+            header('Location: panier.php');
+            exit();
+        } else {
+            // Afficher un message d'erreur si la réservation échoue
+            $erreur_message = "Erreur lors de la réservation : " . $result;
+        }
     } else {
-        return null;
-    }
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre_billets = $_POST['nombre_billets'];
-
-    // Appel de la fonction pour ajouter la réservation
-    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
-
-    if ($result === true) {
-        // Redirection vers le panier avec un message de succès
-        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
-        header('Location: panier.php');
-        exit();
-    } else {
-        // Afficher un message d'erreur si la réservation échoue
-        $erreur_message = "Erreur lors de la réservation : " . $result;
+        // Afficher un message d'erreur si les données du formulaire ne sont pas valides
+        $erreur_message = "Veuillez sélectionner un événement et spécifier le nombre de billets à réserver.";
     }
 }
 ?>
