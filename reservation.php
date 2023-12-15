@@ -1,8 +1,8 @@
 <?php
-// Configuration pour afficher les erreurs
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//// Configuration pour afficher les erreurs
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 // Démarrage de la session (déplacer cette ligne en haut)
 session_start();
