@@ -9,6 +9,8 @@ session_start();
 
 require_once 'common.php';
 
+// Récupération de la liste des événements
+$evenements = getAllEvenements($conn);
 
 // Vérification de la connexion de l'utilisateur
 $utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
@@ -17,17 +19,20 @@ if (!$utilisateur_id) {
     die("Vous devez être connecté pour faire une réservation.");
 }
 
+// Initialisation des variables pour la popup
+$popupMessage = '';
+$showPopup = false;
+
 // Traitement du formulaire de réservation
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $evenement_id = $_POST['evenement_id'];
     $nombre_billets = $_POST['nombre_billets'];
 
-    // JavaScript pour afficher la popup
-    echo "<script>
-        var evenementNom = 'Nom de l\\'événement'; // Remplacez par le nom de l'événement
-        alert('Votre réservation pour \"' + evenementNom + '\" avec ' + $nombre_billets + ' place(s) est confirmée.');
-        window.location.href = 'panier.php'; // Rediriger vers la page du panier
-    </script>";
+    // Remplacez 'Nom de l'événement' par le nom réel de l'événement
+    $evenementNom = 'Nom de l\'événement';
+
+    $popupMessage = "Votre réservation pour \"$evenementNom\" avec $nombre_billets place(s) est confirmée.";
+    $showPopup = true;
 }
 ?>
 
@@ -43,16 +48,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="bg-white p-8 rounded-lg shadow-lg">
         <h1 class="text-xl font-bold mb-4">Réservation d'Événement</h1>
 
+        <!-- Affichage de la liste des événements -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="evenement_id">
+                Sélectionnez un Événement
+            </label>
+            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="evenement_id" name="evenement_id" required>
+                <option value="" disabled selected>Choisissez un événement</option>
+                <?php foreach ($evenements as $evenement) : ?>
+                    <option value="<?= $evenement['id'] ?>"><?= htmlspecialchars($evenement['nom']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- Formulaire de réservation -->
         <form action="reservation.php" method="post" class="mt-4">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="evenement_id">
-                    Sélectionnez un Événement
-                </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="evenement_id" name="evenement_id" required>
-                    <option value="" disabled selected>Choisissez un événement</option>
-                    <!-- Vous pouvez ajouter des options ici -->
-                </select>
-            </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre_billets">
                     Nombre de Billets
@@ -63,6 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Réserver
             </button>
         </form>
+
+        <!-- Affichage de la popup -->
+        <?php if ($showPopup) : ?>
+            <script>
+                alert('<?= $popupMessage ?>');
+            </script>
+        <?php endif; ?>
     </div>
 </div>
 </body>
