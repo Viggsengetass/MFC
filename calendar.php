@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 // Inclure le fichier common.php pour la connexion à la base de données
 include 'common.php';
 
+// Utilisez la connexion $mysqli de common.php au lieu de $mysqli
 // Sélectionnez les événements depuis la base de données
 $sql = "SELECT id, nom, date, heure FROM evenements";
 $result = $mysqli->query($sql);
