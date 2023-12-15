@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - M.F.C MMA Tournament</title>
-    <link rel="stylesheet" href="/style/login.css">
+    <link rel="stylesheet" href="/style/register.css">
     <style>
         .popup {
             position: fixed;
