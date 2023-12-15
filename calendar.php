@@ -45,15 +45,31 @@ $calendarEvents = array_map(function($event) {
         }
         #calendar-container {
             width: 70%;
-            height: 70vh; /* 50% de la hauteur de la vue */
+            height: 90vh;
             margin: 20px auto;
             padding: 20px;
             background-color: #444;
             border-radius: 8px;
-            overflow: hidden; /* Pour gérer le débordement du contenu */
+            overflow: hidden;
         }
         #calendar {
             height: 100%;
+        }
+        .fc .fc-col-header-cell-cushion,
+        .fc .fc-daygrid-day-top,
+        .fc .fc-daygrid-day-number {
+            color: #FFF;
+        }
+        .fc .fc-daygrid-day {
+            border: 1px solid #000; /* Lignes noires pour les cases du calendrier */
+        }
+        .fc-button-primary {
+            background-color: #555;
+            border: 1px solid #000;
+            color: white;
+        }
+        .fc-button-primary:hover {
+            background-color: #666;
         }
         /* Autres styles ici */
     </style>
