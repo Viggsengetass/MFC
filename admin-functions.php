@@ -18,7 +18,7 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
     }
 
     // Préparez l'instruction d'insertion
-    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, image_combattant1, image_combattant2, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, image_combattant, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         return "Erreur de préparation de la requête: " . $conn->error;

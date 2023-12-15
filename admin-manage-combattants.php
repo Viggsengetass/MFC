@@ -105,10 +105,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     document.getElementById('addCombatantBtn').addEventListener('click', function() {
         var form = document.getElementById('addCombatantForm');
         form.classList.toggle('hidden');
-
     });
-    function confirmDelete(nom) {
-        return confirm("Êtes-vous sûr de vouloir supprimer le combattant " + nom + " ?");
+
+    function confirmDelete() {
+        return confirm("Êtes-vous sûr de vouloir supprimer ce combattant ?");
     }
 </script>
 </body>
