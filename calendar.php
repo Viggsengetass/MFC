@@ -21,33 +21,46 @@ try {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
-// Générer un calendrier pour le mois en cours
-$month = date('m');
-$year = date('Y');
-$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-echo '<div class="container mx-auto p-4">';
-echo '<div class="grid grid-cols-7 gap-4">';
-
-// Afficher les jours
-for ($day = 1; $day <= $daysInMonth; $day++) {
-    echo '<div class="border border-gray-200 p-2">';
-    echo '<h3 class="text-lg font-semibold">' . $day . '</h3>';
-
-    // Afficher les événements de ce jour
-    foreach ($events as $event) {
-        $eventDate = date('Y-m-d', strtotime($event['date']));
-        if ($eventDate == $year . '-' . $month . '-' . str_pad($day, 2, '0', STR_PAD_LEFT)) {
-            echo '<div class="mt-2 text-sm">';
-            echo '<p>' . htmlspecialchars($event['nom']) . '</p>';
-            echo '<p>' . htmlspecialchars($event['heure']) . '</p>';
-            echo '</div>';
-        }
-    }
-
-    echo '</div>';
-}
-
-echo '</div>';
-echo '</div>';
+// Convertir les événements pour FullCalendar
+$calendarEvents = array_map(function($event) {
+    return [
+        'title' => $event['nom'],
+        'start' => $event['date'] . 'T' . $event['heure'],
+        // Ajoutez d'autres propriétés ici si nécessaire
+    ];
+}, $events);
 ?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendrier des Événements</title>
+    <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css' rel='stylesheet' />
+    <style>
+        body { background-color: #333; color: white; }
+        #calendar { padding: 10px; background-color: #444; }
+        /* Ajoutez plus de styles ici si nécessaire */
+    </style>
+</head>
+<body>
+
+<div id='calendar'></div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            themeSystem: 'bootstrap',
+            events: <?php echo json_encode($calendarEvents); ?>,
+            // Ajoutez d'autres options ici si nécessaire
+        });
+        calendar.render();
+    });
+</script>
+
+</body>
+</html>
