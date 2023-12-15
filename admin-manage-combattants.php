@@ -15,9 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
     $description = $_POST['description'];
     $categorie_id = $_POST['categorie_id'];
 
-    $image_combattant1 = null;
-    $image_combattant2 = null;
-
     $image = null;
     $targetDirectory = "/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/image-combattants/";
 
@@ -36,13 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         }
     }
 
-    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id)) {
+    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id)) {
         $combattants = getAllCombattants($conn);
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
