@@ -9,7 +9,7 @@ session_start();
 
 // Inclusion des fichiers nécessaires
 require_once 'common.php';
-require_once 'reservation-functions.php'; // Assurez-vous que ce fichier contient les fonctions relatives à la réservation
+require_once 'reservation-functions.php';
 
 // Récupération de l'identifiant de l'événement depuis la requête GET
 $evenement_id = $_GET['id'] ?? 0;
@@ -42,7 +42,7 @@ $evenement = getEvenementDetails($conn, $evenement_id);
 
 // Vérification si l'événement existe
 if (!$evenement) {
-    die("Événement non trouvé.");
+    $erreur_message = "Événement non trouvé."; // Message d'erreur personnalisé
 }
 ?>
 
@@ -61,24 +61,24 @@ if (!$evenement) {
                 <strong class="font-bold">Erreur!</strong>
                 <span class="block sm:inline"><?= $erreur_message ?></span>
             </div>
+        <?php else : ?>
+            <h1 class="text-xl font-bold mb-4">Réservation pour : <?= htmlspecialchars($evenement['nom']) ?></h1>
+            <p>Date: <?= htmlspecialchars($evenement['date']) ?></p>
+            <p>Heure: <?= htmlspecialchars($evenement['heure']) ?></p>
+            <p>Lieu: <?= htmlspecialchars($evenement['lieu']) ?></p>
+
+            <form action="reservation.php?id=<?= $evenement_id ?>" method="post" class="mt-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre_billets">
+                        Nombre de Billets
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre_billets" name="nombre_billets" type="number" min="1" required>
+                </div>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Réserver
+                </button>
+            </form>
         <?php endif; ?>
-
-        <h1 class="text-xl font-bold mb-4">Réservation pour : <?= htmlspecialchars($evenement['nom']) ?></h1>
-        <p>Date: <?= htmlspecialchars($evenement['date']) ?></p>
-        <p>Heure: <?= htmlspecialchars($evenement['heure']) ?></p>
-        <p>Lieu: <?= htmlspecialchars($evenement['lieu']) ?></p>
-
-        <form action="reservation.php?id=<?= $evenement_id ?>" method="post" class="mt-4">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre_billets">
-                    Nombre de Billets
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre_billets" name="nombre_billets" type="number" min="1" required>
-            </div>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Réserver
-            </button>
-        </form>
     </div>
 </div>
 </body>
