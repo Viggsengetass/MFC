@@ -44,26 +44,13 @@ $calendarEvents = array_map(function($event) {
             color: white;
         }
         #calendar-container {
-            max-width: 90%;
+            max-width: 75%;
             margin: 20px auto;
             padding: 20px;
             background-color: #444;
             border-radius: 8px;
         }
-        .fc-header-toolbar {
-            color: white;
-        }
-        .fc-button {
-            background-color: #555;
-            color: white;
-            border: none;
-        }
-        .fc-button:hover {
-            background-color: #666;
-        }
-        .fc-daygrid-day-number {
-            color: white;
-        }
+        /* Autres styles ici */
     </style>
 </head>
 <body>
@@ -85,7 +72,11 @@ $calendarEvents = array_map(function($event) {
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             events: <?php echo json_encode($calendarEvents); ?>,
-            // Ajoutez d'autres options ici si nécessaire
+            eventClick: function(info) {
+                alert('Événement: ' + info.event.title + '\nDate: ' + info.event.start.toISOString());
+                // Vous pouvez remplacer cette alerte par une modal ou un autre type de carte d'information
+            }
+            // Autres options ici
         });
         calendar.render();
     });
