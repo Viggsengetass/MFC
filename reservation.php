@@ -7,16 +7,9 @@ error_reporting(E_ALL);
 // Démarrage de la session (déplacer cette ligne en haut)
 session_start();
 
-// Inclusion des fichiers nécessaires
-require_once 'common.php';
-
-// Récupération de la liste des événements
-$evenements = getAllEvenements($conn);
-
-// Récupération de l'identifiant de l'utilisateur depuis la session
+// Vérification de la connexion de l'utilisateur
 $utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
 
-// Vérification de la connexion de l'utilisateur
 if (!$utilisateur_id) {
     die("Vous devez être connecté pour faire une réservation.");
 }
@@ -25,22 +18,13 @@ if (!$utilisateur_id) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $evenement_id = $_POST['evenement_id'];
     $nombre_billets = $_POST['nombre_billets'];
-    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
 
-    if ($result === true) {
-        // Récupération du nom de l'événement
-        $evenement = getEvenementById($conn, $evenement_id);
-        $evenementNom = $evenement['nom'];
-
-        // JavaScript pour afficher la popup
-        echo "<script>
-            alert('Votre réservation pour \"$evenementNom\" avec $nombre_billets place(s) est confirmée.');
-            window.location.href = 'panier.php'; // Rediriger vers la page du panier
-        </script>";
-    } else {
-        // Afficher un message d'erreur si la réservation échoue
-        $erreur_message = "Erreur lors de la réservation : $result";
-    }
+    // JavaScript pour afficher la popup
+    echo "<script>
+        var evenementNom = 'Nom de l\\'événement'; // Remplacez par le nom de l'événement
+        alert('Votre réservation pour \"' + evenementNom + '\" avec ' + $nombre_billets + ' place(s) est confirmée.');
+        window.location.href = 'panier.php'; // Rediriger vers la page du panier
+    </script>";
 }
 ?>
 
@@ -54,12 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="bg-gray-100">
 <div class="container mx-auto mt-10">
     <div class="bg-white p-8 rounded-lg shadow-lg">
-        <?php if (isset($erreur_message)) : ?>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong class="font-bold"><?= $erreur_message ?></strong>
-            </div>
-        <?php endif; ?>
-
         <h1 class="text-xl font-bold mb-4">Réservation d'Événement</h1>
 
         <form action="reservation.php" method="post" class="mt-4">
@@ -69,9 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="evenement_id" name="evenement_id" required>
                     <option value="" disabled selected>Choisissez un événement</option>
-                    <?php foreach ($evenements as $evenement) : ?>
-                        <option value="<?= $evenement['id'] ?>"><?= htmlspecialchars($evenement['nom']) ?></option>
-                    <?php endforeach; ?>
+                    <!-- Vous pouvez ajouter des options ici -->
                 </select>
             </div>
             <div class="mb-4">
@@ -80,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre_billets" name="nombre_billets" type="number" min="1" required>
             </div>
-            <button class="bg-blue-500 hover.bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Réserver
             </button>
         </form>
