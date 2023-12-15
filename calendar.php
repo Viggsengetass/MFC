@@ -47,7 +47,7 @@ $calendarEvents = array_map(function($event) {
         #calendar-container {
             width: 70%;
             height: 85vh;
-            margin: 20px auto;
+            margin: 10% auto;
             padding: 20px;
             background-color: #444;
             border-radius: 8px;

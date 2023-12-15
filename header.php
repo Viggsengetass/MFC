@@ -29,6 +29,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <li><a href="index.php" class="neumorphism_header">Accueil</a></li>
             <li><a href="combattants.php" class="neumorphism_header">Combattants</a></li>
             <li><a href="evenements.php" class="neumorphism_header">Événements</a></li>
+            <li><a href="calendar.php" class="neumorphism_header">Calendrier</a></li>
             <li><a href="contact.php" class="neumorphism_header">Contact</a></li>
 
             <?php
