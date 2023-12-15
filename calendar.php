@@ -12,7 +12,7 @@ $result = $mysqli->query($sql);
 // Créez un tableau pour stocker les événements au format JSON
 $events = array();
 
-if ($result->num_rows > 0) {
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $event = array(
             'id' => $row['id'],
