@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Vérifie si une session est déjà active
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -6,12 +9,12 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="Description" content="entertainment and Art" />
     <title>Accueil - M.F.C MMA Tournament</title>
     <link rel="stylesheet" href="/style/header.css">
@@ -33,8 +36,8 @@ if (session_status() == PHP_SESSION_NONE) {
             <li><a href="contact.php" class="neumorphism_header">Contact</a></li>
 
             <?php
-            if (isset($_SESSION['user'])) {
-                echo '<li>Bienvenue, ' . $_SESSION['user']['username'] . '!</li>';
+            if (isset($_SESSION['user']) && isset($_SESSION['user']['username'])) {
+                echo '<li>Bienvenue, ' . htmlspecialchars($_SESSION['user']['username']) . '!</li>';
                 echo '<li><a href="logout.php" class="neumorphism_header">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php" class="neumorphism_header">Se Connecter</a></li>';
