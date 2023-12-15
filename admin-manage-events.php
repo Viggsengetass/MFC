@@ -8,7 +8,7 @@ require_once 'common.php';
 
 $evenements = getAllEvenements($conn);
 $combattants = getAllCombattants($conn);
-$categories = getAllCategories($conn); // Ajout pour récupérer les catégories
+$categories = getAllCategories($conn);
 
 function handleImageUpload($file, $uploadDirectory = 'image-combattants/') {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -40,15 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_event'])) {
     $description = $_POST['description'];
     $combattant1_id = $_POST['combattant1_id'];
     $combattant2_id = $_POST['combattant2_id'];
-    $categorie_id = $_POST['categorie_id']; // Récupération de la catégorie
+    $categorie_id = $_POST['categorie_id'];
 
-    $image_combattant1 = handleImageUpload($_FILES['image_combattant1']);
-    $image_combattant2 = handleImageUpload($_FILES['image_combattant2']);
+    $image_combattant1 = isset($_FILES['image_combattant1']) && !empty($_FILES['image_combattant1']['name']) ? handleImageUpload($_FILES['image_combattant1']) : null;
+    $image_combattant2 = isset($_FILES['image_combattant2']) && !empty($_FILES['image_combattant2']['name']) ? handleImageUpload($_FILES['image_combattant2']) : null;
 
-    if (!is_string($image_combattant1) || !is_string($image_combattant2)) {
-        echo "Erreur lors du téléchargement des images : " . $image_combattant1 . " " . $image_combattant2;
+    if ($image_combattant1 === null || $image_combattant2 === null) {
+        echo "Erreur lors du téléchargement des images.";
     } else {
-        $result = createEvenement($conn, $nom, $date, $heure, $lieu, $description, $categorie_id, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+        $result = createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2, $categorie_id);
         if ($result !== true) {
             echo "Erreur lors de la création de l'événement : " . $result;
         }
