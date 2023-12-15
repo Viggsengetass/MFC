@@ -38,7 +38,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
             <?php
             if (isset($_SESSION['user']) && isset($_SESSION['user']['username'])) {
-                echo '<li>Bienvenue, ' . htmlspecialchars($_SESSION['user']['username']) . '!</li>';
+                echo '<li><span>Bienvenue, ' . htmlspecialchars($_SESSION['user']['username']) . '!</span></li>';
                 echo '<li><a href="logout.php" class="neumorphism_header">Déconnexion</a></li>';
             } else {
                 echo '<li><a href="login.php" class="neumorphism_header">Se Connecter</a></li>';
