@@ -7,6 +7,9 @@ error_reporting(E_ALL);
 // Démarrage de la session (déplacer cette ligne en haut)
 session_start();
 
+require_once 'common.php';
+
+
 // Vérification de la connexion de l'utilisateur
 $utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
 
