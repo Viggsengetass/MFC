@@ -65,6 +65,24 @@ $evenements = getAllEvenements($conn);
             font-weight: bold;
             margin: 8px 0;
         }
+        .reserve-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 4px 4px 6px #333, -4px -4px 6px #555;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .reserve-button:hover {
+            background-color: #666;
+            box-shadow: 4px 4px 10px #333, -4px -4px 10px #555;
+        }
     </style>
 </head>
 <body>
@@ -87,6 +105,7 @@ $evenements = getAllEvenements($conn);
                 <p><strong>Lieu:</strong> <?= $evenement['lieu'] ?? '' ?></p>
                 <p><strong>Catégorie:</strong> <?= isset($categories[$evenement['categorie_id']]) ? $categories[$evenement['categorie_id']] : 'Inconnue' ?></p>
             </div>
+            <a href="reservation.php?event_id=<?= urlencode($evenement['id']) ?>" class="reserve-button">Réserver</a>
         </div>
         <?php
         $count++;
