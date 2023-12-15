@@ -19,7 +19,6 @@ session_start();
 <body class="bg-gray-100">
 <div class="container">
     <?php
-    session_start();
     if (isset($_SESSION['user'])) {
         echo '<p>Bienvenue, ' . $_SESSION['user']['username'] . '!</p>';
         echo '<p>Vous êtes connecté en tant que ' . $_SESSION['user']['role'] . '.</p>';
