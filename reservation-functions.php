@@ -4,7 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
+require_once 'common.php';
+require_once 'admin-functions.php';
+// Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
 function ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets) {
     $query = "INSERT INTO reservations (utilisateur_id, evenement_id, nombre_billets) VALUES (?, ?, ?)";
