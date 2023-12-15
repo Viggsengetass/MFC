@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_combattant'])) {
         }
     }
 
-    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image_combattant1, $image_combattant2, $categorie_id)) {
+    if ($image && createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id)) {
         $combattants = getAllCombattants($conn);
     } else {
         echo "<p>Erreur lors de la création du combattant.</p>";
