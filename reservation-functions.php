@@ -12,14 +12,20 @@ require_once 'common.php';
 require_once 'reservation-functions.php';
 require_once 'admin-functions.php';
 
-// Récupération de la liste des événements
-$evenements = getAllEvenements($conn);
+// Fonction pour envoyer un e-mail de confirmation
+function sendConfirmationEmail($destinataire, $evenement, $nombre_billets) {
+    $sujet = "Confirmation de Réservation pour l'Événement " . htmlspecialchars($evenement['nom']);
+    $message = "Vous avez réservé avec succès pour l'événement " . htmlspecialchars($evenement['nom']) . ".\n";
+    $message .= "Date: " . htmlspecialchars($evenement['date']) . "\n";
+    $message .= "Heure: " . htmlspecialchars($evenement['heure']) . "\n";
+    $message .= "Lieu: " . htmlspecialchars($evenement['lieu']) . "\n";
+    $message .= "Nombre de Billets: " . htmlspecialchars($nombre_billets) . "\n";
 
-// Récupération de l'identifiant de l'utilisateur depuis la session
-$utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
+    return mail($destinataire, $sujet, $message);
+}
 
 // Vérification de la connexion de l'utilisateur
-if (!$utilisateur_id) {
+if (!isset($_SESSION['user']['id'])) {
     die("Vous devez être connecté pour faire une réservation.");
 }
 
@@ -27,21 +33,15 @@ if (!$utilisateur_id) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $evenement_id = $_POST['evenement_id'];
     $nombre_billets = $_POST['nombre_billets'];
-    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
+    $result = ajouterReservation($conn, $_SESSION['user']['id'], $evenement_id, $nombre_billets);
     if ($result === true) {
-        // Envoyez l'e-mail de confirmation
+        // Récupération des informations sur l'événement
         $evenement = getEvenement($conn, $evenement_id);
 
         if ($evenement) {
+            // Envoyer l'e-mail de confirmation
             $destinataire = $_SESSION['user']['email']; // Adresse e-mail de l'utilisateur connecté
-            $sujet = "Confirmation de Réservation pour l'Événement " . htmlspecialchars($evenement['nom']);
-            $message = "Vous avez réservé avec succès pour l'événement " . htmlspecialchars($evenement['nom']) . ".\n";
-            $message .= "Date: " . htmlspecialchars($evenement['date']) . "\n";
-            $message .= "Heure: " . htmlspecialchars($evenement['heure']) . "\n";
-            $message .= "Lieu: " . htmlspecialchars($evenement['lieu']) . "\n";
-            $message .= "Nombre de Billets: " . htmlspecialchars($nombre_billets) . "\n";
-
-            if (mail($destinataire, $sujet, $message)) {
+            if (sendConfirmationEmail($destinataire, $evenement, $nombre_billets)) {
                 // Redirigez l'utilisateur vers une page de confirmation de réservation
                 header('Location: confirmation.php');
                 exit();
