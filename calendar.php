@@ -44,11 +44,16 @@ $calendarEvents = array_map(function($event) {
             color: white;
         }
         #calendar-container {
-            max-width: 75%;
+            width: 70%;
+            height: 50vh; /* 50% de la hauteur de la vue */
             margin: 20px auto;
             padding: 20px;
             background-color: #444;
             border-radius: 8px;
+            overflow: hidden; /* Pour gérer le débordement du contenu */
+        }
+        #calendar {
+            height: 100%;
         }
         /* Autres styles ici */
     </style>
@@ -74,7 +79,7 @@ $calendarEvents = array_map(function($event) {
             events: <?php echo json_encode($calendarEvents); ?>,
             eventClick: function(info) {
                 alert('Événement: ' + info.event.title + '\nDate: ' + info.event.start.toISOString());
-                // Vous pouvez remplacer cette alerte par une modal ou un autre type de carte d'information
+                // Remplacer par une modal ou une autre interface
             }
             // Autres options ici
         });
