@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 require_once 'common.php'; // Utiliser require_once pour être sûr que le fichier est inclus une seule fois
 
-function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id) {
+function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $categorie_id) {
     if ($conn instanceof mysqli === false) {
         return "La variable de connexion n'est pas une instance de mysqli.";
     }
@@ -15,14 +15,14 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
         return "Catégorie non trouvée.";
     }
 
-    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, image_combattant1, image_combattant2, categorie_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO combattants_admin (nom, prenom, surnom, description, image, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         return "Erreur de préparation de la requête: " . $conn->error;
     }
 
     // Bind les paramètres de la requête
-    $stmt->bind_param("ssssssiii", $nom, $prenom, $surnom, $description, $image, $image_combattant1, $image_combattant2, $categorie_id);
+    $stmt->bind_param("sssssi", $nom, $prenom, $surnom, $description, $image, $categorie_id);
 
     // Exécute la requête
     if (!$stmt->execute()) {
@@ -32,7 +32,6 @@ function createCombattant($conn, $nom, $prenom, $surnom, $description, $image, $
     $stmt->close();
     return true;
 }
-
 function getAllCombattants($conn) {
     $query = "SELECT * FROM combattants_admin";
     $result = $conn->query($query);
