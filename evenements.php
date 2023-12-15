@@ -89,9 +89,7 @@ $evenements = getAllEvenements($conn);
 <div class="container mx-auto mt-8">
     <h1 class="text-3xl font-bold w-full mb-4">Liste des Événements</h1>
 
-    <?php
-    $count = 0;
-    foreach ($evenements as $evenement) : ?>
+    <?php foreach ($evenements as $evenement) : ?>
         <div class="carte-evenement">
             <?php if (isset($evenement['image1'], $evenement['combattant1_nom'], $evenement['image2'], $evenement['combattant2_nom'])) : ?>
                 <img src="<?= $evenement['image1'] ?>" alt="<?= $evenement['combattant1_nom'] ?>">
@@ -107,12 +105,6 @@ $evenements = getAllEvenements($conn);
             </div>
             <a href="reservation.php?event_id=<?= urlencode($evenement['id']) ?>" class="reserve-button">Réserver</a>
         </div>
-        <?php
-        $count++;
-        if ($count % 2 == 0) {
-            echo '</div><div class="container mx-auto mt-8">';
-        }
-        ?>
     <?php endforeach; ?>
 </div>
 </body>
