@@ -12,7 +12,7 @@ require_once 'common.php';
 require_once 'reservation-functions.php';
 
 // Récupération de l'identifiant de l'événement depuis la requête GET
-$evenement_id = $_GET['id'] ?? 0;
+$evenement_id = $_GET['event_id'] ?? 0;
 
 // Récupération de l'identifiant de l'utilisateur depuis la session
 $utilisateur_id = $_SESSION['user']['id'] ?? null; // Utilisez la même clé 'user' que dans d'autres parties de votre application
@@ -28,6 +28,21 @@ $evenement = getEvenementDetails($conn, $evenement_id);
 // Vérification si l'événement existe
 if (!$evenement) {
     $erreur_message = "Erreur! Événement non trouvé."; // Message d'erreur personnalisé
+}
+
+// Traitement du formulaire de réservation
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre_billets = $_POST['nombre_billets'];
+    $result = ajouterReservation($conn, $utilisateur_id, $evenement_id, $nombre_billets);
+    if ($result === true) {
+        // Redirection vers le panier avec un message de succès
+        $_SESSION['message'] = "Réservation ajoutée avec succès au panier.";
+        header('Location: panier.php');
+        exit();
+    } else {
+        // Afficher un message d'erreur si la réservation échoue
+        $erreur_message = "Erreur lors de la réservation : " . $result;
+    }
 }
 ?>
 
@@ -51,7 +66,7 @@ if (!$evenement) {
             <p>Heure: <?= htmlspecialchars($evenement['heure']) ?></p>
             <p>Lieu: <?= htmlspecialchars($evenement['lieu']) ?></p>
 
-            <form action="reservation.php?id=<?= $evenement_id ?>" method="post" class="mt-4">
+            <form action="reservation.php?event_id=<?= $evenement_id ?>" method="post" class="mt-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre_billets">
                         Nombre de Billets
