@@ -1,56 +1,48 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-// Inclure le fichier common.php pour la connexion à la base de données
-include 'common.php';
+include 'common.php'; // Inclure la configuration de la base de données
 
-// Sélectionnez les événements depuis la table evenements_admin
-$sql = "SELECT id, nom, date, heure FROM evenements_admin";
-$result = $mysqli->query($sql);
-
-// Créez un tableau pour stocker les événements au format JSON
-$events = array();
-
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $event = array(
-            'id' => $row['id'],
-            'title' => $row['nom'],
-            'start' => $row['date'] . 'T' . $row['heure'], // Format date et heure ISO
-        );
-        array_push($events, $event);
-    }
+// Récupération des événements
+function getEvents($pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM evenements_admin");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Convertissez le tableau d'événements en format JSON
-$events = json_encode($events);
+// Connexion à la base de données et récupération des événements
+try {
+    $pdo = getPDO(); // Fonction définie dans common.php pour obtenir l'objet PDO
+    $events = getEvents($pdo);
+} catch (PDOException $e) {
+    die("Erreur de connexion à la base de données: " . $e->getMessage());
+}
+
+// Générer un calendrier pour le mois en cours
+$month = date('m');
+$year = date('Y');
+$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+echo '<div class="container mx-auto p-4">';
+echo '<div class="grid grid-cols-7 gap-4">';
+
+// Afficher les jours
+for ($day = 1; $day <= $daysInMonth; $day++) {
+    echo '<div class="border border-gray-200 p-2">';
+    echo '<h3 class="text-lg font-semibold">' . $day . '</h3>';
+
+    // Afficher les événements de ce jour
+    foreach ($events as $event) {
+        $eventDate = date('Y-m-d', strtotime($event['date']));
+        if ($eventDate == $year . '-' . $month . '-' . str_pad($day, 2, '0', STR_PAD_LEFT)) {
+            echo '<div class="mt-2 text-sm">';
+            echo '<p>' . htmlspecialchars($event['nom']) . '</p>';
+            echo '<p>' . htmlspecialchars($event['heure']) . '</p>';
+            echo '</div>';
+        }
+    }
+
+    echo '</div>';
+}
+
+echo '</div>';
+echo '</div>';
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendrier d'événements</title>
-    <!-- Inclure FullCalendar depuis CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
-</head>
-<body>
-<div id="calendar"></div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            // Options de configuration ici
-            initialView: 'dayGridMonth', // Vue initiale (mois)
-            events: <?php echo $events; ?>, // Utilisation du tableau JSON des événements
-        });
-
-        calendar.render(); // Afficher le calendrier
-    });
-</script>
-</body>
-</html>
