@@ -89,17 +89,29 @@ function getCategoryName($id, $conn) {
 }
 
 function createEvenement($conn, $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2) {
+    // Vérifier l'existence des combattants
+    if (!combattantExists($conn, $combattant1_id) || !combattantExists($conn, $combattant2_id)) {
+        return "L'un des ID des combattants n'existe pas.";
+    }
+
+    // Préparation de la requête d'insertion
     $query = "INSERT INTO evenements_admin (nom, date, heure, lieu, description, combattant1_id, combattant2_id, image_combattant1, image_combattant2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
-        die("Erreur de préparation de la requête: " . mysqli_error($conn));
+        return "Erreur de préparation de la requête: " . $conn->error;
     }
+
+    // Liaison des paramètres
     $stmt->bind_param("sssssiiss", $nom, $date, $heure, $lieu, $description, $combattant1_id, $combattant2_id, $image_combattant1, $image_combattant2);
+
+    // Exécution de la requête
     if (!$stmt->execute()) {
-        die("Erreur lors de l'exécution de la requête: " . mysqli_error($conn));
+        return "Erreur lors de l'exécution de la requête: " . $stmt->error;
     }
+
+    // Fermeture de l'instruction
     $stmt->close();
-    return true;
+    return true; // Renvoie true en cas de succès
 }
 
 
@@ -191,5 +203,14 @@ function getAllCategories($conn) {
     }
     return $categories;
 }
+function combattantExists($conn, $id) {
+    $query = "SELECT id FROM combattants_admin WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
+
 
 ?>
