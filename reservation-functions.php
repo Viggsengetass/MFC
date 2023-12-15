@@ -13,8 +13,8 @@ require_once 'reservation-functions.php';
 require_once 'admin-functions.php';
 
 // Inclusion de la bibliothèque PHPMailer (assurez-vous qu'elle est correctement installée)
-require_once 'PHPMailer/PHPMailer.php';
-require_once 'PHPMailer/SMTP.php';
+require_once '/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/PHPMailer/PHPMailer.php'; // Assurez-vous d'utiliser le chemin correct
+require_once '/var/www/vhosts/nice-meitner.164-90-190-187.plesk.page/httpdocs/PHPMailer/SMTP.php'; // Assurez-vous d'utiliser le chemin correct
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -47,7 +47,7 @@ function envoyerEmailConfirmation($evenementNom, $nombreBillets, $adresseEmail)
         $mail->Port = 587;
 
         // Configuration de l'émetteur et du destinataire
-        $mail->setFrom('paulito.antoine@gmail.com', 'Paul ANTOINE');
+        $mail->setFrom('from@example.com', 'Votre Nom');
         $mail->addAddress($adresseEmail);
 
         // Sujet et corps du message
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Envoi de l'e-mail de confirmation
         $adresseEmail = $_SESSION['user']['email']; // Adresse e-mail de l'utilisateur connecté
-        $emailResult = envoyerEmailConfirmation($evenementNom, $nombre_billets, $adresseEmail);
+        $emailResult = envoyerEmailConfirmation($evenementNom, $nombreBillets, $adresseEmail);
 
         if ($emailResult === true) {
             // Redirection vers le panier avec un message de succès
