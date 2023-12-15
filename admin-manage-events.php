@@ -9,6 +9,28 @@ require_once 'common.php';
 $evenements = getAllEvenements($conn);
 $combattants = getAllCombattants($conn);
 
+function handleImageUpload($file, $uploadDirectory = 'image-combattants/') {
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return 'Erreur lors du téléchargement du fichier.';
+    }
+
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    if (!in_array($extension, $allowedExtensions)) {
+        return 'Extension de fichier non autorisée.';
+    }
+
+    $uniqueFileName = uniqid('img_', true) . '.' . $extension;
+    $destination = $uploadDirectory . $uniqueFileName;
+
+    if (move_uploaded_file($file['tmp_name'], $destination)) {
+        return $destination;
+    } else {
+        return 'Erreur lors du déplacement du fichier.';
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_event'])) {
         $nom = $_POST['nom'];
