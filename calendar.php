@@ -39,14 +39,38 @@ $calendarEvents = array_map(function($event) {
     <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet' />
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css' rel='stylesheet' />
     <style>
-        body { background-color: #333; color: white; }
-        #calendar { padding: 10px; background-color: #444; }
-        /* Ajoutez plus de styles ici si nécessaire */
+        body {
+            background-color: #333;
+            color: white;
+        }
+        #calendar-container {
+            max-width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 8px;
+        }
+        .fc-header-toolbar {
+            color: white;
+        }
+        .fc-button {
+            background-color: #555;
+            color: white;
+            border: none;
+        }
+        .fc-button:hover {
+            background-color: #666;
+        }
+        .fc-daygrid-day-number {
+            color: white;
+        }
     </style>
 </head>
 <body>
 
-<div id='calendar'></div>
+<div id='calendar-container'>
+    <div id='calendar'></div>
+</div>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
 <script>
@@ -55,6 +79,11 @@ $calendarEvents = array_map(function($event) {
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             themeSystem: 'bootstrap',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
             events: <?php echo json_encode($calendarEvents); ?>,
             // Ajoutez d'autres options ici si nécessaire
         });
