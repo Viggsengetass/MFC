@@ -50,9 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </label>
             <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 bg-gray-300 leading-tight focus:outline-none focus:shadow-outline" id="evenement_id" name="evenement_id" required>
                 <option value="" disabled selected>Choisissez un événement</option>
-                <?php foreach ($evenements as $evenement) : ?>
-                    <option value="<?= $evenement['id'] ?>"><?= htmlspecialchars($evenement['nom']) ?></option>
-                <?php endforeach; ?>
+                <!-- Vous pouvez ajouter des options ici -->
             </select>
         </div>
 
