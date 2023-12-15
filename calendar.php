@@ -71,13 +71,21 @@ $calendarEvents = array_map(function($event) {
         .fc-button-primary:hover {
             background-color: #666;
         }
+        #year-select {
+            background-color: #555;
+            color: white;
+            border: 1px solid #000;
+            padding: 5px;
+            border-radius: 4px;
+        }
         /* Autres styles ici */
     </style>
 </head>
 <body>
 
 <div id='calendar-container'>
-    <div id='calendar-controls'>
+    <div id='calendar-controls' style="margin-bottom: 10px;">
+        <label for="year-select">Année :</label>
         <select id="year-select">
             <?php for($i = 2020; $i <= 2030; $i++) { echo "<option value='$i'>$i</option>"; } ?>
         </select>
@@ -101,8 +109,7 @@ $calendarEvents = array_map(function($event) {
             eventClick: function(info) {
                 alert('Événement: ' + info.event.title + '\nDate: ' + info.event.start.toISOString());
                 // Remplacer par une modal ou une autre interface
-            },
-            // Autres options ici
+            }
         });
 
         calendar.render();
