@@ -66,6 +66,8 @@ $loggedInUser = getLoggedInUserInfo($mysqli);
             <li><a href="evenements.php" class="neumorphism_header">Événements</a></li>
             <li><a href="calendar.php" class="neumorphism_header">Calendrier</a></li>
             <li><a href="contact.php" class="neumorphism_header">Contact</a></li>
+            <li><a href="admin-manage-combattants.php" class="neumorphism_header">Administration</a></li>
+
 
             <?php
             if ($loggedInUser) {
